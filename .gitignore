@@ -30,6 +30,7 @@ doc/
 .DS_Store
 .idea
 .secret
+*.log
 
 # Ignore Sass cache files.
 *.scssc
