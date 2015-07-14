@@ -1,7 +1,8 @@
 @charset "UTF-8";
 @import "compass";
-@import "mixin.scss";
-@import "color.scss";
+@import "reset";
+@import "mixin";
+@import "color";
 
 @font-face{
 	font-family: 'proxima-nova';

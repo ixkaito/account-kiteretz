@@ -46,7 +46,6 @@
 
 <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="<?php echo get_template_directory_uri(); ?>/_assets/images/favicon.ico">
 
-<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/_assets/css/reset.css" />
 <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/_assets/css/style.css" />
 <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/_assets/js/modernizr-2.6.2.min.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
