@@ -1,3 +1,5 @@
+		</div><!-- #print-area -->
+
 	</div><!-- #main -->
 
 </div><!-- #container -->

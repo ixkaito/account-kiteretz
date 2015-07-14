@@ -67,3 +67,5 @@
 <div id="container" class="container">
 
 	<div id="main" class="main">
+
+		<div id="print-area" class="print-area">

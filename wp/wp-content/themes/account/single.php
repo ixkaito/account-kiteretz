@@ -20,8 +20,8 @@
 			$special_note = '上記正に領収いたしました';
 		}
 
-		$i        = 0;
-		$rows     = get_field( 'table' );
+		$i    = 0;
+		$rows = get_field( 'table' );
 
 		if ( $rows ) {
 			foreach ( $rows as $key => $row ) {
