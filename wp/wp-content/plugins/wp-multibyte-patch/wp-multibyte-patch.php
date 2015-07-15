@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Multibyte Patch
 Description: Multibyte functionality enhancement for the WordPress Japanese package.
-Version: 2.2
+Version: 2.3.1
 Plugin URI: http://eastcoder.com/code/wp-multibyte-patch/
 Author: Seisuke Kuraishi
 Author URI: http://tinybit.co.jp/
@@ -15,9 +15,9 @@ Domain Path: /languages
  * Multibyte functionality enhancement for the WordPress Japanese package.
  *
  * @package WP_Multibyte_Patch
- * @version 2.2
+ * @version 2.3.1
  * @author Seisuke Kuraishi <210pura@gmail.com>
- * @copyright Copyright (c) 2014 Seisuke Kuraishi, Tinybit Inc.
+ * @copyright Copyright (c) 2015 Seisuke Kuraishi, Tinybit Inc.
  * @license http://opensource.org/licenses/gpl-2.0.php GPLv2
  * @link http://eastcoder.com/code/wp-multibyte-patch/
  */
@@ -62,7 +62,7 @@ class multibyte_patch {
 	var $debug_suffix = '';
 	var $textdomain = 'wp-multibyte-patch';
 	var $lang_dir = 'languages';
-	var $required_version = '4.0-beta4';
+	var $required_version = '4.1-RC1';
 	var $query_based_vars = array();
 
 	// For fallback purpose only. (1.6)
@@ -273,12 +273,12 @@ class multibyte_patch {
 
 	function wplink_js( &$scripts ) {
 		global $wp_version;
-		$script_required_version = '4.1-RC1';
+		$script_required_version = '4.2-RC1';
 
 		if ( version_compare( substr( $wp_version, 0, strlen( $script_required_version ) ), $script_required_version, '<' ) )
-			$scripts->add( 'wplink', plugin_dir_url( __FILE__ ) . "js/20140817/wplink{$this->debug_suffix}.js", array( 'jquery' ), '20140817', 1 );
+			$scripts->add( 'wplink', plugin_dir_url( __FILE__ ) . "js/20141213/wplink{$this->debug_suffix}.js", array( 'jquery' ), '20141213', 1 );
 		else
-			$scripts->add( 'wplink', plugin_dir_url( __FILE__ ) . "js/wplink{$this->debug_suffix}.js", array( 'jquery' ), '20141214', 1 );
+			$scripts->add( 'wplink', plugin_dir_url( __FILE__ ) . "js/wplink{$this->debug_suffix}.js", array( 'jquery' ), '20150424', 1 );
 	}
 
 	function word_count_js( &$scripts ) {

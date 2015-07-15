@@ -3,8 +3,8 @@ Contributors: miyauchi,marushu
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=FR7RD5SGEU69Y
 Tags: head, post, page, functions.php, admin, logo, auto save, revision, meta box, dashboard
 Requires at least: 3.8
-Tested up to: 4.1
-Stable tag: 1.9.1
+Tested up to: 4.2
+Stable tag: 1.9.2
 
 WP Total Hacks can customize more than 20 settings on your WordPress Site.
 PHP5 is required!
@@ -19,14 +19,14 @@ http://www.youtube.com/watch?v=05LFDZJwPAE
 
 = Some features: =
 
-All items you can select to Active or Deactive.
+All items you can select to Activate or Deactivate.
 PHP5 is required!
 
 * Add a favicon.
 * Change admin header logo.
 * Change admin footer text.
 * Change login logo.
-* Deactivae selected meta boxes for Posts & Pages.
+* Deactivate selected meta boxes for Posts & Pages.
 * Deactivate selected dashboard widgets.
 * Remove unnecessary meta tags.
 * Change default email address.
@@ -82,9 +82,9 @@ Please contact to me.
 
 == Installation ==
 
-* A plug-in installation screen is displayed on the WordPress admin panel.
-* It installs it in `wp-content/plugins`.
-* The plug-in is made effective.
+* A plug-in installation screen is displayed in the WordPress admin panel.
+* It installs in `wp-content/plugins`.
+* The plug-in is activated.
 * Open 'Settings' -> 'WP Total Hacks' menu.
 
 
@@ -96,6 +96,9 @@ Please contact to me.
 4. Other
 
 == Changelog ==
+
+= 1.9.2 =
+* Tested up to WordPress 4.2.
 
 = 1.9.0 =
 * Enable shortcode/oembed in the text widget.
@@ -117,9 +120,9 @@ Please contact to me.
 * bug fix (logo in admin bar not display on the site.)
 
 = 1.1.0 =
-* fix for wordpress 3.5
+* fix for WordPress 3.5
 * remove "disable auto_save" function.
-* remove "remove atachement link" function.
+* remove "remove attachment link" function.
 
 = 1.0.1 =
 * Allow you to remove attachment page.
