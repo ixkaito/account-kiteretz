@@ -106,6 +106,7 @@
 
 		<p class="logo"><?php the_field( 'logo' ); ?></p>
 		<p class="corpInfo"><?php the_field( 'corp-info' ); ?></p>
+		<p class="signature"><?php the_signature(); ?></p>
 	</div>
 
 	<div class="summary">

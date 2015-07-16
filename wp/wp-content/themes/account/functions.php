@@ -110,3 +110,21 @@ function get_honorific() {
 function the_honorific() {
 	echo esc_html( get_honorific() );
 }
+
+/*
+================================================================================
+	signature
+================================================================================
+*/
+function get_signature() {
+	$signature = get_field('signature');
+	$html = '<img src="' . get_stylesheet_directory_uri() .'/_assets/images/signature-' . $signature . '.png" />';
+
+	if ( $signature && $signature !== 'none' ) {
+		return $html;
+	}
+}
+
+function the_signature() {
+	echo get_signature();
+}
