@@ -1,9 +1,10 @@
 === Intuitive Custom Post Order ===
 Contributors: hijiri
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TT5NP352P6MCU
 Tags: post order, posts order, order post, order posts, custom post type order, custom taxonomy order
 Requires at least: 3.5.0
-Tested up to: 4.2.2
-Stable tag: 3.0.5
+Tested up to: 4.2.3
+Stable tag: 3.0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -11,9 +12,9 @@ Intuitively, order items( Posts, Pages, and Custom Post Types, and Custom Taxono
 
 == Description ==
 
-Intuitively, order items( Posts, Pages, and Custom Post Types, and Custom Taxonomies ) using a drag and drop sortable JavaScript.<br>
-Configuration is unnecessary.<br>
-You can do directly on default WordPress administration.
+Intuitively, order items( Posts, Pages, and Custom Post Types, and Custom Taxonomies ) using a drag and drop sortable JavaScript.
+
+Select sortable items from 'Intuitive CPT' menu of Setting menu in WordPress.
 
 In addition, You can re-override the parameters of 'orderby' and 'order', by using the 'WP_Query' or 'pre_get_posts' or 'query_posts()'.<br>
 The 'get_posts()' is excluded.
@@ -24,7 +25,7 @@ This Plugin published on <a href="https://github.com/hijiriworld/intuitive-custo
 
 1. Upload 'intuitive-custom-post-order' folder to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Select sortable items from 'Intuitive CPT' menu in WordPress.
+3. Select sortable items from 'Intuitive CPT' menu of Setting menu in WordPress.
 
 == Screenshots ==
 
@@ -77,6 +78,11 @@ add_action( 'pre_get_posts', 'my_filter' );
 `
 
 == Changelog ==
+
+= 3.0.6 =
+
+* Support 'next_post_link()' and 'previous_post_link(), etc.
+  - Parameters( $in_same_term, $excluded_terms, $taxonomy ) works perfectly.
 
 = 3.0.5 =
 

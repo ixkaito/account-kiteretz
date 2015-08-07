@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: GlotPress/1.0-alpha-1000\n"
+"X-Generator: GlotPress/1.0-alpha-1100\n"
 "Project-Id-Version: 4.2.x\n"
 
 #: wp-signup.php:716
@@ -426,13 +426,13 @@ msgstr "Powered by WordPress"
 msgid "Create a Configuration File"
 msgstr "設定ファイルを作成する"
 
-#: wp-load.php:77
-msgid "You can create a <code>wp-config.php</code> file through a web interface, but this doesn't work for all server setups. The safest way is to manually create the file."
-msgstr "ウェブインタフェース経由で <code>wp-config.php</code> を作成できますが、サーバーによっては動作しないかもしれません。最も安全な方法は、手動でファイルを作成することです。"
-
 #: wp-load.php:76
 msgid "Need more help? <a href='https://codex.wordpress.org/Editing_wp-config.php'>We got it</a>."
 msgstr "ヘルプが必要な場合は<a href='http://wpdocs.sourceforge.jp/Editing_wp-config.php'>ドキュメンテーション</a>をご覧ください。"
+
+#: wp-load.php:77
+msgid "You can create a <code>wp-config.php</code> file through a web interface, but this doesn't work for all server setups. The safest way is to manually create the file."
+msgstr "ウェブインタフェース経由で <code>wp-config.php</code> を作成できますが、サーバーによっては動作しないかもしれません。最も安全な方法は、手動でファイルを作成することです。"
 
 #: wp-load.php:75
 msgid "There doesn't seem to be a <code>wp-config.php</code> file. I need this before we can get started."
@@ -442,7 +442,7 @@ msgstr "<code>wp-config.php</code> ファイルが見つかりません。開始
 msgid "Links for %s"
 msgstr "%s へのリンク"
 
-#: wp-includes/wp-db.php:2990
+#: wp-includes/wp-db.php:2979
 msgid "<strong>ERROR</strong>: WordPress %1$s requires MySQL %2$s or higher"
 msgstr "<strong>エラー</strong>: WordPress %1$s には MySQL %2$s 以上が必要です。"
 
@@ -628,21 +628,21 @@ msgstr "%d件の WordPress 更新"
 msgid "(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)"
 msgstr "(WordPress は WordPress.org との安全な接続を確立できませんでした。サーバー管理者にご連絡ください)"
 
+#: wp-includes/theme.php:1948
+msgid "Customizer"
+msgstr "カスタマイザー"
+
 #: wp-includes/update.php:119 wp-includes/update.php:295
 #: wp-includes/update.php:457
 msgid "An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href=\"https://wordpress.org/support/\">support forums</a>."
 msgstr "予期しないエラーが発生しました。WordPress.org かこのサーバーの設定に何か問題があるかもしれません。問題が続くようであれば、<a href=\"https://ja.forums.wordpress.org/\">サポートフォーラム</a>を参照してみてください。"
 
-#: wp-includes/theme.php:1969
-msgid "Customizer"
-msgstr "カスタマイザー"
-
 #. translators: 1: Theme support 2: hook name
-#: wp-includes/theme.php:1635
+#: wp-includes/theme.php:1614
 msgid "Theme support for %1$s should be registered before the %2$s hook."
 msgstr "%1$s のテーマサポートは、%2$s フックよりも前に登録してください。"
 
-#: wp-includes/theme.php:1504
+#: wp-includes/theme.php:1483
 msgid "You need to pass an array of types."
 msgstr "タイプの配列を渡す必要があります。"
 
@@ -747,16 +747,16 @@ msgstr "<a href=\"%1$s\">%2$s</a> としてログイン中。"
 msgid "Comments are closed."
 msgstr "コメントは受け付けていません。"
 
+#. translators: %s: post title
+#: wp-includes/theme-compat/comments.php:30
+msgid "One Response to %s"
+msgstr "%s への 1 件のコメント"
+
 #. translators: 1: number of comments, 2: post title
 #: wp-includes/theme-compat/comments.php:33
 msgid "%1$s Response to %2$s"
 msgid_plural "%1$s Responses to %2$s"
 msgstr[0] "%2$s への%1$s件のフィードバック"
-
-#. translators: %s: post title
-#: wp-includes/theme-compat/comments.php:30
-msgid "One Response to %s"
-msgstr "%s への 1 件のコメント"
 
 #: wp-includes/theme-compat/comments.php:17
 msgid "This post is password protected. Enter the password to view comments."
@@ -1564,33 +1564,33 @@ msgstr "<code>%1$s</code> では <code>%3$s</code> 関数ではなく <code>%2$s
 msgid "Conditional query tags do not work before the query is run. Before then, they always return false."
 msgstr "条件付きクエリータグはクエリーが走る前には動作しません。その場合、常に false を返します。"
 
-#: wp-includes/post.php:3891 wp-includes/script-loader.php:449
+#: wp-includes/post.php:3892 wp-includes/script-loader.php:449
 #: wp-includes/script-loader.php:510
 msgctxt "tag delimiter"
 msgid ","
 msgstr ","
 
-#: wp-includes/post.php:3459
+#: wp-includes/post.php:3460
 msgid "The page template is invalid."
 msgstr "固定ページテンプレートが不正です。"
 
-#: wp-includes/post.php:3395
+#: wp-includes/post.php:3396
 msgid "Could not insert post into the database"
 msgstr "データベースに投稿を追加できませんでした"
 
-#: wp-includes/post.php:3380
+#: wp-includes/post.php:3381
 msgid "Could not update post in the database"
 msgstr "データベース内の投稿を更新できませんでした"
 
-#: wp-includes/post.php:3236
+#: wp-includes/post.php:3237
 msgid "Whoops, the provided date is invalid."
 msgstr "入力された日付は無効です。"
 
-#: wp-includes/post.php:3168
+#: wp-includes/post.php:3169
 msgid "Content, title, and excerpt are empty."
 msgstr "本文、タイトル、抜粋が空欄です。"
 
-#: wp-includes/post.php:3011
+#: wp-includes/post.php:3012
 msgid "Passing an integer number of posts is deprecated. Pass an array of arguments instead."
 msgstr "投稿の整数値を渡す方法は非推奨になっています。代わりに引数の配列を渡してください。"
 
@@ -1722,14 +1722,14 @@ msgctxt "post type general name"
 msgid "Pages"
 msgstr "固定ページ"
 
+#: wp-includes/post.php:1346 wp-includes/post.php:1347
+msgid "Post type names must be between 1 and 20 characters in length."
+msgstr "投稿タイプ名の長さは1から20文字でなければいけません。"
+
 #: wp-includes/post.php:1631
 msgctxt "post type general name"
 msgid "Posts"
 msgstr "投稿"
-
-#: wp-includes/post.php:1346 wp-includes/post.php:1347
-msgid "Post type names must be between 1 and 20 characters in length."
-msgstr "投稿タイプ名の長さは1から20文字でなければいけません。"
 
 #: wp-includes/post.php:917 wp-includes/post.php:937
 #: wp-includes/script-loader.php:473
@@ -2125,17 +2125,17 @@ msgstr "この投稿へのすべてのトラックバックはこちらです: "
 msgid "Comment: %s"
 msgstr "コメント: %s"
 
-#: wp-includes/pluggable.php:1429 wp-includes/pluggable.php:1439
-#: wp-includes/pluggable.php:1450 wp-includes/pluggable.php:1565
-#: wp-includes/pluggable.php:1573 wp-includes/pluggable.php:1581
-msgid "URL: %s"
-msgstr "URL: %s"
-
 #. translators: 1: website name, 2: website IP, 3: website hostname
 #: wp-includes/pluggable.php:1428 wp-includes/pluggable.php:1438
 #: wp-includes/pluggable.php:1564 wp-includes/pluggable.php:1572
 msgid "Website: %1$s (IP: %2$s, %3$s)"
 msgstr "ウェブサイト: %1$s (IP: %2$s, %3$s)"
+
+#: wp-includes/pluggable.php:1429 wp-includes/pluggable.php:1439
+#: wp-includes/pluggable.php:1450 wp-includes/pluggable.php:1565
+#: wp-includes/pluggable.php:1573 wp-includes/pluggable.php:1581
+msgid "URL: %s"
+msgstr "URL: %s"
 
 #: wp-includes/pluggable.php:1426
 msgid "New trackback on your post \"%s\""
@@ -2182,14 +2182,14 @@ msgstr "このメッセージが表示され続ける場合は、データベー
 msgid "Read the <a target=\"_blank\" href=\"https://codex.wordpress.org/Debugging_a_WordPress_Network\">bug report</a> page. Some of the guidelines there may help you figure out what went wrong."
 msgstr "<a target=”_blank\" href=\"http://wpdocs.sourceforge.jp/Debugging_a_WordPress_Network\">バグレポート</a>のページをご覧ください。ガイドラインに従えば、問題点の解決に役に立つかもしれません。"
 
-#: wp-includes/ms-load.php:425
-msgid "What do I do now?"
-msgstr "どうしましょうか ?"
-
 #. translators: 1: site url, 2: table name, 3: database name
 #: wp-includes/ms-load.php:419
 msgid "<strong>Could not find site %1$s.</strong> Searched for table %2$s in database %3$s. Is that right?"
 msgstr "<strong>サイト %1$s が見つかりません。</strong>データベース  %3$s のテーブルで %2$s を検索しました。正しかったですか？"
+
+#: wp-includes/ms-load.php:425
+msgid "What do I do now?"
+msgstr "どうしましょうか ?"
 
 #. translators: %s: table name
 #: wp-includes/ms-load.php:413
@@ -2264,10 +2264,6 @@ msgstr "ファイルが大きすぎます。サイズを%dキロバイト以下�
 msgid "New %1$s User: %2$s"
 msgstr "新しい %1$s のユーザー: %2$s"
 
-#: wp-includes/ms-functions.php:1495
-msgid "New %1$s Site: %2$s"
-msgstr "新しい %1$s のサイト: %2$s"
-
 #: wp-includes/ms-functions.php:1437
 msgid ""
 "Howdy USERNAME,\n"
@@ -2299,6 +2295,10 @@ msgstr ""
 "新しいサイトをお楽しみください。どうもありがとうございます !\n"
 "\n"
 "-- SITE_NAME 運営チーム"
+
+#: wp-includes/ms-functions.php:1495
+msgid "New %1$s Site: %2$s"
+msgstr "新しい %1$s のサイト: %2$s"
 
 #: wp-includes/ms-functions.php:1343
 msgid "You appear to have already installed WordPress. To reinstall please clear your old database tables first."
@@ -3620,27 +3620,27 @@ msgstr "編集"
 msgid "Comments Feed"
 msgstr "コメントフィード"
 
-#: wp-includes/l10n.php:940
+#: wp-includes/l10n.php:944
 msgctxt "translations"
 msgid "Available"
 msgstr "利用可能"
-
-#: wp-includes/l10n.php:922
-msgctxt "translations"
-msgid "Installed"
-msgstr "インストール済み"
 
 #: wp-includes/js/tinymce/wp-mce-help.php:137
 msgid "To move focus to other buttons use Tab or the arrow keys. To return focus to the editor press Escape or use one of the buttons."
 msgstr "他のボタンにフォーカスを移動するにはタブまたは矢印キーを使ってください。エディターにフォーカスを戻すには ESC キーまたはいずれかのボタンを押してください。"
 
-#: wp-includes/js/tinymce/wp-mce-help.php:134
-msgid "Elements path"
-msgstr "要素のパス"
+#: wp-includes/l10n.php:926
+msgctxt "translations"
+msgid "Installed"
+msgstr "インストール済み"
 
 #: wp-includes/js/tinymce/wp-mce-help.php:133
 msgid "Editor toolbar"
 msgstr "エディターツールバー"
+
+#: wp-includes/js/tinymce/wp-mce-help.php:134
+msgid "Elements path"
+msgstr "要素のパス"
 
 #: wp-includes/js/tinymce/wp-mce-help.php:132
 msgid "Editor menu (when enabled)"
@@ -3927,16 +3927,16 @@ msgstr "ページ %s"
 msgid "Page not found"
 msgstr "ページが見つかりませんでした"
 
-#. translators: 1: separator, 2: search phrase
-#: wp-includes/general-template.php:846
-msgid "Search Results %1$s %2$s"
-msgstr "検索結果: %1$s %2$s"
-
 #. translators: 1: 'text_direction' argument, 2: bloginfo() function name, 3:
 #. is_rtl() function name
 #: wp-includes/general-template.php:680
 msgid "The %1$s option is deprecated for the family of %2$s functions. Use the %3$s function instead."
 msgstr "関数群 %2$s のオプション %1$s は非推奨です。代わりに関数 %3$s を使用してください。"
+
+#. translators: 1: separator, 2: search phrase
+#: wp-includes/general-template.php:846
+msgid "Search Results %1$s %2$s"
+msgstr "検索結果: %1$s %2$s"
 
 #. translators: 1: 'siteurl'/'home' argument, 2: bloginfo() function name, 3:
 #. 'url' argument
@@ -4115,33 +4115,33 @@ msgid "ERROR: This is not a valid feed template."
 msgstr "エラー: 有効なフィードテンプレートではありません。"
 
 #. translators: used to join items in a list with only 2 items
-#: wp-includes/formatting.php:3690
+#: wp-includes/formatting.php:3830
 msgid "%s and %s"
 msgstr "%s, %s"
 
 #. translators: used to join last two items in a list with more than 2 times
-#: wp-includes/formatting.php:3688
+#: wp-includes/formatting.php:3828
 msgid "%s, and %s"
 msgstr "%s, %s"
 
 #. translators: used to join items in a list with more than 2 items
-#: wp-includes/formatting.php:3686
+#: wp-includes/formatting.php:3826
 msgid "%s, %s"
 msgstr "%s, %s"
 
-#: wp-includes/formatting.php:3487
+#: wp-includes/formatting.php:3612
 msgid "The timezone you have entered is not valid. Please select a valid timezone."
 msgstr "入力されたタイムゾーンは有効ではありません。有効なタイムゾーンを選択してください。"
 
-#: wp-includes/formatting.php:3440
+#: wp-includes/formatting.php:3557
 msgid "The Site address you entered did not appear to be a valid URL. Please enter a valid URL."
 msgstr "入力されたサイトのアドレスは正しい URL の形式ではないようです。正しい URL を記入してください。"
 
-#: wp-includes/formatting.php:3429
+#: wp-includes/formatting.php:3544
 msgid "The WordPress address you entered did not appear to be a valid URL. Please enter a valid URL."
 msgstr "入力された WordPress のアドレスは正しい URL の形式ではないようです。正しい URL を記入してください。"
 
-#: wp-includes/formatting.php:3339
+#: wp-includes/formatting.php:3444
 msgid "The email address entered did not appear to be a valid email address. Please enter a valid email address."
 msgstr "入力されたメールアドレスの形式が間違っているようです。正しいアドレスを記入してください。"
 
@@ -4151,42 +4151,42 @@ msgstr "入力されたメールアドレスの形式が間違っているよう
 #. translators: If your word count is based on single characters (East Asian
 #. characters), 		   enter 'characters'. Otherwise, enter 'words'. Do not
 #. translate into your own language.
-#: wp-includes/formatting.php:2667 wp-includes/script-loader.php:379
+#: wp-includes/formatting.php:2770 wp-includes/script-loader.php:379
 msgctxt "word count: words or characters?"
 msgid "words"
 msgstr "characters"
 
-#: wp-includes/formatting.php:2662 wp-includes/general-template.php:2721
+#: wp-includes/formatting.php:2765 wp-includes/general-template.php:2721
 msgid "&hellip;"
 msgstr "&hellip;"
 
-#: wp-includes/formatting.php:2575
+#: wp-includes/formatting.php:2678
 msgid "%s year"
 msgid_plural "%s years"
 msgstr[0] "%s年"
 
-#: wp-includes/formatting.php:2570
+#: wp-includes/formatting.php:2673
 msgid "%s month"
 msgid_plural "%s months"
 msgstr[0] "%sか月"
 
-#: wp-includes/formatting.php:2565
+#: wp-includes/formatting.php:2668
 msgid "%s week"
 msgid_plural "%s weeks"
 msgstr[0] "%s週"
 
-#: wp-includes/formatting.php:2560
+#: wp-includes/formatting.php:2663
 msgid "%s day"
 msgid_plural "%s days"
 msgstr[0] "%s日"
 
-#: wp-includes/formatting.php:2555
+#: wp-includes/formatting.php:2658
 msgid "%s hour"
 msgid_plural "%s hours"
 msgstr[0] "%s時間"
 
 #. translators: min=minute
-#: wp-includes/formatting.php:2550
+#: wp-includes/formatting.php:2653
 msgid "%s min"
 msgid_plural "%s mins"
 msgstr[0] "%s分"
@@ -4240,7 +4240,7 @@ msgid "&#8221;"
 msgstr "&#8221;"
 
 #. translators: opening curly double quote
-#: wp-includes/formatting.php:62 wp-includes/formatting.php:3927
+#: wp-includes/formatting.php:62 wp-includes/formatting.php:4067
 msgctxt "opening curly double quote"
 msgid "&#8220;"
 msgstr "&#8220;"
@@ -4502,25 +4502,25 @@ msgstr "投稿数を表示"
 msgid "Display as dropdown"
 msgstr "ドロップダウン表示"
 
-#: wp-includes/default-widgets.php:322
-msgid "Select Post"
-msgstr "投稿を選択"
-
 #: wp-includes/default-widgets.php:319
 msgid "Select Week"
 msgstr "週を選択"
+
+#: wp-includes/default-widgets.php:322
+msgid "Select Post"
+msgstr "投稿を選択"
 
 #: wp-includes/default-widgets.php:316
 msgid "Select Day"
 msgstr "日を選択"
 
-#: wp-includes/default-widgets.php:313
-msgid "Select Month"
-msgstr "月を選択"
-
 #: wp-includes/default-widgets.php:310
 msgid "Select Year"
 msgstr "年を選択"
+
+#: wp-includes/default-widgets.php:313
+msgid "Select Month"
+msgstr "月を選択"
 
 #: wp-includes/default-widgets.php:272 wp-includes/default-widgets.php:280
 #: wp-includes/general-template.php:1195
@@ -4633,14 +4633,14 @@ msgstr "タイトル:"
 msgid "Pages"
 msgstr "固定ページ"
 
-#: wp-includes/default-widgets.php:17
-msgid "A list of your site&#8217;s Pages."
-msgstr "固定ページ一覧"
-
 #. translators: 1: month, 2: day of month
 #: wp-includes/date.php:457
 msgid "The following values do not describe a valid date: month %1$s, day %2$s."
 msgstr "次の値は有効な日付の形式ではありません: %1$s月%2$s日"
+
+#: wp-includes/default-widgets.php:17
+msgid "A list of your site&#8217;s Pages."
+msgstr "固定ページ一覧"
 
 #. translators: 1: year, 2: month, 3: day of month
 #: wp-includes/date.php:440
@@ -4809,16 +4809,16 @@ msgstr "返信"
 msgid "Enter your password to view comments."
 msgstr "コメントを読むにはパスワードを入力してください。"
 
-#. translators: %s: post title
-#: wp-includes/comment-template.php:1298
-msgid "Comments Off<span class=\"screen-reader-text\"> on %s</span>"
-msgstr "<span class=\"screen-reader-text\">%s は</span>コメントを受け付けていません。"
-
 #. translators: 1: Number of comments 2: post title
 #: wp-includes/comment-template.php:1292
 msgid "%1$s Comment<span class=\"screen-reader-text\"> on %2$s</span>"
 msgid_plural "%1$s Comments<span class=\"screen-reader-text\"> on %2$s</span>"
 msgstr[0] "<span class=\"screen-reader-text\">%2$s への</span>%1$s件のコメント"
+
+#. translators: %s: post title
+#: wp-includes/comment-template.php:1298
+msgid "Comments Off<span class=\"screen-reader-text\"> on %s</span>"
+msgstr "<span class=\"screen-reader-text\">%s は</span>コメントを受け付けていません。"
 
 #. translators: %s: post title
 #: wp-includes/comment-template.php:1287
@@ -5334,8 +5334,8 @@ msgstr "この投稿を編集する権限がありません。"
 #: wp-includes/class-wp-xmlrpc-server.php:4986
 #: wp-includes/class-wp-xmlrpc-server.php:5476
 #: wp-includes/class-wp-xmlrpc-server.php:5524
-#: wp-includes/class-wp-xmlrpc-server.php:5648 wp-includes/post.php:3124
-#: wp-includes/post.php:3582
+#: wp-includes/class-wp-xmlrpc-server.php:5648 wp-includes/post.php:3125
+#: wp-includes/post.php:3583
 msgid "Invalid post ID."
 msgstr "無効な投稿 ID です。"
 
@@ -5660,14 +5660,14 @@ msgstr "更新"
 msgid "Edit"
 msgstr "編集"
 
-#: wp-includes/class-wp-editor.php:992
-msgid "No alignment"
-msgstr "配置なし"
-
 #: wp-includes/class-wp-editor.php:991
 #: wp-includes/js/tinymce/wp-mce-help.php:123 wp-includes/script-loader.php:101
 msgid "Distraction-free writing mode"
 msgstr "集中執筆モード"
+
+#: wp-includes/class-wp-editor.php:992
+msgid "No alignment"
+msgstr "配置なし"
 
 #: wp-includes/class-wp-editor.php:990
 msgid "Read more..."
@@ -5727,7 +5727,7 @@ msgstr "お使いのブラウザーはクリップボードへの直接的なア
 
 #: wp-includes/class-wp-editor.php:974 wp-includes/script-loader.php:395
 #: wp-includes/script-loader.php:474 wp-includes/script-loader.php:482
-#: wp-includes/script-loader.php:586 wp-includes/theme.php:1968
+#: wp-includes/script-loader.php:586 wp-includes/theme.php:1947
 msgid "The changes you made will be lost if you navigate away from this page."
 msgstr "他のページへ移動すると編集データはすべて破棄されます。"
 

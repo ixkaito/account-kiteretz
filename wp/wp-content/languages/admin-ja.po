@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: GlotPress/1.0-alpha-1000\n"
+"X-Generator: GlotPress/1.0-alpha-1100\n"
 "Project-Id-Version: Administration\n"
 
 #. Author URI of the plugin/theme
@@ -221,13 +221,13 @@ msgstr "削除を実行"
 msgid "Attribute all content to:"
 msgstr "すべてのコンテンツを以下のユーザーのものにする:"
 
-#: wp-admin/users.php:252
-msgid "Delete all content."
-msgstr "すべてのコンテンツを消去します。"
-
 #: wp-admin/users.php:248
 msgid "What should be done with content owned by these users?"
 msgstr "これらのユーザーのコンテンツをどのように処理しますか？"
+
+#: wp-admin/users.php:252
+msgid "Delete all content."
+msgstr "すべてのコンテンツを消去します。"
 
 #: wp-admin/users.php:246
 msgid "What should be done with content owned by this user?"
@@ -241,13 +241,13 @@ msgstr "ID #%1$s: %2$s"
 msgid "ID #%1$s: %2$s <strong>The current user will not be deleted.</strong>"
 msgstr "ID #%1$s: %2$s <strong>現在のユーザーは削除されません。</strong>"
 
-#: wp-admin/users.php:227
-msgid "You have specified these users for deletion:"
-msgstr "次のユーザーを削除します:"
-
 #: wp-admin/users.php:225
 msgid "You have specified this user for deletion:"
 msgstr "これらのユーザーを削除しようとしています"
+
+#: wp-admin/users.php:227
+msgid "You have specified these users for deletion:"
+msgstr "次のユーザーを削除します:"
 
 #: wp-admin/users.php:220
 msgid "Please select an option."
@@ -518,13 +518,13 @@ msgstr "追加機能"
 msgid "Log %s out of all sessions"
 msgstr "%s をすべてのセッションからログアウト"
 
-#: wp-admin/user-edit.php:501
-msgid "Log Out of All Sessions"
-msgstr "﻿すべてのセッションからログアウト"
-
 #: wp-admin/user-edit.php:493
 msgid "Left your account logged in at a public computer? Lost your phone? This will log you out everywhere except your current browser."
 msgstr "﻿公共のパソコンでアカウントへログインしたままにしてしまったり、お使いの携帯電話をなくしてしまった場合、現在のブラウザを除いたすべての場所でログアウトできます。"
+
+#: wp-admin/user-edit.php:501
+msgid "Log Out of All Sessions"
+msgstr "﻿すべてのセッションからログアウト"
 
 #: wp-admin/user-edit.php:483
 msgid "You are only logged in at this location."
@@ -712,36 +712,36 @@ msgstr "メディアをゴミ箱へ移動しました。"
 msgid "Error saving media attachment."
 msgstr "添付メディアの保存の際にエラーが発生しました。"
 
-#: wp-admin/upload.php:268
-msgid "Media permanently deleted."
-msgstr "メディアファイルを完全に削除しました。"
-
 #: wp-admin/upload.php:261
 msgid "%d media attachment restored from the trash."
 msgid_plural "%d media attachments restored from the trash."
 msgstr[0] "%d個の添付メディアがゴミ箱から元に戻されました。"
 
-#: wp-admin/upload.php:259
-msgid "Media attachment restored from the trash."
-msgstr "%d点のメディアファイルをゴミ箱から復元しました。"
+#: wp-admin/upload.php:268
+msgid "Media permanently deleted."
+msgstr "メディアファイルを完全に削除しました。"
 
 #: wp-admin/upload.php:250
 msgid "%d media attachment moved to the trash."
 msgid_plural "%d media attachments moved to the trash."
 msgstr[0] "%d個の添付メディアがゴミ箱に移動されました。"
 
+#: wp-admin/upload.php:259
+msgid "Media attachment restored from the trash."
+msgstr "%d点のメディアファイルをゴミ箱から復元しました。"
+
 #: wp-admin/upload.php:248
 msgid "Media attachment moved to the trash."
 msgstr "%d点のメディアファイルをゴミ箱へ移動しました。"
+
+#: wp-admin/upload.php:238
+msgid "Media attachment permanently deleted."
+msgstr "%d点のメディアファイルを完全に削除しました。"
 
 #: wp-admin/upload.php:240
 msgid "%d media attachment permanently deleted."
 msgid_plural "%d media attachments permanently deleted."
 msgstr[0] "%d個の添付メディアが永久に削除されました。"
-
-#: wp-admin/upload.php:238
-msgid "Media attachment permanently deleted."
-msgstr "%d点のメディアファイルを完全に削除しました。"
 
 #: wp-admin/upload.php:232
 msgid "Detached %d attachment."
@@ -805,13 +805,13 @@ msgstr "<a href=\"http://wpdocs.sourceforge.jp/Media_Library_SubPanel\" target=\
 msgid "You can also delete individual items and access the extended edit screen from the details dialog."
 msgstr "詳細ダイアログから個々の項目を削除することや、拡張された編集にアクセスすることもできます。"
 
-#: wp-admin/upload.php:58
-msgid "Use the arrow buttons at the top of the dialog, or the left and right arrow keys on your keyboard, to navigate between media items quickly."
-msgstr "ダイアログの上の矢印ボタンもしくはキーボードの左右の矢印キーを使い、メディアアイテム間を簡単に移動できます。"
-
 #: wp-admin/upload.php:57
 msgid "Clicking an item will display an Attachment Details dialog, which allows you to preview media and make quick edits. Any changes you make to the attachment details will be automatically saved."
 msgstr "アイテムをクリックするとメディアをプレビューしたりクイック編集したりすることができる添付詳細ダイアログが表示されます。添付詳細へのすべての変更は自動的に保存されます。"
+
+#: wp-admin/upload.php:58
+msgid "Use the arrow buttons at the top of the dialog, or the left and right arrow keys on your keyboard, to navigate between media items quickly."
+msgstr "ダイアログの上の矢印ボタンもしくはキーボードの左右の矢印キーを使い、メディアアイテム間を簡単に移動できます。"
 
 #: wp-admin/upload.php:50
 msgid "To delete media items, click the Bulk Select button at the top of the screen. Select any items you wish to delete, then click the Delete Selected button. Clicking the Cancel Selection button takes you back to viewing your media."
@@ -962,13 +962,13 @@ msgstr "この画面では、WordPress.org のレポジトリに登録された�
 msgid "WordPress Updates"
 msgstr "WordPress の更新"
 
-#: wp-admin/update-core.php:392
-msgid "Update WordPress"
-msgstr "WordPress を更新"
-
 #: wp-admin/update-core.php:355
 msgid "New translations are available."
 msgstr "新しい翻訳が利用可能です。"
+
+#: wp-admin/update-core.php:392
+msgid "Update WordPress"
+msgstr "WordPress を更新"
 
 #: wp-admin/update-core.php:346
 msgid "Your translations are all up to date."
@@ -1039,13 +1039,13 @@ msgstr "このサイトは将来のベータバージョンの更新を自動的
 msgid "BETA TESTERS:"
 msgstr "ベータテスター:"
 
-#: wp-admin/update-core.php:170
-msgid "An updated version of WordPress is available."
-msgstr "WordPress の新しいバージョンがあります。"
-
 #: wp-admin/update-core.php:166
 msgid "<strong>Important:</strong> before updating, please <a href=\"https://codex.wordpress.org/WordPress_Backups\">back up your database and files</a>. For help with updates, visit the <a href=\"https://codex.wordpress.org/Updating_WordPress\">Updating WordPress</a> Codex page."
 msgstr "<strong>重要:</strong> 更新の前に <a href=\"http://wpdocs.sourceforge.jp/WordPress_%E3%81%AE%E3%83%90%E3%83%83%E3%82%AF%E3%82%A2%E3%83%83%E3%83%97\">データベースとファイルをバックアップ</a>してください。更新についてヘルプが必要な際は <a href=\"http://wpdocs.sourceforge.jp/WordPress_%E3%81%AE%E3%82%A2%E3%83%83%E3%83%97%E3%82%B0%E3%83%AC%E3%83%BC%E3%83%89\">WordPress のアップグレード</a> Codex ページをご覧ください。"
+
+#: wp-admin/update-core.php:170
+msgid "An updated version of WordPress is available."
+msgstr "WordPress の新しいバージョンがあります。"
 
 #: wp-admin/update-core.php:161
 msgid "Future security updates will be applied automatically."
@@ -1079,21 +1079,21 @@ msgstr "この更新を元に戻す"
 msgid "Hide this update"
 msgstr "この変更を非表示にする"
 
-#: wp-admin/update-core.php:71
-msgid "Download %s"
-msgstr "%s をダウンロード"
-
 #: wp-admin/update-core.php:67
 msgid "You can update to <a href=\"https://codex.wordpress.org/Version_%1$s\">WordPress %2$s</a> automatically or download the package and install it manually:"
 msgstr "<a href=\"http://wpdocs.sourceforge.jp/Version_%1$s\">WordPress %2$s</a> に自動更新するか、手動でパッケージをダウンロードしてインストールできます。"
 
-#: wp-admin/update-core.php:65 wp-admin/upgrade.php:78
-msgid "You cannot update because <a href=\"https://codex.wordpress.org/Version_%1$s\">WordPress %1$s</a> requires MySQL version %2$s or higher. You are running version %3$s."
-msgstr "<a href=\"http://wpdocs.sourceforge.jp/Version_%1$s\">WordPress %1$s</a> は MySQL %2$s 以降を必要とするため、更新を実行できません。現在稼働しているバージョンは %3$s です。"
+#: wp-admin/update-core.php:71
+msgid "Download %s"
+msgstr "%s をダウンロード"
 
 #: wp-admin/update-core.php:63 wp-admin/upgrade.php:76
 msgid "You cannot update because <a href=\"https://codex.wordpress.org/Version_%1$s\">WordPress %1$s</a> requires PHP version %2$s or higher. You are running version %3$s."
 msgstr "<a href=\"http://wpdocs.sourceforge.jp/Version_%1$s\">WordPress %1$s</a> は PHP %2$s 以降を必要とするため、更新を実行できません。現在稼働しているバージョンは %3$s です。"
+
+#: wp-admin/update-core.php:65 wp-admin/upgrade.php:78
+msgid "You cannot update because <a href=\"https://codex.wordpress.org/Version_%1$s\">WordPress %1$s</a> requires MySQL version %2$s or higher. You are running version %3$s."
+msgstr "<a href=\"http://wpdocs.sourceforge.jp/Version_%1$s\">WordPress %1$s</a> は MySQL %2$s 以降を必要とするため、更新を実行できません。現在稼働しているバージョンは %3$s です。"
 
 #: wp-admin/update-core.php:61 wp-admin/upgrade.php:74
 msgid "You cannot update because <a href=\"https://codex.wordpress.org/Version_%1$s\">WordPress %1$s</a> requires PHP version %2$s or higher and MySQL version %3$s or higher. You are running PHP version %4$s and MySQL version %5$s."
@@ -1129,25 +1129,25 @@ msgstr "カテゴリーをタグに、またはタグをカテゴリーに変換
 msgid "Open Press This"
 msgstr "Press This を開く"
 
-#: wp-admin/tools.php:68
-msgid "Follow the link to open Press This. Then add it to your device&#8217;s bookmarks or home screen."
-msgstr "リンクから Press This を開いて、お使いのデバイスのブックマークかホーム画面に追加してください。"
-
 #: wp-admin/tools.php:67
 msgid "Direct link (best for mobile)"
 msgstr "直接リンク(モバイルに最適)"
 
-#: wp-admin/tools.php:60
-msgid "If you can&#8217;t drag the bookmarklet to your bookmarks, copy the following code and create a new bookmark. Paste the code into the new bookmark&#8217;s URL field."
-msgstr "もしブックマークレットをブックマークへドラッグできない場合は、以下のコードをコピーして新しいブックマークを作成します。コードを新しいブックマークの URL フィールドに貼り付けてください。"
+#: wp-admin/tools.php:68
+msgid "Follow the link to open Press This. Then add it to your device&#8217;s bookmarks or home screen."
+msgstr "リンクから Press This を開いて、お使いのデバイスのブックマークかホーム画面に追加してください。"
+
+#: wp-admin/tools.php:47
+msgid "Bookmarklet"
+msgstr "ブックマークレット"
 
 #: wp-admin/tools.php:54
 msgid "Copy &#8220;Press This&#8221; bookmarklet code"
 msgstr "「Press This」のブックマークレットコードをコピー"
 
-#: wp-admin/tools.php:47
-msgid "Bookmarklet"
-msgstr "ブックマークレット"
+#: wp-admin/tools.php:60
+msgid "If you can&#8217;t drag the bookmarklet to your bookmarks, copy the following code and create a new bookmark. Paste the code into the new bookmark&#8217;s URL field."
+msgstr "もしブックマークレットをブックマークへドラッグできない場合は、以下のコードをコピーして新しいブックマークを作成します。コードを新しいブックマークの URL フィールドに貼り付けてください。"
 
 #: wp-admin/tools.php:46
 msgid "Install Press This"
@@ -1194,13 +1194,13 @@ msgstr "壊れているテーマ"
 msgid "Update Available"
 msgstr "更新があります"
 
-#: wp-admin/themes.php:152
-msgid "ERROR: %s"
-msgstr "エラー: %s"
-
 #: wp-admin/themes.php:145
 msgid "You cannot delete a theme while it has an active child theme."
 msgstr "使用中の子テーマがあるテーマは削除できません。"
+
+#: wp-admin/themes.php:152
+msgid "ERROR: %s"
+msgstr "エラー: %s"
 
 #: wp-admin/themes.php:143
 msgid "Theme deleted."
@@ -1261,13 +1261,13 @@ msgstr "テーマの追加"
 msgid "If you would like to see more themes to choose from, click on the &#8220;Add New&#8221; button and you will be able to browse or search for additional themes from the <a href=\"%s\" target=\"_blank\">WordPress.org Theme Directory</a>. Themes in the WordPress.org Theme Directory are designed and developed by third parties, and are compatible with the license WordPress uses. Oh, and they&#8217;re free!"
 msgstr "もっと多くのテーマを見たいのであれば、「新規追加」ボタンをクリックして、 <a href=\"%s\" target=\"_blank\">WordPress.org テーマディレクトリ</a>から追加テーマを見たり、探したりすることができます。WordPress.org テーマディレクトリのテーマはサードパーティによってデザイン、開発され、WordPress のライセンスと互換性があります。そして無料なんです !"
 
-#: wp-admin/themes.php:63
-msgid "Installing themes on Multisite can only be done from the Network Admin section."
-msgstr "マルチサイトでのテーマのインストールは、ネットワーク管理者セクションでのみ行うことができます。"
-
 #: wp-admin/themes.php:51
 msgid "The search for installed themes will search for terms in their name, description, author, or tag."
 msgstr "インストール済みのテーマの検索は名前や説明、作者、タグの語句を検索します。"
+
+#: wp-admin/themes.php:63
+msgid "Installing themes on Multisite can only be done from the Network Admin section."
+msgstr "マルチサイトでのテーマのインストールは、ネットワーク管理者セクションでのみ行うことができます。"
 
 #: wp-admin/themes.php:50
 msgid "The current theme is displayed highlighted as the first theme."
@@ -1355,30 +1355,30 @@ msgstr "テーマのリストが生成されると、プレビューとインス
 msgid "You can Upload a theme manually if you have already downloaded its ZIP archive onto your computer (make sure it is from a trusted and original source). You can also do it the old-fashioned way and copy a downloaded theme&#8217;s folder via FTP into your <code>/wp-content/themes</code> directory."
 msgstr "テーマの ZIP アーカイブをパソコンにすでにダウンロードしている場合、そのファイルを手動でアップロードできます (信頼できるオリジナルソースからのものであることを必ず確認してください) 。また、ダウンロードしたテーマを FTP で <code>/wp-content/themes</code> ディレクトリにコピーするという旧式の方法も可能です。"
 
-#: wp-admin/theme-install.php:76
-msgid "Alternately, you can browse the themes that are Featured, Popular, or Latest. When you find a theme you like, you can preview it or install it."
-msgstr "または、人気のテーマやおすすめテーマ、最新のテーマを閲覧できます。好きなテーマを見つけたら、プレビューやインストールできます。"
+#: wp-admin/theme-install.php:75
+msgid "You can Search for themes by keyword, author, or tag, or can get more specific and search by criteria listed in the feature filter."
+msgstr "キーワード、作者、またはタグでテーマを検索できます。また、機能フィルターの条件を使ってさらに詳細な検索も行えます。"
 
 #: wp-admin/theme-install.php:75 wp-admin/themes.php:51
 msgid "The search results will be updated as you type."
 msgstr "入力と同時に検索結果が更新されます。"
 
-#: wp-admin/theme-install.php:75
-msgid "You can Search for themes by keyword, author, or tag, or can get more specific and search by criteria listed in the feature filter."
-msgstr "キーワード、作者、またはタグでテーマを検索できます。また、機能フィルターの条件を使ってさらに詳細な検索も行えます。"
+#: wp-admin/theme-install.php:76
+msgid "Alternately, you can browse the themes that are Featured, Popular, or Latest. When you find a theme you like, you can preview it or install it."
+msgstr "または、人気のテーマやおすすめテーマ、最新のテーマを閲覧できます。好きなテーマを見つけたら、プレビューやインストールできます。"
 
 #: wp-admin/theme-install.php:74
 msgid "You can find additional themes for your site by using the Theme Browser/Installer on this screen, which will display themes from the <a href=\"%s\" target=\"_blank\">WordPress.org Theme Directory</a>. These themes are designed and developed by third parties, are available free of charge, and are compatible with the license WordPress uses."
 msgstr "この画面で、<a href=\"%s\" target=\"_blank\">WordPress.org テーマディレクトリ</a>からテーマを表示するテーマブラウザー/インストーラーを使って、追加テーマを探すことができます。これらのテーマはサードパーティによってデザイン、開発されており、無料で利用でき、WordPress のライセンスと互換性があります。"
 
+#: wp-admin/theme-install.php:52 wp-admin/themes.php:114
+msgid "Number of Themes found: %d"
+msgstr "一致したテーマの数: %d"
+
 #: wp-admin/theme-install.php:53 wp-admin/theme-install.php:175
 #: wp-admin/themes.php:115 wp-admin/themes.php:264
 msgid "No themes found. Try a different search."
 msgstr "テーマが見つかりませんでした。他の検索条件をお試しください。"
-
-#: wp-admin/theme-install.php:52 wp-admin/themes.php:114
-msgid "Number of Themes found: %d"
-msgstr "一致したテーマの数: %d"
 
 #: wp-admin/theme-install.php:49 wp-admin/theme-install.php:118
 #: wp-admin/theme-install.php:120 wp-admin/update.php:241
@@ -1447,13 +1447,13 @@ msgstr "<a href=\"http://wpdocs.sourceforge.jp/Template_Tags\" target=\"_blank\"
 msgid "<a href=\"https://codex.wordpress.org/Editing_Files\" target=\"_blank\">Documentation on Editing Files</a>"
 msgstr "<a href=\"http://wpdocs.sourceforge.jp/Editing_Files\" target=\"_blank\">ファイル編集の解説</a>"
 
-#: wp-admin/theme-editor.php:40 wp-admin/themes.php:91
-msgid "<a href=\"https://codex.wordpress.org/Using_Themes\" target=\"_blank\">Documentation on Using Themes</a>"
-msgstr "<a href=\"http://wpdocs.sourceforge.jp/Using_Themes\" target=\"_blank\">テーマ利用の解説</a>"
-
 #: wp-admin/theme-editor.php:39
 msgid "<a href=\"https://codex.wordpress.org/Theme_Development\" target=\"_blank\">Documentation on Theme Development</a>"
 msgstr "<a href=\"http://wpdocs.sourceforge.jp/Theme_Development\" target=\"_blank\">テーマ開発の解説</a>"
+
+#: wp-admin/theme-editor.php:40 wp-admin/themes.php:91
+msgid "<a href=\"https://codex.wordpress.org/Using_Themes\" target=\"_blank\">Documentation on Using Themes</a>"
+msgstr "<a href=\"http://wpdocs.sourceforge.jp/Using_Themes\" target=\"_blank\">テーマ利用の解説</a>"
 
 #: wp-admin/theme-editor.php:33
 msgid "Upgrading to a newer version of the same theme will override changes made here. To avoid this, consider creating a <a href=\"%s\" target=\"_blank\">child theme</a> instead."
@@ -1649,33 +1649,29 @@ msgstr "&larr; 投稿エディターに戻る"
 msgid "Compare Revisions of &#8220;%1$s&#8221;"
 msgstr "&#8220;%1$s&#8221; のリビジョン比較"
 
-#: wp-admin/post.php:287
+#: wp-admin/post.php:289
 msgid "This item has already been deleted."
 msgstr "この項目はすでに削除されています。"
 
-#: wp-admin/post.php:275
+#: wp-admin/post.php:277
 msgid "You are not allowed to move this item out of the Trash."
 msgstr "この項目をゴミ箱から移動する権限がありません。"
 
-#: wp-admin/post.php:269
+#: wp-admin/post.php:271
 msgid "The item you are trying to restore from the Trash no longer exists."
 msgstr "ゴミ箱から復元しようとしている項目が存在しません。"
 
-#: wp-admin/post.php:256
+#: wp-admin/post.php:258
 msgid "You cannot move this item to the Trash. %s is currently editing."
 msgstr "この項目をゴミ箱へ移動することはできません。%s は現在編集中です。"
 
-#: wp-admin/post.php:246
+#: wp-admin/post.php:248
 msgid "The item you are trying to move to the Trash no longer exists."
 msgstr "ゴミ箱に移動しようとしている項目が存在しません。"
 
-#: wp-admin/post.php:159
+#: wp-admin/post.php:160
 msgid "You can&#8217;t edit this item because it is in the Trash. Please restore it and try again."
 msgstr "この項目はゴミ箱に入っているため編集できません。元の状態に復元し、再度お試しください。"
-
-#: wp-admin/post.php:119
-msgid "Oops, you don&#8217;t have access to add new drafts."
-msgstr "新しい下書きを追加する権限がありません。"
 
 #: wp-admin/post.php:116
 msgid "Unable to submit this form, please refresh and try again."
@@ -1791,13 +1787,13 @@ msgstr "<strong>%1$s</strong> - 作者: <em>%2$s</em> (<strong>そのデータ�
 msgid "You are about to remove the following plugins:"
 msgstr "以下のプラグインを削除しようとしています:"
 
-#: wp-admin/plugins.php:296
-msgid "These plugins may be active on other sites in the network."
-msgstr "これらのプラグインはネットワークの他のサイトで有効かもしれません。"
-
 #: wp-admin/plugins.php:294
 msgid "Delete Plugins"
 msgstr "プラグインの削除"
+
+#: wp-admin/plugins.php:296
+msgid "These plugins may be active on other sites in the network."
+msgstr "これらのプラグインはネットワークの他のサイトで有効かもしれません。"
 
 #: wp-admin/plugins.php:292
 msgid "You are about to remove the following plugin:"
@@ -1983,13 +1979,13 @@ msgstr "プラグイン編集"
 msgid "You do not have sufficient permissions to edit plugins for this site."
 msgstr "このサイトのプラグインを編集する権限がありません。"
 
-#: wp-admin/options.php:224
-msgid "All Settings"
-msgstr "すべての設定"
-
 #: wp-admin/options.php:183
 msgid "The <code>%1$s</code> setting is unregistered. Unregistered settings are deprecated. See https://codex.wordpress.org/Settings_API"
 msgstr "設定 <code>%1$s</code> は登録されていません。未登録設定は非推奨です。http://wpdocs.sourceforge.jp/Settings_API をご覧ください。"
+
+#: wp-admin/options.php:224
+msgid "All Settings"
+msgstr "すべての設定"
 
 #: wp-admin/options.php:148
 msgid "You do not have sufficient permissions to modify unregistered settings for this site."
@@ -1999,13 +1995,13 @@ msgstr "このサイトの登録されていない設定を編集する権限が
 msgid "<strong>ERROR</strong>: options page not found."
 msgstr "<strong>エラー</strong>: 設定ページが見つかりません。"
 
-#: wp-admin/options-writing.php:167
-msgid "WordPress is not notifying any <a href=\"https://codex.wordpress.org/Update_Services\">Update Services</a> because of your site&#8217;s <a href=\"%s\">visibility settings</a>."
-msgstr "サイトの<a href=\"%s\">表示設定</a>に基づき、WordPress は現在<a href=\"http://wpdocs.sourceforge.jp/Update_Services\">更新通知サービス</a>へ通知を送信していません。"
-
 #: wp-admin/options-writing.php:161
 msgid "When you publish a new post, WordPress automatically notifies the following site update services. For more about this, see <a href=\"https://codex.wordpress.org/Update_Services\">Update Services</a> on the Codex. Separate multiple service <abbr title=\"Universal Resource Locator\">URL</abbr>s with line breaks."
 msgstr "新しい投稿を公開すると、WordPress は次のサイト更新情報サービスに自動的に通知します。詳細は Codex の <a href=\"http://wpdocs.sourceforge.jp/Update_Services\">Update Services</a> を参照してください。複数の <abbr title=\"Universal Resource Locator\">URL</abbr> を入力する場合は改行で区切ります。"
+
+#: wp-admin/options-writing.php:167
+msgid "WordPress is not notifying any <a href=\"https://codex.wordpress.org/Update_Services\">Update Services</a> because of your site&#8217;s <a href=\"%s\">visibility settings</a>."
+msgstr "サイトの<a href=\"%s\">表示設定</a>に基づき、WordPress は現在<a href=\"http://wpdocs.sourceforge.jp/Update_Services\">更新通知サービス</a>へ通知を送信していません。"
 
 #: wp-admin/options-writing.php:136
 msgid "Default Mail Category"
@@ -2201,13 +2197,13 @@ msgstr "<code>web.config</code> ファイルを自動的に生成するため一
 msgid "If the root directory of your site were <a href=\"https://codex.wordpress.org/Changing_File_Permissions\">writable</a>, we could do this automatically, but it isn&#8217;t so this is the url rewrite rule you should have in your <code>web.config</code> file. Create a new file, called <code>web.config</code> in the root directory of your site. Click in the field and press <kbd>CTRL + a</kbd> to select all. Then insert this code into the <code>web.config</code> file."
 msgstr "サイトのルートディレクトリが<a href=\"http://wpdocs.sourceforge.jp/ファイルパーミッションの変更\">書き込み可能</a>な場合はこの作業を自動に行うことができます。そうでない場合は以下の URL リライトルールを書き込んだ <code>web.config</code> というファイルを作成し、ルートディレクトリに置いてください。以下のフィールド内でクリックし、<kbd>コントロール (Ctrl) + a</kbd> を同時に押せばフィールドの内容をすべてを選択できます。その後、このコードを <code>web.config</code> ファイルに挿入してください。"
 
-#: wp-admin/options-permalink.php:265
-msgid "If you temporarily make your <code>web.config</code> file writable for us to generate rewrite rules automatically, do not forget to revert the permissions after rule has been saved."
-msgstr "リライトルールを自動的に生成するために <code>web.config</code> ファイルを一時的に書き込み可能にする場合、ルールの保存後に、忘れずに権限を元に戻してください。"
-
 #: wp-admin/options-permalink.php:260
 msgid "If your <code>web.config</code> file were <a href=\"https://codex.wordpress.org/Changing_File_Permissions\">writable</a>, we could do this automatically, but it isn&#8217;t so this is the url rewrite rule you should have in your <code>web.config</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all. Then insert this rule inside of the <code>/&lt;configuration&gt;/&lt;system.webServer&gt;/&lt;rewrite&gt;/&lt;rules&gt;</code> element in <code>web.config</code> file."
 msgstr "あなたの <code>web.config</code> が<a href=\"http://wpdocs.sourceforge.jp/Changing_File_Permissions\">書き込み可能</a>ならこの操作は自動的に行われますが、そうでない場合は <code>web.config</code> ファイルに URL リライトルールを書き込む必要があります。このフィールドをクリックし、<kbd>CTRL + a</kbd> ですべてのコードを選択して、<code>web.config</code> ファイルの <code>/&lt;configuration&gt;/&lt;system.webServer&gt;/&lt;rewrite&gt;/&lt;rules&gt;</code> 要素に挿入してください。"
+
+#: wp-admin/options-permalink.php:265
+msgid "If you temporarily make your <code>web.config</code> file writable for us to generate rewrite rules automatically, do not forget to revert the permissions after rule has been saved."
+msgstr "リライトルールを自動的に生成するために <code>web.config</code> ファイルを一時的に書き込み可能にする場合、ルールの保存後に、忘れずに権限を元に戻してください。"
 
 #: wp-admin/options-permalink.php:246
 msgid "Tag base"
@@ -2379,13 +2375,13 @@ msgstr "サムネイルのサイズ"
 msgid "The sizes listed below determine the maximum dimensions in pixels to use when adding an image to the Media Library."
 msgstr "メディアファイルから画像を追加する際、以下でピクセル指定したサイズによって最大寸法が決定されます。"
 
-#: wp-admin/options-media.php:48
-msgid "Image sizes"
-msgstr "画像サイズ"
-
 #: wp-admin/options-media.php:34
 msgid "<a href=\"https://codex.wordpress.org/Settings_Media_Screen\" target=\"_blank\">Documentation on Media Settings</a>"
 msgstr "<a href=\"http://wpdocs.sourceforge.jp/Settings_Media_SubPanel\" target=\"_blank\">メディア設定の解説</a>"
+
+#: wp-admin/options-media.php:48
+msgid "Image sizes"
+msgstr "画像サイズ"
 
 #: wp-admin/options-media.php:21
 msgid "Uploading Files allows you to choose the folder and path for storing your uploaded files."
@@ -2411,33 +2407,33 @@ msgstr "メモ:"
 msgid "Site Language"
 msgstr "サイトの言語"
 
-#: wp-admin/options-general.php:321
-msgid "Week Starts On"
-msgstr "週の始まり"
-
 #: wp-admin/options-general.php:315
 msgid "<a href=\"https://codex.wordpress.org/Formatting_Date_and_Time\">Documentation on date and time formatting</a>."
 msgstr "<a href=\"http://wpdocs.sourceforge.jp/Formatting_Date_and_Time\">日付と時刻の書式の解説</a>"
+
+#: wp-admin/options-general.php:321
+msgid "Week Starts On"
+msgstr "週の始まり"
 
 #: wp-admin/options-general.php:313
 msgid "Custom time format:"
 msgstr "カスタム時刻書式:"
 
-#: wp-admin/options-general.php:312
-msgid "enter a custom time format in the following field"
-msgstr "以下の欄にカスタマイズした時刻の書式を入力してください"
-
 #: wp-admin/options-general.php:280 wp-admin/options-general.php:313
 msgid "example:"
 msgstr "例:"
 
-#: wp-admin/options-general.php:280
-msgid "Custom date format:"
-msgstr "カスタム日付書式:"
+#: wp-admin/options-general.php:312
+msgid "enter a custom time format in the following field"
+msgstr "以下の欄にカスタマイズした時刻の書式を入力してください"
 
 #: wp-admin/options-general.php:279
 msgid "enter a custom date format in the following field"
 msgstr "以下の欄にカスタマイズした日付の書式を入力してください"
+
+#: wp-admin/options-general.php:280
+msgid "Custom date format:"
+msgstr "カスタム日付書式:"
 
 #: wp-admin/options-general.php:279 wp-admin/options-general.php:312
 msgid "Custom:"
@@ -2519,13 +2515,13 @@ msgstr "このサイトの簡単な説明。"
 msgid "<a href=\"https://codex.wordpress.org/Settings_General_Screen\" target=\"_blank\">Documentation on General Settings</a>"
 msgstr "<a href=\"http://wpdocs.sourceforge.jp/Settings_General_SubPanel\" target=\"_blank\">一般設定の解説</a>"
 
-#: wp-admin/options-general.php:93
-msgid "UTC means Coordinated Universal Time."
-msgstr "UTC とは、協定世界時のことです。"
-
 #: wp-admin/options-general.php:92
 msgid "You can set the language, and the translation files will be automatically downloaded and installed (available if your filesystem is writable)."
 msgstr "言語を設定すると翻訳ファイルが自動的にダウンロード・インストールされます (ファイルの書き込みが可能な場合のみ)。"
+
+#: wp-admin/options-general.php:93
+msgid "UTC means Coordinated Universal Time."
+msgstr "UTC とは、協定世界時のことです。"
 
 #: wp-admin/options-general.php:89
 msgid "If you want site visitors to be able to register themselves, as opposed to by the site administrator, check the membership box. A default user role can be set for all new users, whether self-registered or registered by the site admin."
@@ -2539,16 +2535,16 @@ msgstr "WordPress URL とサイト URL は同一 (例: example.com) または異
 msgid "Most themes display the site title at the top of every page, in the title bar of the browser, and as the identifying name for syndicated feeds. The tagline is also displayed by many themes."
 msgstr "ほとんどのテーマでは、サイトのタイトルはページの先頭、ブラウザーのタイトルバー、フィードの名前として表示されます。キャッチフレーズも多くのテーマで表示されます。"
 
-#: wp-admin/options-general.php:84
-msgid "The fields on this screen determine some of the basics of your site setup."
-msgstr "この画面でいくつかの基本的なサイト設定を行います。"
-
 #. translators: date and time format for exact current time, mainly about
 #. timezones, see http:php.net/date
 #: wp-admin/options-general.php:21
 msgctxt "timezone date format"
 msgid "Y-m-d H:i:s"
 msgstr "Y-m-d H:i:s"
+
+#: wp-admin/options-general.php:84
+msgid "The fields on this screen determine some of the basics of your site setup."
+msgstr "この画面でいくつかの基本的なサイト設定を行います。"
 
 #: wp-admin/options-general.php:18
 msgid "General Settings"
@@ -3395,14 +3391,14 @@ msgstr "XML エラー: %1$s (%2$s行目)"
 msgid "Search Links"
 msgstr "リンクを検索"
 
+#: wp-admin/link-manager.php:60
+msgid "<a href=\"https://codex.wordpress.org/Links_Screen\" target=\"_blank\">Documentation on Managing Links</a>"
+msgstr "<a href=\"http://wpdocs.sourceforge.jp/Links_Edit_SubPanel\" target=\"_blank\">リンク編集の解説</a>"
+
 #: wp-admin/link-manager.php:81
 msgid "%s link deleted."
 msgid_plural "%s links deleted"
 msgstr[0] "%s個のリンクを削除しました。"
-
-#: wp-admin/link-manager.php:60
-msgid "<a href=\"https://codex.wordpress.org/Links_Screen\" target=\"_blank\">Documentation on Managing Links</a>"
-msgstr "<a href=\"http://wpdocs.sourceforge.jp/Links_Edit_SubPanel\" target=\"_blank\">リンク編集の解説</a>"
 
 #: wp-admin/link-manager.php:55
 msgid "If you delete a link, it will be removed permanently, as Links do not have a Trash function yet."
@@ -3485,21 +3481,21 @@ msgstr "<code>wp-config.php</code> ファイルでデータベース接頭辞が
 msgid "Configuration Error"
 msgstr "設定エラー"
 
-#: wp-admin/install.php:178
-msgid "Insufficient Requirements"
-msgstr "実行環境が要件を満たしていません"
-
 #: wp-admin/install.php:174
 msgid "You cannot install because <a href=\"https://codex.wordpress.org/Version_%1$s\">WordPress %1$s</a> requires MySQL version %2$s or higher. You are running version %3$s."
 msgstr "<a href=\"http://wpdocs.sourceforge.jp/Version_%1$s\">WordPress %1$s</a> は MySQL %2$s 以降を必要とするため、インストールを実行できません。現在稼働しているバージョンは %3$s です。"
 
-#: wp-admin/install.php:172
-msgid "You cannot install because <a href=\"https://codex.wordpress.org/Version_%1$s\">WordPress %1$s</a> requires PHP version %2$s or higher. You are running version %3$s."
-msgstr "<a href=\"http://wpdocs.sourceforge.jp/Version_%1$s\">WordPress %1$s</a> は PHP %2$s 以降を必要とするため、インストールを実行できません。現在稼働しているバージョンは %3$s です。"
+#: wp-admin/install.php:178
+msgid "Insufficient Requirements"
+msgstr "実行環境が要件を満たしていません"
 
 #: wp-admin/install.php:170
 msgid "You cannot install because <a href=\"https://codex.wordpress.org/Version_%1$s\">WordPress %1$s</a> requires PHP version %2$s or higher and MySQL version %3$s or higher. You are running PHP version %4$s and MySQL version %5$s."
 msgstr "<a href=\"http://wpdocs.sourceforge.jp/Version_%1$s\">WordPress %1$s</a> は PHP %2$s 以降、MySQL %3$s 以降を必要とするため、インストールを実行できません。現在稼働している PHP のバージョンは %4$s、 MySQL のバージョンは %5$s です。"
+
+#: wp-admin/install.php:172
+msgid "You cannot install because <a href=\"https://codex.wordpress.org/Version_%1$s\">WordPress %1$s</a> requires PHP version %2$s or higher. You are running version %3$s."
+msgstr "<a href=\"http://wpdocs.sourceforge.jp/Version_%1$s\">WordPress %1$s</a> は PHP %2$s 以降を必要とするため、インストールを実行できません。現在稼働しているバージョンは %3$s です。"
 
 #: wp-admin/install.php:150
 msgid "Install WordPress"
@@ -3769,13 +3765,13 @@ msgstr "<strong><em>パスワードを確実にメモしてください ! </em><
 msgid "An automated WordPress update has failed to complete! Please notify the site administrator."
 msgstr "WordPress の自動更新に失敗しました ! サイト管理者にお知らせください。"
 
-#: wp-admin/includes/update.php:428
-msgid "An automated WordPress update has failed to complete - <a href=\"%s\">please attempt the update again now</a>."
-msgstr "WordPress の自動更新に失敗しました。<a href=\"%s\">再度、更新を行ってみてください</a>。"
-
 #: wp-admin/includes/update.php:289
 msgid "There is a new version of %1$s available. <a href=\"%2$s\" class=\"thickbox\" title=\"%3$s\">View version %4$s details</a> or <a href=\"%5$s\" class=\"update-link\">update now</a>."
 msgstr "新しいバージョンの %1$s が利用可能です。<a href=\"%2$s\" class=\"thickbox\" title=\"%3$s\">バージョン %4$s の詳細を見る</a>か<a href=\"%5$s\" class=\"update-link\">今すぐ更新</a>します。"
+
+#: wp-admin/includes/update.php:428
+msgid "An automated WordPress update has failed to complete - <a href=\"%s\">please attempt the update again now</a>."
+msgstr "WordPress の自動更新に失敗しました。<a href=\"%s\">再度、更新を行ってみてください</a>。"
 
 #: wp-admin/includes/update.php:287
 msgid "There is a new version of %1$s available. <a href=\"%2$s\" class=\"thickbox\" title=\"%3$s\">View version %4$s details</a>. <em>Automatic update is unavailable for this plugin.</em>"
@@ -5016,12 +5012,12 @@ msgid "You attempted to access the \"%1$s\" dashboard, but you do not currently 
 msgstr "\"%1$s\" ダッシュボードへアクセスを試みていますが、現在このサイトを表示する権限がありません。もし \"%1$s\" ダッシュボードにアクセスできるはずだと確信しているなら、ネットワーク管理者に連絡してください。"
 
 #: wp-admin/includes/ms.php:482
-msgid "MB (Leave blank for network default)"
-msgstr "MB (空にするとネットワークの初期値が適用されます)"
-
-#: wp-admin/includes/ms.php:482
 msgid "Size in megabytes"
 msgstr "メガバイト単位のサイズ"
+
+#: wp-admin/includes/ms.php:482
+msgid "MB (Leave blank for network default)"
+msgstr "MB (空にするとネットワークの初期値が適用されます)"
 
 #: wp-admin/includes/ms.php:479
 msgid "Site Upload Space Quota"
@@ -5385,13 +5381,13 @@ msgstr "http://wpdocs.sourceforge.jp/%E3%83%96%E3%83%AD%E3%82%B0%E5%85%A5%E9%96%
 msgid "Allow <a href=\"%s\" target=\"_blank\">trackbacks and pingbacks</a> on this page."
 msgstr "このページで <a href=\"%s\" target=\"_blank\">トラックバックとピンバック</a>を許可する。"
 
-#: wp-admin/includes/meta-boxes.php:590
-msgid "Allow comments."
-msgstr "コメントの投稿を許可する。"
-
 #: wp-admin/includes/meta-boxes.php:575
 msgid "Custom fields can be used to add extra metadata to a post that you can <a href=\"https://codex.wordpress.org/Using_Custom_Fields\" target=\"_blank\">use in your theme</a>."
 msgstr "カスタムフィールドは投稿に特別なメタデータを追加するために使うものです。追加されたカスタムフィールドは<a href=\"http://wpdocs.sourceforge.jp/Using_Custom_Fields\" target=\"_blank\">テーマの中で利用</a>できます。"
+
+#: wp-admin/includes/meta-boxes.php:590
+msgid "Allow comments."
+msgstr "コメントの投稿を許可する。"
 
 #: wp-admin/includes/meta-boxes.php:549
 msgid "Trackbacks are a way to notify legacy blog systems that you&#8217;ve linked to them. If you link other WordPress sites, they&#8217;ll be notified automatically using <a href=\"https://codex.wordpress.org/Introduction_to_Blogging#Managing_Comments\" target=\"_blank\">pingbacks</a>, no other action necessary."
@@ -6013,13 +6009,13 @@ msgstr "公開鍵:"
 msgid "Authentication Keys"
 msgstr "認証キー"
 
-#: wp-admin/includes/file.php:1163
-msgid "This password will not be stored on the server."
-msgstr "このパスワードはサーバー上に保存されません。"
-
 #: wp-admin/includes/file.php:1151
 msgid "example: www.wordpress.org"
 msgstr "例: www.wordpress.org"
+
+#: wp-admin/includes/file.php:1163
+msgid "This password will not be stored on the server."
+msgstr "このパスワードはサーバー上に保存されません。"
 
 #: wp-admin/includes/file.php:1150
 msgid "Hostname"
@@ -6267,202 +6263,202 @@ msgstr "メインインデックスのテンプレート"
 msgid "Displaying %s&#8211;%s of %s"
 msgstr " %s&#8211;%s件 (%s件中) を表示中"
 
-#: wp-admin/includes/dashboard.php:1335
+#: wp-admin/includes/dashboard.php:1339
 msgid "https://codex.wordpress.org/First_Steps_With_WordPress"
 msgstr "http://wpdocs.sourceforge.jp/First_Steps_With_WordPress"
 
-#: wp-admin/includes/dashboard.php:1335
+#: wp-admin/includes/dashboard.php:1339
 msgid "Learn more about getting started"
 msgstr "最初のステップについて詳細を読む"
 
-#: wp-admin/includes/dashboard.php:1333
+#: wp-admin/includes/dashboard.php:1337
 msgid "Turn comments on or off"
 msgstr "コメントを表示/非表示"
 
-#: wp-admin/includes/dashboard.php:1328
+#: wp-admin/includes/dashboard.php:1332
 msgid "Manage menus"
 msgstr "メニューの管理"
 
-#: wp-admin/includes/dashboard.php:1326
+#: wp-admin/includes/dashboard.php:1330
 msgid "Manage widgets"
 msgstr "ウィジェットの管理"
 
-#: wp-admin/includes/dashboard.php:1323
+#: wp-admin/includes/dashboard.php:1327
 msgid "Manage <a href=\"%1$s\">widgets</a> or <a href=\"%2$s\">menus</a>"
 msgstr "<a href=\"%1$s\">ウィジェット</a>または<a href=\"%2$s\">メニュー</a>の管理"
 
-#: wp-admin/includes/dashboard.php:1318
+#: wp-admin/includes/dashboard.php:1322
 msgid "More Actions"
 msgstr "その他の操作"
 
-#: wp-admin/includes/dashboard.php:1314
+#: wp-admin/includes/dashboard.php:1318
 msgid "View your site"
 msgstr "サイトを表示"
 
-#: wp-admin/includes/dashboard.php:1312
+#: wp-admin/includes/dashboard.php:1316
 msgid "Add an About page"
 msgstr "「サイトについて」固定ページを追加"
 
-#: wp-admin/includes/dashboard.php:1311
+#: wp-admin/includes/dashboard.php:1315
 msgid "Write your first blog post"
 msgstr "ブログに投稿する"
 
-#: wp-admin/includes/dashboard.php:1309
+#: wp-admin/includes/dashboard.php:1313
 msgid "Add a blog post"
 msgstr "ブログ投稿を追加"
 
-#: wp-admin/includes/dashboard.php:1305 wp-admin/includes/dashboard.php:1308
+#: wp-admin/includes/dashboard.php:1309 wp-admin/includes/dashboard.php:1312
 msgid "Add additional pages"
 msgstr "固定ページを追加"
 
-#: wp-admin/includes/dashboard.php:1304 wp-admin/includes/dashboard.php:1307
+#: wp-admin/includes/dashboard.php:1308 wp-admin/includes/dashboard.php:1311
 msgid "Edit your front page"
 msgstr "フロントページを編集"
 
-#: wp-admin/includes/dashboard.php:1301
+#: wp-admin/includes/dashboard.php:1305
 msgid "Next Steps"
 msgstr "次のステップ"
 
-#: wp-admin/includes/dashboard.php:1297
+#: wp-admin/includes/dashboard.php:1301
 msgid "or, <a href=\"%s\">change your theme completely</a>"
 msgstr "または、<a href=\"%s\">別のテーマに変更する</a>"
 
-#: wp-admin/includes/dashboard.php:1293 wp-admin/includes/dashboard.php:1295
+#: wp-admin/includes/dashboard.php:1297 wp-admin/includes/dashboard.php:1299
 msgid "Customize Your Site"
 msgstr "サイトをカスタマイズ"
 
-#: wp-admin/includes/dashboard.php:1292
+#: wp-admin/includes/dashboard.php:1296
 msgid "Get Started"
 msgstr "始めてみよう"
 
-#: wp-admin/includes/dashboard.php:1288
+#: wp-admin/includes/dashboard.php:1292
 msgid "We&#8217;ve assembled some links to get you started:"
 msgstr "初めての方に便利なリンクを集めました。"
 
-#: wp-admin/includes/dashboard.php:1287
+#: wp-admin/includes/dashboard.php:1291
 msgid "Welcome to WordPress!"
 msgstr "WordPress へようこそ !"
 
-#: wp-admin/includes/dashboard.php:1201
+#: wp-admin/includes/dashboard.php:1205
 msgid "<a href=\"%1$s\" class=\"update-browser-link\">Update %2$s</a> or learn how to <a href=\"%3$s\" class=\"browse-happy-link\">browse happy</a>"
 msgstr "<a href=\"%1$s\" class=\"update-browser-link\">%2$s を更新</a>するか、<a href=\"%3$s\" class=\"browse-happy-link\">ブラウザーの選択肢を知る Browse Happy サイト</a>を訪れてみてください。"
 
-#: wp-admin/includes/dashboard.php:1184
+#: wp-admin/includes/dashboard.php:1188
 msgid "It looks like you're using an old version of <a href='%s'>%s</a>. For the best WordPress experience, please update your browser."
 msgstr "<a href='%s'>%s</a> の古いバージョンをお使いのようです。 WordPress のすばらしさを体験をするには、ブラウザーを更新してください。"
 
-#: wp-admin/includes/dashboard.php:1182
+#: wp-admin/includes/dashboard.php:1186
 msgid "It looks like you're using an insecure version of <a href='%s'>%s</a>. Using an outdated browser makes your computer unsafe. For the best WordPress experience, please update your browser."
 msgstr "<a href='%s'>%s</a> の安全ではないバージョンをお使いのようです。古いブラウザーを使っていると、コンピューターを危険に曝してしまいます。WordPress のすばらしさを実感するには、ブラウザーを更新してください。"
 
 #. translators: 1: number of megabytes, 2: percentage
-#: wp-admin/includes/dashboard.php:1158
+#: wp-admin/includes/dashboard.php:1162
 msgid "%1$s MB (%2$s%%) Space Used"
 msgstr "%1$s MB (%2$s%%) 利用中"
 
-#: wp-admin/includes/dashboard.php:1152 wp-admin/includes/dashboard.php:1165
+#: wp-admin/includes/dashboard.php:1156 wp-admin/includes/dashboard.php:1169
 msgid "Manage Uploads"
 msgstr "更新を管理"
 
 #. translators: number of megabytes
-#: wp-admin/includes/dashboard.php:1146
+#: wp-admin/includes/dashboard.php:1150
 msgid "%s MB Space Allowed"
 msgstr "%s MB 利用可能"
 
-#: wp-admin/includes/dashboard.php:1140
+#: wp-admin/includes/dashboard.php:1144
 msgid "Storage Space"
 msgstr "保存スペース"
 
-#: wp-admin/includes/dashboard.php:1106
+#: wp-admin/includes/dashboard.php:1110
 msgid "Popular Plugin"
 msgstr "人気のプラグイン"
 
-#: wp-admin/includes/dashboard.php:996
+#: wp-admin/includes/dashboard.php:1000
 msgid "Other WordPress News"
 msgstr "WordPress フォーラム"
 
-#: wp-admin/includes/dashboard.php:987
+#: wp-admin/includes/dashboard.php:991
 msgid "https://planet.wordpress.org/feed/"
 msgstr "https://ja.forums.wordpress.org/rss.php"
 
-#: wp-admin/includes/dashboard.php:978
+#: wp-admin/includes/dashboard.php:982
 msgid "https://planet.wordpress.org/"
 msgstr "https://ja.forums.wordpress.org/"
 
-#: wp-admin/includes/dashboard.php:963
+#: wp-admin/includes/dashboard.php:967
 msgid "WordPress Blog"
 msgstr "WordPress ブログ"
 
-#: wp-admin/includes/dashboard.php:954
+#: wp-admin/includes/dashboard.php:958
 msgid "http://wordpress.org/news/feed/"
 msgstr "https://ja.wordpress.org/feed/"
 
-#: wp-admin/includes/dashboard.php:945
+#: wp-admin/includes/dashboard.php:949
 msgid "http://wordpress.org/news/"
 msgstr "https://ja.wordpress.org/"
 
-#: wp-admin/includes/dashboard.php:832
+#: wp-admin/includes/dashboard.php:836
 msgid "This widget requires JavaScript."
 msgstr "このウィジェットには JavaScript が必要です。"
 
-#: wp-admin/includes/dashboard.php:832
+#: wp-admin/includes/dashboard.php:836
 msgid "Loading&#8230;"
 msgstr "読み込み中&#8230;"
 
 #. translators: 1: relative date, 2: time, 3: post edit link or permalink, 4:
 #. post title
-#: wp-admin/includes/dashboard.php:733
+#: wp-admin/includes/dashboard.php:737
 msgid "<span>%1$s, %2$s</span> <a href=\"%3$s\">%4$s</a>"
 msgstr "<span>%1$s %2$s</span> <a href=\"%3$s\">%4$s</a>"
 
 #. translators: date and time format for recent posts on the dashboard, see
 #. http:php.net/date
-#: wp-admin/includes/dashboard.php:726
+#: wp-admin/includes/dashboard.php:730
 msgid "M jS"
 msgstr "n月j日"
 
-#: wp-admin/includes/dashboard.php:723
+#: wp-admin/includes/dashboard.php:727
 msgid "Tomorrow"
 msgstr "明日"
 
-#: wp-admin/includes/dashboard.php:721
+#: wp-admin/includes/dashboard.php:725
 msgid "Today"
 msgstr "今日"
 
-#: wp-admin/includes/dashboard.php:660
+#: wp-admin/includes/dashboard.php:664
 msgid "No activity yet!"
 msgstr "アクティビティがありません。"
 
-#: wp-admin/includes/dashboard.php:651
+#: wp-admin/includes/dashboard.php:655
 msgid "Recently Published"
 msgstr "最近公開"
 
-#: wp-admin/includes/dashboard.php:644
+#: wp-admin/includes/dashboard.php:648
 msgid "Publishing Soon"
 msgstr "公開間近"
 
 #. translators: %1$s is type of comment, %2$s is link to the post
-#: wp-admin/includes/dashboard.php:620
+#: wp-admin/includes/dashboard.php:624
 msgctxt "dashboard"
 msgid "%1$s on %2$s"
 msgstr "%2$s への %1$s"
 
-#: wp-admin/includes/dashboard.php:601
+#: wp-admin/includes/dashboard.php:605
 msgid "[Pending]"
 msgstr "[承認待ち]"
 
 #. translators: 1: comment author, 2: post link, 3: notification if the comment
 #. is pending
-#: wp-admin/includes/dashboard.php:600
+#: wp-admin/includes/dashboard.php:604
 msgid "From %1$s on %2$s%3$s"
 msgstr "%2$s に %1$s より %3$s"
 
-#: wp-admin/includes/dashboard.php:501
+#: wp-admin/includes/dashboard.php:505
 msgctxt "drafts"
 msgid "View all"
 msgstr "すべて表示"
 
-#: wp-admin/includes/dashboard.php:460
+#: wp-admin/includes/dashboard.php:464
 msgid "What&#8217;s on your mind?"
 msgstr "アイディアを書き留めてみましょう。"
 
@@ -6539,7 +6535,7 @@ msgstr "すべて表示"
 msgid "WordPress News"
 msgstr "WordPress ニュース"
 
-#: wp-admin/includes/dashboard.php:47 wp-admin/includes/dashboard.php:503
+#: wp-admin/includes/dashboard.php:47 wp-admin/includes/dashboard.php:507
 msgid "Drafts"
 msgstr "下書き"
 
@@ -6592,16 +6588,11 @@ msgid "%1$s <span class=\"count\">(%2$s)</span>"
 msgstr "%1$s <span class=\"count\">(%2$s 名)</span>"
 
 #. translators: 1: Error code, 2: Error message.
-#: wp-admin/includes/class-wp-upgrader.php:3214
+#: wp-admin/includes/class-wp-upgrader.php:3217
 msgid "Error: [%1$s] %2$s"
 msgstr "エラー: [%1$s] %2$s"
 
-#. translators: 1: Error code, 2: Error message.
-#: wp-admin/includes/class-wp-upgrader.php:3211
-msgid "Rollback Error: [%1$s] %2$s"
-msgstr "ロールバックエラー: [%1$s] %2$s"
-
-#: wp-admin/includes/class-wp-upgrader.php:3187
+#: wp-admin/includes/class-wp-upgrader.php:3190
 msgid ""
 "UPDATE LOG\n"
 "=========="
@@ -6609,15 +6600,20 @@ msgstr ""
 "更新ログ\n"
 "=========="
 
-#: wp-admin/includes/class-wp-upgrader.php:3184
+#. translators: 1: Error code, 2: Error message.
+#: wp-admin/includes/class-wp-upgrader.php:3214
+msgid "Rollback Error: [%1$s] %2$s"
+msgstr "ロールバックエラー: [%1$s] %2$s"
+
+#: wp-admin/includes/class-wp-upgrader.php:3187
 msgid "[%s] Background updates have finished"
 msgstr "[%s] バックグラウンド更新を完了しました"
 
-#: wp-admin/includes/class-wp-upgrader.php:3182
+#: wp-admin/includes/class-wp-upgrader.php:3185
 msgid "[%s] There were failures during background updates"
 msgstr "[%s] バックグラウンド更新中に障害が発生しました"
 
-#: wp-admin/includes/class-wp-upgrader.php:3169
+#: wp-admin/includes/class-wp-upgrader.php:3172
 msgid ""
 "BETA TESTING?\n"
 "=============\n"
@@ -6641,312 +6637,312 @@ msgstr ""
 "\n"
 "ありがとうございます ! -- WordPress チーム"
 
-#: wp-admin/includes/class-wp-upgrader.php:3159
+#: wp-admin/includes/class-wp-upgrader.php:3162
 msgid "FAILED: %s"
 msgstr "失敗: %s"
 
-#: wp-admin/includes/class-wp-upgrader.php:3153
+#: wp-admin/includes/class-wp-upgrader.php:3156
 msgid "The following translations failed to update:"
 msgstr "以下の翻訳ファイルの更新に失敗しました:"
 
-#: wp-admin/includes/class-wp-upgrader.php:3152
+#: wp-admin/includes/class-wp-upgrader.php:3155
 msgid "The following themes failed to update:"
 msgstr "以下のテーマの更新に失敗しました:"
 
-#: wp-admin/includes/class-wp-upgrader.php:3151
+#: wp-admin/includes/class-wp-upgrader.php:3154
 msgid "The following plugins failed to update:"
 msgstr "以下のプラグインの更新に失敗しました:"
 
-#: wp-admin/includes/class-wp-upgrader.php:3145
+#: wp-admin/includes/class-wp-upgrader.php:3148
 msgid "SUCCESS: %s"
 msgstr "成功: %s"
 
-#: wp-admin/includes/class-wp-upgrader.php:3140
+#: wp-admin/includes/class-wp-upgrader.php:3143
 msgid "The following translations were successfully updated:"
 msgstr "以下の翻訳ファイルの更新に成功しました:"
 
-#: wp-admin/includes/class-wp-upgrader.php:3139
+#: wp-admin/includes/class-wp-upgrader.php:3142
 msgid "The following themes were successfully updated:"
 msgstr "以下のテーマの更新に成功しました:"
 
-#: wp-admin/includes/class-wp-upgrader.php:3138
+#: wp-admin/includes/class-wp-upgrader.php:3141
 msgid "The following plugins were successfully updated:"
 msgstr "以下のプラグインの更新に成功しました:"
 
-#: wp-admin/includes/class-wp-upgrader.php:3125
+#: wp-admin/includes/class-wp-upgrader.php:3128
 msgid "FAILED: WordPress failed to update to %s"
 msgstr "失敗: WordPress バージョン %s への更新に失敗しました"
 
-#: wp-admin/includes/class-wp-upgrader.php:3123
+#: wp-admin/includes/class-wp-upgrader.php:3126
 msgid "SUCCESS: WordPress was successfully updated to %s"
 msgstr "成功: WordPress バージョン %s への更新に成功しました"
 
-#: wp-admin/includes/class-wp-upgrader.php:3117
+#: wp-admin/includes/class-wp-upgrader.php:3120
 msgid "WordPress site: %s"
 msgstr "WordPress サイト: %s"
 
-#: wp-admin/includes/class-wp-upgrader.php:3063
+#: wp-admin/includes/class-wp-upgrader.php:3066
 msgid "Error code: %s"
 msgstr "エラーコード: %s"
 
-#: wp-admin/includes/class-wp-upgrader.php:3050
+#: wp-admin/includes/class-wp-upgrader.php:3053
 msgid "Your hosting company, support forum volunteers, or a friendly developer may be able to use this information to help you:"
 msgstr "ホスティング会社、サポートフォーラムのボランティア、または心優しい開発者があなたを助けるため、この情報を使用することができるでしょう。"
 
-#: wp-admin/includes/class-wp-upgrader.php:3049
+#: wp-admin/includes/class-wp-upgrader.php:3052
 msgid "We have some data that describes the error your site encountered."
 msgstr "サイトに生じたエラーについて説明するデータがあります。"
 
-#: wp-admin/includes/class-wp-upgrader.php:3048
+#: wp-admin/includes/class-wp-upgrader.php:3051
 msgid "Your site was running version %s."
 msgstr "サイトはバージョン %s でした。"
 
-#: wp-admin/includes/class-wp-upgrader.php:3044
+#: wp-admin/includes/class-wp-upgrader.php:3047
 msgid "The WordPress Team"
 msgstr "WordPress チーム"
 
-#: wp-admin/includes/class-wp-upgrader.php:3040
+#: wp-admin/includes/class-wp-upgrader.php:3043
 msgid "You also have some plugins or themes with updates available. Update them now:"
 msgstr "最新版が利用できるプラグインまたはテーマもあります。いますぐ更新してください。"
 
-#: wp-admin/includes/class-wp-upgrader.php:3035
+#: wp-admin/includes/class-wp-upgrader.php:3038
 msgid "If you reach out to us, we'll also ensure you'll never have this problem again."
 msgstr "また、私たちにご連絡いただければ、今後は二度とこの問題が発生しないようにします。"
 
-#: wp-admin/includes/class-wp-upgrader.php:3031 wp-admin/update-core.php:478
+#: wp-admin/includes/class-wp-upgrader.php:3034 wp-admin/update-core.php:478
 msgid "Keeping your site updated is important for security. It also makes the internet a safer place for you and your readers."
 msgstr "サイトを更新した状態に保つことはセキュリティにとって重要です。それはまた、あなたとあなたの読者にとってインターネットをより安全な場所にすることでもあります。"
 
 #: wp-admin/includes/class-wp-upgrader.php:3025
-msgid "If you experience any issues or need support, the volunteers in the WordPress.org support forums may be able to help."
-msgstr "問題が生じたり、サポートが必要な場合は、WordPress.org のサポートフォーラムのボランティアが助けになるでしょう。"
-
-#: wp-admin/includes/class-wp-upgrader.php:3022
 msgid "The WordPress team is willing to help you. Forward this email to %s and the team will work with you to make sure your site is working."
 msgstr "WordPress チームがお助けします。このメールを %s に転送すれば、サイトが正しく動作するようご協力します。"
 
-#: wp-admin/includes/class-wp-upgrader.php:3014
+#: wp-admin/includes/class-wp-upgrader.php:3028
+msgid "If you experience any issues or need support, the volunteers in the WordPress.org support forums may be able to help."
+msgstr "問題が生じたり、サポートが必要な場合は、WordPress.org のサポートフォーラムのボランティアが助けになるでしょう。"
+
+#: wp-admin/includes/class-wp-upgrader.php:3017
 msgid "Please check out your site now. It's possible that everything is working. If it says you need to update, you should do so:"
 msgstr "サイトを確認してみてください。すべて問題なく動いている可能性があります。更新の必要があると表示されている場合は指示にしたがってください。"
 
-#: wp-admin/includes/class-wp-upgrader.php:3012
+#: wp-admin/includes/class-wp-upgrader.php:3015
 msgid "This means your site may be offline or broken. Don't panic; this can be fixed."
 msgstr "サイトはオフラインになっているか壊れている可能性があります。しかし心配しないでください。修復可能です。"
 
-#: wp-admin/includes/class-wp-upgrader.php:3010
+#: wp-admin/includes/class-wp-upgrader.php:3013
 msgid "Your site at %1$s experienced a critical failure while trying to update to the latest version of WordPress, %2$s."
 msgstr "%1$s のサイトは、WordPress の最新バージョン %2$s に更新する際、致命的に失敗しました。"
 
-#: wp-admin/includes/class-wp-upgrader.php:3008
+#: wp-admin/includes/class-wp-upgrader.php:3011
 msgid "Your site at %1$s experienced a critical failure while trying to update WordPress to version %2$s."
 msgstr "%1$s のサイトは、WordPress をバージョン %2$s に更新する際、致命的に失敗しました。"
 
-#: wp-admin/includes/class-wp-upgrader.php:3000
+#: wp-admin/includes/class-wp-upgrader.php:3003
 msgid "We tried but were unable to update your site automatically."
 msgstr "自動更新を試みましたが完了できませんでした。"
 
-#: wp-admin/includes/class-wp-upgrader.php:2993
+#: wp-admin/includes/class-wp-upgrader.php:2996
 msgid "Please update your site at %1$s to WordPress %2$s."
 msgstr "サイト (%1$s) を WordPress %2$s に更新してください。"
 
-#: wp-admin/includes/class-wp-upgrader.php:2985
-#: wp-admin/includes/class-wp-upgrader.php:3002
+#: wp-admin/includes/class-wp-upgrader.php:2988
+#: wp-admin/includes/class-wp-upgrader.php:3005
 msgid "Updating is easy and only takes a few moments:"
 msgstr "更新は簡単で、すぐに終わります。"
 
-#: wp-admin/includes/class-wp-upgrader.php:2984
+#: wp-admin/includes/class-wp-upgrader.php:2987
 msgid "WordPress %s is also now available."
 msgstr "WordPress %s も利用できます。"
 
-#: wp-admin/includes/class-wp-upgrader.php:2980
+#: wp-admin/includes/class-wp-upgrader.php:2983
 msgid "For more on version %s, see the About WordPress screen:"
 msgstr "バージョン %s について詳しくは「WordPress について」画面をご覧ください。"
 
-#: wp-admin/includes/class-wp-upgrader.php:2976
+#: wp-admin/includes/class-wp-upgrader.php:2979
 msgid "No further action is needed on your part."
 msgstr "何もする必要はありません。"
 
-#: wp-admin/includes/class-wp-upgrader.php:2973
+#: wp-admin/includes/class-wp-upgrader.php:2976
 msgid "Howdy! Your site at %1$s has been updated automatically to WordPress %2$s."
 msgstr "サイト (%1$s) を WordPress %2$s へ自動更新しました。"
 
 #. translators: 1: Site name.
-#: wp-admin/includes/class-wp-upgrader.php:2958
+#: wp-admin/includes/class-wp-upgrader.php:2961
 msgid "[%1$s] URGENT: Your site may be down due to a failed update"
 msgstr "[%1$s] 重要: 更新失敗によりサイトがダウンしている可能性があります"
 
 #. translators: 1: Site name, 2: WordPress version number.
-#: wp-admin/includes/class-wp-upgrader.php:2953
+#: wp-admin/includes/class-wp-upgrader.php:2956
 msgid "[%1$s] WordPress %2$s is available. Please update!"
 msgstr "[%1$s] WordPress %2$s がご利用いただけます。更新をお願いします。"
 
 #. translators: 1: Site name, 2: WordPress version number.
-#: wp-admin/includes/class-wp-upgrader.php:2947
+#: wp-admin/includes/class-wp-upgrader.php:2950
 msgid "[%1$s] Your site has updated to WordPress %2$s"
 msgstr "[%1$s] WordPress %2$s へのサイト更新が完了しました"
 
-#: wp-admin/includes/class-wp-upgrader.php:2672
+#: wp-admin/includes/class-wp-upgrader.php:2675
 #: wp-admin/includes/update-core.php:1177 wp-admin/update-core.php:432
 msgid "WordPress updated successfully"
 msgstr "WordPress の更新を完了しました。"
 
-#: wp-admin/includes/class-wp-upgrader.php:2670 wp-admin/update-core.php:427
+#: wp-admin/includes/class-wp-upgrader.php:2673 wp-admin/update-core.php:427
 msgid "Installation Failed"
 msgstr "インストール失敗"
 
-#: wp-admin/includes/class-wp-upgrader.php:2641
+#: wp-admin/includes/class-wp-upgrader.php:2644
 msgid "Translations for %s"
 msgstr "%sの翻訳"
 
-#: wp-admin/includes/class-wp-upgrader.php:2637
+#: wp-admin/includes/class-wp-upgrader.php:2640
 msgid "Updating plugin: %s"
 msgstr "プラグインを更新中: %s"
 
-#: wp-admin/includes/class-wp-upgrader.php:2631
+#: wp-admin/includes/class-wp-upgrader.php:2634
 msgid "Updating theme: %s"
 msgstr "テーマを更新中: %s"
 
-#: wp-admin/includes/class-wp-upgrader.php:2625
+#: wp-admin/includes/class-wp-upgrader.php:2628
 msgid "WordPress %s"
 msgstr "WordPress %s"
 
-#: wp-admin/includes/class-wp-upgrader.php:2624
+#: wp-admin/includes/class-wp-upgrader.php:2627
 msgid "Updating to WordPress %s"
 msgstr "WordPress %s へ更新中"
 
-#: wp-admin/includes/class-wp-upgrader.php:2287
-#: wp-admin/includes/class-wp-upgrader.php:2321
+#: wp-admin/includes/class-wp-upgrader.php:2290
+#: wp-admin/includes/class-wp-upgrader.php:2324
 msgid "Please select a file"
 msgstr "ファイルを選択してください"
 
-#: wp-admin/includes/class-wp-upgrader.php:2025
+#: wp-admin/includes/class-wp-upgrader.php:2028
 #: wp-admin/includes/update-core.php:820 wp-admin/includes/update-core.php:895
 #: wp-admin/includes/update-core.php:918
 msgid "The update cannot be installed because we will be unable to copy some files. This is usually due to inconsistent file permissions."
 msgstr "いくつかのファイルをコピーできないため、最新版のインストールができません。これはたいていの場合、ファイルのパーミッションが適切でないことが原因です。"
 
-#: wp-admin/includes/class-wp-upgrader.php:1940
+#: wp-admin/includes/class-wp-upgrader.php:1943
 msgid "Due to an error during updating, WordPress has rolled back to your previous version."
 msgstr "更新中にエラーが発生したため、WordPress は以前のバージョンにロールバックされました。"
 
-#: wp-admin/includes/class-wp-upgrader.php:1939
+#: wp-admin/includes/class-wp-upgrader.php:1942
 msgid "Attempting to roll back to previous version."
 msgstr "以前のバージョンへのロールバックを試みています。"
 
-#: wp-admin/includes/class-wp-upgrader.php:1938 wp-admin/includes/file.php:621
+#: wp-admin/includes/class-wp-upgrader.php:1941 wp-admin/includes/file.php:621
 #: wp-admin/includes/file.php:725
 msgid "Could not copy files. You may have run out of disk space."
 msgstr "ファイルをコピーできませんでした。ディスク容量不足の可能性があります。"
 
-#: wp-admin/includes/class-wp-upgrader.php:1937
+#: wp-admin/includes/class-wp-upgrader.php:1940
 msgid "Could not copy files."
 msgstr "ファイルをコピーできませんでした。"
 
-#: wp-admin/includes/class-wp-upgrader.php:1933
+#: wp-admin/includes/class-wp-upgrader.php:1936
 msgid "WordPress is at the latest version."
 msgstr "WordPress は最新のバージョンです。"
 
-#: wp-admin/includes/class-wp-upgrader.php:1883
+#: wp-admin/includes/class-wp-upgrader.php:1886
 msgid "The language pack is missing either the <code>.po</code> or <code>.mo</code> files."
 msgstr "言語パックに <code>.po</code> または <code>.mo</code> ファイルが含まれていません。"
 
-#: wp-admin/includes/class-wp-upgrader.php:1706
+#: wp-admin/includes/class-wp-upgrader.php:1709
 msgid "Translation updated successfully."
 msgstr "翻訳が正常に更新されました。"
 
-#: wp-admin/includes/class-wp-upgrader.php:1705
+#: wp-admin/includes/class-wp-upgrader.php:1708
 msgid "Translation update failed."
 msgstr "翻訳の更新に失敗しました。"
 
-#: wp-admin/includes/class-wp-upgrader.php:1703
+#: wp-admin/includes/class-wp-upgrader.php:1706
 msgid "Downloading translation from <span class=\"code\">%s</span>&#8230;"
 msgstr "<span class=\"code\">%s</span> から翻訳ファイルをダウンロードしています&#8230;"
 
-#: wp-admin/includes/class-wp-upgrader.php:1701
+#: wp-admin/includes/class-wp-upgrader.php:1704
 msgid "The translation is up to date."
 msgstr "翻訳は最新です。"
 
-#: wp-admin/includes/class-wp-upgrader.php:1700
+#: wp-admin/includes/class-wp-upgrader.php:1703
 msgid "Some of your translations need updating. Sit tight for a few more seconds while we update them as well."
 msgstr "更新が必要な翻訳が一部あります。更新が終わるまでしばらくお持ちください。"
 
-#: wp-admin/includes/class-wp-upgrader.php:1500
+#: wp-admin/includes/class-wp-upgrader.php:1503
 msgid "The theme is missing the <code>index.php</code> file."
 msgstr "テーマに <code>index.php</code> ファイルが含まれていません。"
 
-#: wp-admin/includes/class-wp-upgrader.php:1496
+#: wp-admin/includes/class-wp-upgrader.php:1499
 msgid "The <code>style.css</code> stylesheet doesn't contain a valid theme header."
 msgstr "<code>style.css</code> スタイルシートに有効なテーマヘッダー情報が含まれていません。"
 
-#: wp-admin/includes/class-wp-upgrader.php:1491
+#: wp-admin/includes/class-wp-upgrader.php:1494
 msgid "The theme is missing the <code>style.css</code> stylesheet."
 msgstr "テーマに <code>style.css</code> ファイルが含まれていません。"
 
-#: wp-admin/includes/class-wp-upgrader.php:1147
+#: wp-admin/includes/class-wp-upgrader.php:1150
 msgid "<strong>The parent theme could not be found.</strong> You will need to install the parent theme, <strong>%s</strong>, before you can use this child theme."
 msgstr "<strong>親テーマが見つかりませんでした。</strong>この子テーマを利用する前に、親テーマ<strong>%s</strong> をインストールしてください。"
 
 #. translators: 1: theme name, 2: version
-#: wp-admin/includes/class-wp-upgrader.php:1146
+#: wp-admin/includes/class-wp-upgrader.php:1149
 msgid "Successfully installed the parent theme, <strong>%1$s %2$s</strong>."
 msgstr "親テーマ <strong>%1$s %2$s</strong> のインストールに成功しました。"
 
 #. translators: 1: theme name, 2: version
-#: wp-admin/includes/class-wp-upgrader.php:1144
+#: wp-admin/includes/class-wp-upgrader.php:1147
 msgid "The parent theme, <strong>%1$s %2$s</strong>, is currently installed."
 msgstr "親テーマ <strong>%1$s %2$s</strong> はインストール済みです。"
 
 #. translators: 1: theme name, 2: version
-#: wp-admin/includes/class-wp-upgrader.php:1142
+#: wp-admin/includes/class-wp-upgrader.php:1145
 msgid "Preparing to install <strong>%1$s %2$s</strong>&#8230;"
 msgstr "<strong>%1$s %2$s</strong> のインストールを準備中です&#8230;"
 
-#: wp-admin/includes/class-wp-upgrader.php:1140
+#: wp-admin/includes/class-wp-upgrader.php:1143
 msgid "This theme requires a parent theme. Checking if it is installed&#8230;"
 msgstr "このテーマには親テーマが必要です。親テーマがインストールされているか確認しています。"
 
 #. translators: 1: theme name, 2: version
-#: wp-admin/includes/class-wp-upgrader.php:1139
+#: wp-admin/includes/class-wp-upgrader.php:1142
 msgid "Successfully installed the theme <strong>%1$s %2$s</strong>."
 msgstr "テーマ <strong>%1$s %2$s</strong> のインストールが完了しました。"
 
-#: wp-admin/includes/class-wp-upgrader.php:1137
+#: wp-admin/includes/class-wp-upgrader.php:1140
 msgid "Theme installed successfully."
 msgstr "テーマのインストールが完了しました。"
 
-#: wp-admin/includes/class-wp-upgrader.php:1136
+#: wp-admin/includes/class-wp-upgrader.php:1139
 msgid "Theme install failed."
 msgstr "テーマのインストールに失敗しました。"
 
-#: wp-admin/includes/class-wp-upgrader.php:1135
+#: wp-admin/includes/class-wp-upgrader.php:1138
 msgid "The theme contains no files."
 msgstr "テーマ内にファイルがありません。"
 
-#: wp-admin/includes/class-wp-upgrader.php:1134
+#: wp-admin/includes/class-wp-upgrader.php:1137
 msgid "Installing the theme&#8230;"
 msgstr "テーマをインストールしています…"
 
-#: wp-admin/includes/class-wp-upgrader.php:1122
+#: wp-admin/includes/class-wp-upgrader.php:1125
 msgid "Theme updated successfully."
 msgstr "テーマの更新に成功しました。"
 
-#: wp-admin/includes/class-wp-upgrader.php:1121
+#: wp-admin/includes/class-wp-upgrader.php:1124
 msgid "Theme update failed."
 msgstr "テーマの更新に失敗しました。"
 
-#: wp-admin/includes/class-wp-upgrader.php:1120
+#: wp-admin/includes/class-wp-upgrader.php:1123
 msgid "Could not remove the old theme."
 msgstr "旧バージョンのテーマを削除できませんでした。"
 
-#: wp-admin/includes/class-wp-upgrader.php:1119
+#: wp-admin/includes/class-wp-upgrader.php:1122
 msgid "Removing the old version of the theme&#8230;"
 msgstr "旧バージョンのテーマを削除しています…"
 
-#: wp-admin/includes/class-wp-upgrader.php:1115
+#: wp-admin/includes/class-wp-upgrader.php:1118
 msgid "The theme is at the latest version."
 msgstr "テーマは最新のバージョンです。"
 
-#: wp-admin/includes/class-wp-upgrader.php:984
+#: wp-admin/includes/class-wp-upgrader.php:987
 msgid "No valid plugins were found."
 msgstr "有効なプラグインが見つかりませんでした。"
 
@@ -6967,17 +6963,17 @@ msgid "Installing the plugin&#8230;"
 msgstr "プラグインをインストールしています…"
 
 #: wp-admin/includes/class-wp-upgrader.php:699
-#: wp-admin/includes/class-wp-upgrader.php:1133
+#: wp-admin/includes/class-wp-upgrader.php:1136
 msgid "Unpacking the package&#8230;"
 msgstr "パッケージを展開しています…"
 
 #: wp-admin/includes/class-wp-upgrader.php:698
-#: wp-admin/includes/class-wp-upgrader.php:1132
+#: wp-admin/includes/class-wp-upgrader.php:1135
 msgid "Downloading install package from <span class=\"code\">%s</span>&#8230;"
 msgstr "<span class=\"code\">%s</span> からインストールパッケージをダウンロードしています…"
 
 #: wp-admin/includes/class-wp-upgrader.php:697
-#: wp-admin/includes/class-wp-upgrader.php:1131
+#: wp-admin/includes/class-wp-upgrader.php:1134
 msgid "Install package not available."
 msgstr "インストールパッケージがありません。"
 
@@ -7002,22 +6998,22 @@ msgid "Removing the old version of the plugin&#8230;"
 msgstr "プラグインの古いバージョンを削除しています…"
 
 #: wp-admin/includes/class-wp-upgrader.php:683
-#: wp-admin/includes/class-wp-upgrader.php:1118
-#: wp-admin/includes/class-wp-upgrader.php:1704
-#: wp-admin/includes/class-wp-upgrader.php:1936
+#: wp-admin/includes/class-wp-upgrader.php:1121
+#: wp-admin/includes/class-wp-upgrader.php:1707
+#: wp-admin/includes/class-wp-upgrader.php:1939
 msgid "Unpacking the update&#8230;"
 msgstr "更新を展開しています…"
 
 #: wp-admin/includes/class-wp-upgrader.php:682
-#: wp-admin/includes/class-wp-upgrader.php:1117
-#: wp-admin/includes/class-wp-upgrader.php:1935
+#: wp-admin/includes/class-wp-upgrader.php:1120
+#: wp-admin/includes/class-wp-upgrader.php:1938
 msgid "Downloading update from <span class=\"code\">%s</span>&#8230;"
 msgstr "<span class=\"code\">%s</span> から更新をダウンロードしています&#8230;"
 
 #: wp-admin/includes/class-wp-upgrader.php:681
-#: wp-admin/includes/class-wp-upgrader.php:1116
-#: wp-admin/includes/class-wp-upgrader.php:1702
-#: wp-admin/includes/class-wp-upgrader.php:1934
+#: wp-admin/includes/class-wp-upgrader.php:1119
+#: wp-admin/includes/class-wp-upgrader.php:1705
+#: wp-admin/includes/class-wp-upgrader.php:1937
 msgid "Update package not available."
 msgstr "更新パッケージは利用できません。"
 
@@ -7088,7 +7084,7 @@ msgid "Filesystem error."
 msgstr "ファイルシステムのエラー。"
 
 #: wp-admin/includes/class-wp-upgrader.php:120
-#: wp-admin/includes/class-wp-upgrader.php:2664 wp-admin/includes/file.php:527
+#: wp-admin/includes/class-wp-upgrader.php:2667 wp-admin/includes/file.php:527
 #: wp-admin/includes/plugin.php:795 wp-admin/includes/theme.php:53
 msgid "Could not access filesystem."
 msgstr "ファイルシステムにアクセスできませんでした。"
@@ -7098,7 +7094,7 @@ msgid "Invalid Data provided."
 msgstr "無効なデータです。"
 
 #: wp-admin/includes/class-wp-upgrader-skins.php:668
-#: wp-admin/includes/class-wp-upgrader.php:2642
+#: wp-admin/includes/class-wp-upgrader.php:2645
 msgid "Updating translations for %1$s (%2$s)&#8230;"
 msgstr "%1$s (%2$s) の翻訳を更新しています&#8230;"
 
@@ -7217,14 +7213,14 @@ msgstr "プラグインのページへ"
 msgid "Activate Plugin"
 msgstr "プラグインを有効化"
 
-#: wp-admin/includes/class-wp-upgrader-skins.php:158 wp-admin/update.php:54
-msgid "Update Plugin"
-msgstr "プラグインを更新"
-
 #: wp-admin/includes/class-wp-themes-list-table.php:216
 #: wp-admin/theme-editor.php:33 wp-admin/update-core.php:305
 msgid "https://codex.wordpress.org/Child_Themes"
 msgstr "http://wpdocs.sourceforge.jp/Child_Themes"
+
+#: wp-admin/includes/class-wp-upgrader-skins.php:158 wp-admin/update.php:54
+msgid "Update Plugin"
+msgstr "プラグインを更新"
 
 #: wp-admin/includes/class-wp-themes-list-table.php:215
 msgid "This <a href=\"%1$s\">child theme</a> requires its parent theme, %2$s."
@@ -7267,7 +7263,7 @@ msgid "Version:"
 msgstr "バージョン:"
 
 #: wp-admin/includes/class-wp-theme-install-list-table.php:370
-#: wp-admin/includes/dashboard.php:1106 wp-admin/theme-install.php:210
+#: wp-admin/includes/dashboard.php:1110 wp-admin/theme-install.php:210
 #: wp-admin/theme-install.php:228
 msgid "Install"
 msgstr "インストール"
@@ -7328,14 +7324,23 @@ msgctxt "Number/count of items"
 msgid "Count"
 msgstr "カウント"
 
+#: wp-admin/includes/class-wp-press-this.php:1442
+msgid "Standard Editor"
+msgstr "標準エディター"
+
 #: wp-admin/includes/class-wp-press-this.php:1444
 #: wp-admin/includes/meta-boxes.php:257 wp-admin/includes/meta-boxes.php:258
 msgid "Submit for Review"
 msgstr "レビュー待ちとして送信"
 
-#: wp-admin/includes/class-wp-press-this.php:1442
-msgid "Standard Editor"
-msgstr "標準エディター"
+#: wp-admin/includes/class-wp-press-this.php:1337
+#: wp-admin/includes/class-wp-press-this.php:1338
+msgid "Post title"
+msgstr "投稿タイトル"
+
+#: wp-admin/includes/class-wp-press-this.php:1342
+msgid "Suggested media"
+msgstr "メディアの提案"
 
 #: wp-admin/includes/class-wp-press-this.php:1403
 #: wp-admin/includes/class-wp-press-this.php:1413
@@ -7343,55 +7348,46 @@ msgstr "標準エディター"
 msgid "Back to post options"
 msgstr "投稿オプションに戻る"
 
-#: wp-admin/includes/class-wp-press-this.php:1342
-msgid "Suggested media"
-msgstr "メディアの提案"
-
-#: wp-admin/includes/class-wp-press-this.php:1337
-#: wp-admin/includes/class-wp-press-this.php:1338
-msgid "Post title"
-msgstr "投稿タイトル"
-
-#: wp-admin/includes/class-wp-press-this.php:1328
-msgid "You should upgrade <a href=\"%s\" target=\"_blank\">your bookmarklet</a> to the latest version!"
-msgstr "<a href=\"%s\" target=\"_blank\">ブックマークレット</a>を最新バージョンにアップグレードしてください。"
+#: wp-admin/includes/class-wp-press-this.php:1302
+msgid "Enter a URL to scan"
+msgstr "スキャンする URL を入力"
 
 #: wp-admin/includes/class-wp-press-this.php:1303
 msgid "Scan"
 msgstr "スキャン"
 
-#: wp-admin/includes/class-wp-press-this.php:1302
-msgid "Enter a URL to scan"
-msgstr "スキャンする URL を入力"
+#: wp-admin/includes/class-wp-press-this.php:1328
+msgid "You should upgrade <a href=\"%s\" target=\"_blank\">your bookmarklet</a> to the latest version!"
+msgstr "<a href=\"%s\" target=\"_blank\">ブックマークレット</a>を最新バージョンにアップグレードしてください。"
 
 #: wp-admin/includes/class-wp-press-this.php:1301
 msgid "Scan site for content"
 msgstr "サイトのコンテンツをスキャン"
 
-#: wp-admin/includes/class-wp-press-this.php:1295
-msgid "Hide post options"
-msgstr "投稿オプションを隠す"
-
 #: wp-admin/includes/class-wp-press-this.php:1293
 msgid "Show post options"
 msgstr "投稿オプションを表示"
 
-#: wp-admin/includes/class-wp-press-this.php:1206
-msgid "Press This!"
-msgstr "Press This!"
+#: wp-admin/includes/class-wp-press-this.php:1295
+msgid "Hide post options"
+msgstr "投稿オプションを隠す"
 
 #: wp-admin/includes/class-wp-press-this.php:1106
 msgctxt "Used in Press This to indicate where the content comes from."
 msgid "Source:"
 msgstr "情報源:"
 
-#: wp-admin/includes/class-wp-press-this.php:856
-msgid "Search categories"
-msgstr "カテゴリーを検索"
+#: wp-admin/includes/class-wp-press-this.php:1206
+msgid "Press This!"
+msgstr "Press This!"
 
 #: wp-admin/includes/class-wp-press-this.php:854
 msgid "Search categories by name"
 msgstr "カテゴリーを名前で検索"
+
+#: wp-admin/includes/class-wp-press-this.php:856
+msgid "Search categories"
+msgstr "カテゴリーを検索"
 
 #: wp-admin/includes/class-wp-press-this.php:847
 #: wp-admin/includes/class-wp-press-this.php:896
@@ -7407,30 +7403,30 @@ msgstr "カテゴリーを追加"
 msgid "Post formats"
 msgstr "投稿フォーマット"
 
-#: wp-admin/includes/class-wp-press-this.php:285
-msgid "Could not save or locate the temporary download file for the source URL."
-msgstr "ソース URL から一時ダウンロードファイルを保存または特定できません。"
-
 #: wp-admin/includes/class-wp-press-this.php:283
 msgid "Could not download the source URL (native error: %s)."
 msgstr "ソース URL をダウンロードできませんでした。 (ネイティブエラー: %s)."
+
+#: wp-admin/includes/class-wp-press-this.php:285
+msgid "Could not save or locate the temporary download file for the source URL."
+msgstr "ソース URL から一時ダウンロードファイルを保存または特定できません。"
 
 #: wp-admin/includes/class-wp-press-this.php:283
 #: wp-admin/includes/class-wp-press-this.php:285
 msgid "Error: %s"
 msgstr "エラー: %s"
 
-#: wp-admin/includes/class-wp-press-this.php:226
-msgid "Error while adding the category. Please try again later."
-msgstr "カテゴリーを追加中にエラーが発生しました。後ほど再度お試しください。"
+#: wp-admin/includes/class-wp-press-this.php:112
+msgid "Invalid post."
+msgstr "無効な投稿です。"
 
 #: wp-admin/includes/class-wp-press-this.php:219
 msgid "This category cannot be added. Please change the name and try again."
 msgstr "このカテゴリーは追加できません。名前を変えて再度お試しください。"
 
-#: wp-admin/includes/class-wp-press-this.php:112
-msgid "Invalid post."
-msgstr "無効な投稿です。"
+#: wp-admin/includes/class-wp-press-this.php:226
+msgid "Error while adding the category. Please try again later."
+msgstr "カテゴリーを追加中にエラーが発生しました。後ほど再度お試しください。"
 
 #: wp-admin/includes/class-wp-press-this.php:106
 msgid "Missing post ID."
@@ -7577,13 +7573,13 @@ msgid "Mine <span class=\"count\">(%s)</span>"
 msgid_plural "Mine <span class=\"count\">(%s)</span>"
 msgstr[0] "所有 <span class=\"count\">(%s)</span>"
 
-#: wp-admin/includes/class-wp-plugins-list-table.php:577
-msgid "Visit plugin site"
-msgstr "プラグインのサイトを表示"
-
 #: wp-admin/includes/class-wp-plugins-list-table.php:572
 msgid "View details"
 msgstr "詳細を表示"
+
+#: wp-admin/includes/class-wp-plugins-list-table.php:577
+msgid "Visit plugin site"
+msgstr "プラグインのサイトを表示"
 
 #: wp-admin/includes/class-wp-plugins-list-table.php:457
 msgid "Open this file in the Plugin Editor"
@@ -7694,13 +7690,13 @@ msgstr "お使いの WordPress のバージョンと<strong>互換性があり�
 msgid "<strong>Incompatible</strong> with your version of WordPress"
 msgstr "お使いの WordPress のバージョンと<strong>互換性がありません</strong>"
 
-#: wp-admin/includes/class-wp-plugin-install-list-table.php:497
-msgid "Untested with your version of WordPress"
-msgstr "お使いのバージョンの WordPress ではテストされていません"
-
 #: wp-admin/includes/class-wp-plugin-install-list-table.php:491
 msgid "%s Active Installs"
 msgstr "%s件の有効化済みインストール"
+
+#: wp-admin/includes/class-wp-plugin-install-list-table.php:497
+msgid "Untested with your version of WordPress"
+msgstr "お使いのバージョンの WordPress ではテストされていません"
 
 #: wp-admin/includes/class-wp-plugin-install-list-table.php:487
 #: wp-admin/includes/plugin-install.php:469
@@ -7790,15 +7786,15 @@ msgctxt "Plugin Installer"
 msgid "Beta Testing"
 msgstr "ベータテスト"
 
-#: wp-admin/includes/class-wp-plugin-install-list-table.php:70
-msgctxt "Plugin Installer"
-msgid "Favorites"
-msgstr "お気に入り"
-
 #: wp-admin/includes/class-wp-plugin-install-list-table.php:69
 msgctxt "Plugin Installer"
 msgid "Recommended"
 msgstr "おすすめ"
+
+#: wp-admin/includes/class-wp-plugin-install-list-table.php:70
+msgctxt "Plugin Installer"
+msgid "Favorites"
+msgstr "お気に入り"
 
 #: wp-admin/includes/class-wp-plugin-install-list-table.php:68
 msgctxt "Plugin Installer"
@@ -8231,7 +8227,7 @@ msgstr ""
 #: wp-admin/includes/class-wp-media-list-table.php:340
 #: wp-admin/includes/class-wp-posts-list-table.php:731
 #: wp-admin/includes/class-wp-terms-list-table.php:329
-#: wp-admin/includes/dashboard.php:510
+#: wp-admin/includes/dashboard.php:514
 msgid "Edit &#8220;%s&#8221;"
 msgstr "&#8220;%s&#8221; を編集する"
 
@@ -8375,7 +8371,7 @@ msgid "Y/m/d \\a\\t g:i a"
 msgstr "Y年m月d日 a g:i"
 
 #: wp-admin/includes/class-wp-comments-list-table.php:489
-#: wp-admin/includes/dashboard.php:557
+#: wp-admin/includes/dashboard.php:561
 msgid "Reply to this comment"
 msgstr "このコメントに返信する"
 
@@ -8391,31 +8387,31 @@ msgid "Edit this item inline"
 msgstr "この項目をインラインで編集"
 
 #: wp-admin/includes/class-wp-comments-list-table.php:479
-#: wp-admin/includes/dashboard.php:562
+#: wp-admin/includes/dashboard.php:566
 msgid "Move this comment to the trash"
 msgstr "コメントをゴミ箱へ移動"
 
 #. translators: mark as spam link
 #: wp-admin/includes/class-wp-comments-list-table.php:467
-#: wp-admin/includes/dashboard.php:558
+#: wp-admin/includes/dashboard.php:562
 msgctxt "verb"
 msgid "Spam"
 msgstr "スパム"
 
 #: wp-admin/includes/class-wp-comments-list-table.php:467
-#: wp-admin/includes/dashboard.php:558
+#: wp-admin/includes/dashboard.php:562
 msgid "Mark this comment as spam"
 msgstr "このコメントをスパムとしてマーク"
 
 #: wp-admin/includes/class-wp-comments-list-table.php:459
 #: wp-admin/includes/class-wp-comments-list-table.php:462
-#: wp-admin/includes/dashboard.php:554
+#: wp-admin/includes/dashboard.php:558
 msgid "Approve this comment"
 msgstr "このコメントを承認"
 
 #: wp-admin/includes/class-wp-comments-list-table.php:457
 #: wp-admin/includes/class-wp-comments-list-table.php:463
-#: wp-admin/includes/dashboard.php:555
+#: wp-admin/includes/dashboard.php:559
 msgid "Unapprove this comment"
 msgstr "このコメントを承認しない"
 
@@ -8492,14 +8488,14 @@ msgstr "スパムとしてマーク"
 #: wp-admin/includes/class-wp-comments-list-table.php:225
 #: wp-admin/includes/class-wp-comments-list-table.php:459
 #: wp-admin/includes/class-wp-comments-list-table.php:462
-#: wp-admin/includes/dashboard.php:554
+#: wp-admin/includes/dashboard.php:558
 msgid "Approve"
 msgstr "承認する"
 
 #: wp-admin/includes/class-wp-comments-list-table.php:223
 #: wp-admin/includes/class-wp-comments-list-table.php:457
 #: wp-admin/includes/class-wp-comments-list-table.php:463
-#: wp-admin/includes/dashboard.php:555
+#: wp-admin/includes/dashboard.php:559
 msgid "Unapprove"
 msgstr "承認しない"
 
@@ -8554,26 +8550,26 @@ msgstr "データベースにリンクを追加できませんでした。"
 msgid "Could not update link in the database"
 msgstr "データベース内のリンクを更新できませんでした。"
 
-#: wp-admin/includes/ajax-actions.php:2944
-msgid "Unable to connect to the filesystem. Please confirm your credentials."
-msgstr "ファイルシステムに接続できませんした。資格情報を確認してください。"
-
-#: wp-admin/includes/ajax-actions.php:2901
+#: wp-admin/includes/ajax-actions.php:2904
 msgid "You do not have sufficient permissions to update plugins on this site."
 msgstr "このサイトでプラグインを更新する権限を持っていません。"
+
+#: wp-admin/includes/ajax-actions.php:2951
+msgid "Unable to connect to the filesystem. Please confirm your credentials."
+msgstr "ファイルシステムに接続できませんした。資格情報を確認してください。"
 
 #. translators: 1: User's display name.
 #: wp-admin/includes/ajax-actions.php:2871
 msgid "%s has been logged out."
 msgstr "%s をログアウトしました。"
 
-#: wp-admin/includes/ajax-actions.php:2867
-msgid "You are now logged out everywhere else."
-msgstr "他のすべてでログアウトしました。"
-
 #: wp-admin/includes/ajax-actions.php:2859
 msgid "Could not log out user sessions. Please try again."
 msgstr "﻿ユーザーセッションをログアウトできませんでした。もう一度やり直してください。"
+
+#: wp-admin/includes/ajax-actions.php:2867
+msgid "You are now logged out everywhere else."
+msgstr "他のすべてでログアウトしました。"
 
 #: wp-admin/includes/ajax-actions.php:2772
 msgid "This preview is unavailable in the editor."
@@ -8667,14 +8663,14 @@ msgstr "コメントを投稿するにはログインが必要です。"
 msgid "ERROR: you are replying to a comment on a draft post."
 msgstr "エラー: 下書きとして保存された投稿へのコメントに返信しようとしています。"
 
-#: wp-admin/includes/ajax-actions.php:692
-msgid "Comment %d does not exist"
-msgstr "コメント %d は存在しません"
-
 #: wp-admin/includes/ajax-actions.php:382
 msgid "%s item"
 msgid_plural "%s items"
 msgstr[0] "%s個の項目"
+
+#: wp-admin/includes/ajax-actions.php:692
+msgid "Comment %d does not exist"
+msgstr "コメント %d は存在しません"
 
 #. translators: 1: user_login, 2: user_email
 #: wp-admin/includes/ajax-actions.php:287
@@ -8709,13 +8705,13 @@ msgstr "WordPress は別のシステムの投稿やコメントこのサイト�
 msgid "The <strong>%s</strong> importer is invalid or is not installed."
 msgstr "<strong>%s</strong> インポートツールが無効か、インストールされていません。"
 
-#: wp-admin/import.php:57 wp-admin/users.php:220
-msgid "ERROR:"
-msgstr "エラー:"
-
 #: wp-admin/import.php:28
 msgid "<a href=\"https://codex.wordpress.org/Tools_Import_Screen\" target=\"_blank\">Documentation on Import</a>"
 msgstr "<a href=\"http://wpdocs.sourceforge.jp/Tools_Import_SubPanel\" target=\"_blank\">インポートの解説</a>"
+
+#: wp-admin/import.php:57 wp-admin/users.php:220
+msgid "ERROR:"
+msgstr "エラー:"
 
 #: wp-admin/import.php:23
 msgid "In previous versions of WordPress, all importers were built-in. They have been turned into plugins since most people only use them once or infrequently."
@@ -8822,13 +8818,13 @@ msgstr "ファイルをダウンロードして保存すると、別の WordPres
 msgid "This format, which we call WordPress eXtended RSS or WXR, will contain your posts, pages, comments, custom fields, categories, and tags."
 msgstr "WordPress eXtended RSS もしくは WXR と呼んでいるこのフォーマットには、投稿、固定ページ、コメント、カスタムフィールド、カテゴリー、タグが含まれます。"
 
-#: wp-admin/export.php:148
-msgid "When you click the button below WordPress will create an XML file for you to save to your computer."
-msgstr "下のボタンをクリックすると、WordPress がローカルに保存するための XML ファイルを作成します。"
-
 #: wp-admin/export.php:53
 msgid "<a href=\"https://codex.wordpress.org/Tools_Export_Screen\" target=\"_blank\">Documentation on Export</a>"
 msgstr "<a href=\"http://wpdocs.sourceforge.jp/Tools_Export_SubPanel\" target=\"_blank\">エクスポートの解説</a>"
+
+#: wp-admin/export.php:148
+msgid "When you click the button below WordPress will create an XML file for you to save to your computer."
+msgstr "下のボタンをクリックすると、WordPress がローカルに保存するための XML ファイルを作成します。"
 
 #: wp-admin/export.php:48
 msgid "Once generated, your WXR file can be imported by another WordPress site or by another blogging platform able to access this format."
@@ -8890,14 +8886,14 @@ msgid "%s post permanently deleted."
 msgid_plural "%s posts permanently deleted."
 msgstr[0] "%s件の投稿を永久に削除しました。"
 
+#: wp-admin/edit.php:250
+msgid "1 post not updated, somebody is editing it."
+msgstr "誰かが編集中のため、1件の投稿が更新されませんでした。"
+
 #: wp-admin/edit.php:251
 msgid "%s post not updated, somebody is editing it."
 msgid_plural "%s posts not updated, somebody is editing them."
 msgstr[0] "%s件の投稿を更新できませんでした。他の人が編集中です。"
-
-#: wp-admin/edit.php:250
-msgid "1 post not updated, somebody is editing it."
-msgstr "誰かが編集中のため、1件の投稿が更新されませんでした。"
 
 #: wp-admin/edit.php:249
 msgid "%s post updated."
@@ -8920,13 +8916,13 @@ msgstr "固定ページの管理はブログ投稿の管理に似ており、管
 msgid "Managing Pages"
 msgstr "固定ページの管理"
 
-#: wp-admin/edit.php:220
-msgid "Pages are similar to posts in that they have a title, body text, and associated metadata, but they are different in that they are not part of the chronological blog stream, kind of like permanent posts. Pages are not categorized or tagged, but can have a hierarchy. You can nest pages under other pages by making one the &#8220;Parent&#8221; of the other, creating a group of pages."
-msgstr "固定ページにはタイトル、本文、関連メタデータがありブログ投稿に似ていますが、時系列のブログの一部ではなく、常設の投稿のようになっているという点で異なっています。固定ページにはカテゴリーやタグはありませんが、階層を持たせることはできます。固定ページを別の親ページの下に入れ子にし、ページをグループ化できます。"
-
 #: wp-admin/edit.php:211
 msgid "<a href=\"https://codex.wordpress.org/Posts_Screen\" target=\"_blank\">Documentation on Managing Posts</a>"
 msgstr "<a href=\"http://wpdocs.sourceforge.jp/Posts_Edit_SubPanel\" target=\"_blank\">投稿管理の解説</a>"
+
+#: wp-admin/edit.php:220
+msgid "Pages are similar to posts in that they have a title, body text, and associated metadata, but they are different in that they are not part of the chronological blog stream, kind of like permanent posts. Pages are not categorized or tagged, but can have a hierarchy. You can nest pages under other pages by making one the &#8220;Parent&#8221; of the other, creating a group of pages."
+msgstr "固定ページにはタイトル、本文、関連メタデータがありブログ投稿に似ていますが、時系列のブログの一部ではなく、常設の投稿のようになっているという点で異なっています。固定ページにはカテゴリーやタグはありませんが、階層を持たせることはできます。固定ページを別の親ページの下に入れ子にし、ページをグループ化できます。"
 
 #: wp-admin/edit.php:206
 msgid "When using Bulk Edit, you can change the metadata (categories, author, etc.) for all selected posts at once. To remove a post from the grouping, just click the x next to its name in the Bulk Edit area that appears."
@@ -8992,16 +8988,16 @@ msgstr "画面コンテンツ"
 msgid "This screen provides access to all of your posts. You can customize the display of this screen to suit your workflow."
 msgstr "この画面からすべての投稿へアクセスできます。ワークフローに合うようにこの画面の表示をカスタマイズできます。"
 
-#: wp-admin/edit.php:131 wp-admin/edit.php:134 wp-admin/post.php:299
-#: wp-admin/post.php:302 wp-admin/upload.php:156
+#: wp-admin/edit.php:131 wp-admin/edit.php:134 wp-admin/post.php:301
+#: wp-admin/post.php:304 wp-admin/upload.php:156
 msgid "Error in deleting."
 msgstr "削除中にエラーが発生しました。"
 
-#: wp-admin/edit.php:127 wp-admin/post.php:293
+#: wp-admin/edit.php:127 wp-admin/post.php:295
 msgid "You are not allowed to delete this item."
 msgstr "この項目を削除する権限がありません。"
 
-#: wp-admin/edit.php:115 wp-admin/post.php:278
+#: wp-admin/edit.php:115 wp-admin/post.php:280
 msgid "Error in restoring from Trash."
 msgstr "ゴミ箱からの復元中にエラーが発生しました。"
 
@@ -9009,11 +9005,11 @@ msgstr "ゴミ箱からの復元中にエラーが発生しました。"
 msgid "You are not allowed to restore this item from the Trash."
 msgstr "この項目をゴミ箱から復元する権限がありません。 "
 
-#: wp-admin/edit.php:101 wp-admin/post.php:260
+#: wp-admin/edit.php:101 wp-admin/post.php:262
 msgid "Error in moving to Trash."
 msgstr "ゴミ箱への移動中にエラーが発生しました。"
 
-#: wp-admin/edit.php:93 wp-admin/post.php:252
+#: wp-admin/edit.php:93 wp-admin/post.php:254
 msgid "You are not allowed to move this item to the Trash."
 msgstr "この項目をゴミ箱へ移動する権限がありません。 "
 
@@ -9170,7 +9166,7 @@ msgstr "リンクカテゴリーを使ってリンクをグループ化できま
 msgid "You can use categories to define sections of your site and group related posts. The default category is &#8220;Uncategorized&#8221; until you change it in your <a href=\"%s\">writing settings</a>."
 msgstr "サイトのセクションを定義したり、関係のある投稿をグループ化するのにカテゴリーが使えます。<a href=\"%s\">投稿設定</a>で変更するまでは、デフォルトカテゴリーは &#8220;未分類&#8221; です。"
 
-#: wp-admin/edit-tags.php:127 wp-admin/edit-tags.php:143 wp-admin/post.php:150
+#: wp-admin/edit-tags.php:127 wp-admin/edit-tags.php:143 wp-admin/post.php:151
 msgid "You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?"
 msgstr "編集しようとした項目はありません。削除されたのかもしれません。"
 
@@ -9276,13 +9272,13 @@ msgstr "リンクを更新"
 msgid "<a href=\"%s\">Links</a> / Edit Link"
 msgstr "<a href=\"%s\">リンク</a> / リンクを編集"
 
-#: wp-admin/edit-form-comment.php:132
-msgid "In reply to: <b><a href=\"%1$s\">%2$s</a></b>"
-msgstr "<b><a href=\"%1$s\">%2$s</a></b> へのフィードバック"
-
 #: wp-admin/edit-form-comment.php:122
 msgid "In response to: <b>%s</b>"
 msgstr "<b>%s</b> へのフィードバック"
+
+#: wp-admin/edit-form-comment.php:132
+msgid "In reply to: <b><a href=\"%1$s\">%2$s</a></b>"
+msgstr "<b><a href=\"%1$s\">%2$s</a></b> へのフィードバック"
 
 #: wp-admin/edit-form-comment.php:104
 msgid "Submitted on: <b>%1$s</b>"
@@ -9411,13 +9407,13 @@ msgstr "メディアの挿入"
 msgid "You can also embed media from many popular websites including Twitter, YouTube, Flickr and others by pasting the media URL on its own line into the content of your post/page. Please refer to the Codex to <a href=\"https://codex.wordpress.org/Embeds\">learn more about embeds</a>."
 msgstr "メディアの URL を貼り付けるだけで、簡単に Twitter、YouTube、Flickr などの外部サイトで管理されているメディアを投稿や固定ページの本文に埋め込むことができます。この<a href=\"http://wpdocs.osdn.jp/Embeds\">埋め込み機能についてもっと知りたい</a>なら Codex を参照してください。"
 
-#: wp-admin/edit-form-advanced.php:350
-msgid "You can upload and insert media (images, audio, documents, etc.) by clicking the Add Media button. You can select from the images and files already uploaded to the Media Library, or upload new media to add to your page or post. To create an image gallery, select the images to add and click the &#8220;Create a new gallery&#8221; button."
-msgstr "画像、音声、文書などのメディアをアップロードして本文中に挿入したい場合は「メディアを追加」ボタンをクリックします。メディアライブラリにすでにアップロードされている画像やファイルの中から選択することも、新しいメディアをアップロードして投稿や固定ページに追加することも可能です。画像ギャラリーを作成するには、追加したい画像を選択して「ギャラリーを作成」ボタンをクリックします。"
-
 #: wp-admin/edit-form-advanced.php:344 wp-admin/media.php:83
 msgid "<a href=\"https://codex.wordpress.org/Media_Add_New_Screen#Edit_Media\" target=\"_blank\">Documentation on Edit Media</a>"
 msgstr "<a href=\"http://wpdocs.sourceforge.jp/Media_Add_New_SubPanel#Edit_Media\" target=\"_blank\">メディアを編集の解説</a>"
+
+#: wp-admin/edit-form-advanced.php:350
+msgid "You can upload and insert media (images, audio, documents, etc.) by clicking the Add Media button. You can select from the images and files already uploaded to the Media Library, or upload new media to add to your page or post. To create an image gallery, select the images to add and click the &#8220;Create a new gallery&#8221; button."
+msgstr "画像、音声、文書などのメディアをアップロードして本文中に挿入したい場合は「メディアを追加」ボタンをクリックします。メディアライブラリにすでにアップロードされている画像やファイルの中から選択することも、新しいメディアをアップロードして投稿や固定ページに追加することも可能です。画像ギャラリーを作成するには、追加したい画像を選択して「ギャラリーを作成」ボタンをクリックします。"
 
 #: wp-admin/edit-form-advanced.php:339 wp-admin/media.php:78
 msgid "Remember to click Update Media to save metadata entered or changed."
@@ -9431,13 +9427,13 @@ msgstr "画像を切り抜くには切り抜きツールのアイコンがすで
 msgid "For images only, you can click on Edit Image under the thumbnail to expand out an inline image editor with icons for cropping, rotating, or flipping the image as well as for undoing and redoing. The boxes on the right give you more options for scaling the image, for cropping it, and for cropping the thumbnail in a different way than you crop the original image. You can click on Help in those boxes to get more information."
 msgstr "画像ファイルのみ、サムネイルの下の「画像を編集」をクリックし、切り抜き、回転、反転、取り消し、やり直しツールがついたインライン画像エディターを開く事ができます。右のボックスではさらに、画像の縮小拡大、切り抜き、元画像と違ったサムネイルの切り抜きを指定するための設定ができます。ボックス内のヘルプリンクをクリックして追加情報をお読みください。"
 
-#: wp-admin/edit-form-advanced.php:336
-msgid "This screen allows you to edit four fields for metadata in a file within the media library."
-msgstr "この画面からメディアライブラリ内のファイルのメタデータ欄4つを編集できます。"
-
 #: wp-admin/edit-form-advanced.php:328
 msgid "<a href=\"https://codex.wordpress.org/Pages_Screen#Editing_Individual_Pages\" target=\"_blank\">Documentation on Editing Pages</a>"
 msgstr "<a href=\"http://wpdocs.sourceforge.jp/Pages_Edit_SubPanel#Editing_Individual_Pages\" target=\"_blank\">ページを編集の解説</a>"
+
+#: wp-admin/edit-form-advanced.php:336
+msgid "This screen allows you to edit four fields for metadata in a file within the media library."
+msgstr "この画面からメディアライブラリ内のファイルのメタデータ欄4つを編集できます。"
 
 #: wp-admin/edit-form-advanced.php:327
 msgid "<a href=\"https://codex.wordpress.org/Pages_Add_New_Screen\" target=\"_blank\">Documentation on Adding New Pages</a>"
@@ -9477,13 +9473,13 @@ msgstr "キーボードをお使いの方へ: ビジュアルエディターを�
 msgid "You can enable distraction-free writing mode using the icon to the right. This feature is not available for old browsers or devices with small screens, and requires that the full-height editor be enabled in Screen Options."
 msgstr "右側のアイコンを使用して集中執筆モードを有効にすることができます。この機能は、古いブラウザーや小型のスクリーンを備えたデバイスでは使用できません。またフルハイトエディターを表示オプションで有効にする必要があります。"
 
-#: wp-admin/edit-form-advanced.php:299
-msgid "You can insert media files by clicking the icons above the post editor and following the directions. You can align or edit images using the inline formatting toolbar available in Visual mode."
-msgstr "投稿エディターの上部のアイコンをクリックし、指示に従うことによって、メディアファイルを挿入することができます。画像の位置合わせや編集はビジュアルモードで使用可能なインライン書式設定ツールバーを利用しておこなうことができます。"
-
 #: wp-admin/edit-form-advanced.php:298
 msgid "The Text mode allows you to enter HTML along with your post text. Line breaks will be converted to paragraphs automatically."
 msgstr "テキストモードでは投稿のテキストと HTML タグを入力できます。改行は自動で段落に変換されます。"
+
+#: wp-admin/edit-form-advanced.php:299
+msgid "You can insert media files by clicking the icons above the post editor and following the directions. You can align or edit images using the inline formatting toolbar available in Visual mode."
+msgstr "投稿エディターの上部のアイコンをクリックし、指示に従うことによって、メディアファイルを挿入することができます。画像の位置合わせや編集はビジュアルモードで使用可能なインライン書式設定ツールバーを利用しておこなうことができます。"
 
 #: wp-admin/edit-form-advanced.php:297
 msgid "Visual mode gives you a WYSIWYG editor. Click the last icon in the row to get a second row of controls. "
@@ -9579,10 +9575,6 @@ msgstr "固定ページを更新しました。"
 msgid "Page updated. <a href=\"%s\">View page</a>"
 msgstr "固定ページを更新しました。<a href=\"%s\">固定ページを表示する</a>"
 
-#: wp-admin/edit-form-advanced.php:93
-msgid "Post draft updated. <a target=\"_blank\" href=\"%s\">Preview post</a>"
-msgstr "投稿の下書きを更新しました。<a target=\"_blank\" href=\"%s\">投稿をプレビュー</a>"
-
 #. translators: Publish box date format, see http:php.net/date
 #: wp-admin/edit-form-advanced.php:92 wp-admin/edit-form-advanced.php:105
 #: wp-admin/edit-form-comment.php:103
@@ -9592,6 +9584,10 @@ msgstr "投稿の下書きを更新しました。<a target=\"_blank\" href=\"%s
 #: wp-admin/includes/revision.php:224
 msgid "M j, Y @ H:i"
 msgstr "Y年n月j日 @ H:i"
+
+#: wp-admin/edit-form-advanced.php:93
+msgid "Post draft updated. <a target=\"_blank\" href=\"%s\">Preview post</a>"
+msgstr "投稿の下書きを更新しました。<a target=\"_blank\" href=\"%s\">投稿をプレビュー</a>"
 
 #: wp-admin/edit-form-advanced.php:90
 msgid "Post scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">Preview post</a>"
@@ -9648,7 +9644,7 @@ msgstr "このコメントは既にゴミ箱にあります。"
 
 #: wp-admin/edit-comments.php:209 wp-admin/edit-comments.php:215
 #: wp-admin/includes/class-wp-comments-list-table.php:483
-#: wp-admin/includes/dashboard.php:556
+#: wp-admin/includes/dashboard.php:560
 msgid "Edit comment"
 msgstr "コメントの編集"
 
@@ -9904,13 +9900,13 @@ msgstr "<a href=\"%1$s\">カスタマイザー</a>でカスタムヘッダーの
 msgid "Custom Header"
 msgstr "カスタムヘッダー"
 
-#: wp-admin/custom-header.php:270
-msgid "<strong>Random:</strong> Show a different image on each page."
-msgstr "<strong>ランダム:</strong> それぞれのページで異なる画像を表示します。"
-
 #: wp-admin/custom-header.php:123
 msgid "<a href=\"https://codex.wordpress.org/Appearance_Header_Screen\" target=\"_blank\">Documentation on Custom Header</a>"
 msgstr "<a href=\"http://wpdocs.sourceforge.jp/Appearance_Header_SubPanel\" target=\"_blank\">ヘッダーの解説</a>"
+
+#: wp-admin/custom-header.php:270
+msgid "<strong>Random:</strong> Show a different image on each page."
+msgstr "<strong>ランダム:</strong> それぞれのページで異なる画像を表示します。"
 
 #: wp-admin/custom-header.php:118
 msgid "Don&#8217;t forget to click &#8220;Save Changes&#8221; when you&#8217;re done!"
@@ -10168,14 +10164,14 @@ msgstr "不明なアクションです。"
 msgid "You are not allowed to edit comments on this post."
 msgstr "この投稿へのコメントを編集する権限がありません。"
 
+#: wp-admin/comment.php:199
+msgid "Submitted on"
+msgstr "送信日"
+
 #. translators: 2: comment date, 3: comment time
 #: wp-admin/comment.php:203
 msgid "<a href=\"%1$s\">%2$s at %3$s</a>"
 msgstr "<a href=\"%1$s\">%2$s %3$s</a>"
-
-#: wp-admin/comment.php:199
-msgid "Submitted on"
-msgstr "送信日"
 
 #: wp-admin/comment.php:193
 #: wp-admin/includes/class-wp-comments-list-table.php:424
@@ -10260,6 +10256,10 @@ msgstr "戻る"
 msgid "Oops, no comment with this ID."
 msgstr "この ID のコメントはありません。"
 
+#: wp-admin/comment.php:59 wp-admin/edit-comments.php:133
+msgid "<a href=\"https://codex.wordpress.org/Administration_Screens#Comments\" target=\"_blank\">Documentation on Comments</a>"
+msgstr "<a href=\"http://wpdocs.sourceforge.jp/%E7%AE%A1%E7%90%86%E3%83%91%E3%83%8D%E3%83%AB#Comments\" target=\"_blank\">コメントの解説</a>"
+
 #: wp-admin/comment.php:60 wp-admin/custom-background.php:97
 #: wp-admin/custom-header.php:124 wp-admin/edit-comments.php:136
 #: wp-admin/edit-form-advanced.php:313 wp-admin/edit-form-advanced.php:329
@@ -10279,10 +10279,6 @@ msgstr "この ID のコメントはありません。"
 #: wp-admin/user-new.php:184 wp-admin/users.php:63 wp-admin/widgets.php:74
 msgid "<a href=\"https://wordpress.org/support/\" target=\"_blank\">Support Forums</a>"
 msgstr "<a href=\"https://ja.forums.wordpress.org/\" target=\"_blank\">サポートフォーラム</a>"
-
-#: wp-admin/comment.php:59 wp-admin/edit-comments.php:133
-msgid "<a href=\"https://codex.wordpress.org/Administration_Screens#Comments\" target=\"_blank\">Documentation on Comments</a>"
-msgstr "<a href=\"http://wpdocs.sourceforge.jp/%E7%AE%A1%E7%90%86%E3%83%91%E3%83%8D%E3%83%AB#Comments\" target=\"_blank\">コメントの解説</a>"
 
 #: wp-admin/comment.php:58 wp-admin/custom-background.php:95
 #: wp-admin/custom-header.php:122 wp-admin/edit-comments.php:132
@@ -10347,12 +10343,12 @@ msgid "Edit"
 msgstr "編集"
 
 #: wp-admin/async-upload.php:57 wp-admin/edit-tags.php:252
-#: wp-admin/includes/post.php:1726 wp-admin/post.php:156
+#: wp-admin/includes/post.php:1726 wp-admin/post.php:157
 msgid "You are not allowed to edit this item."
 msgstr "この項目を編集する権限がありません。"
 
-#: wp-admin/async-upload.php:55 wp-admin/post.php:153 wp-admin/post.php:249
-#: wp-admin/post.php:272 wp-admin/post.php:290
+#: wp-admin/async-upload.php:55 wp-admin/post.php:154 wp-admin/post.php:251
+#: wp-admin/post.php:274 wp-admin/post.php:292
 msgid "Unknown post type."
 msgstr "無効な投稿形式。"
 
@@ -10390,159 +10386,161 @@ msgstr "<a href=\"%s\">WordPress</a> のご利用ありがとうございます�
 
 #. translators: 1: WordPress version number, 2: plural number of bugs. Singular
 #. security issue.
-#: wp-admin/about.php:171
+#: wp-admin/about.php:179
 msgid "<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed a security issue and fixed %2$s bugs."
 msgstr[0] "<strong>バージョン %1$s</strong> はセキュリティ問題に対応し、%2$s個のバグを修正しました。"
 
 #. translators: 1: WordPress version number, 2: plural number of bugs.
-#: wp-admin/about.php:167
+#: wp-admin/about.php:175
 msgid "<strong>Version %1$s</strong> addressed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed %2$s bugs."
 msgstr[0] "<strong>バージョン %1$s</strong> では%2$s個のバグを修正しました。"
 
-#: wp-admin/about.php:159
+#: wp-admin/about.php:167
 msgid "Security Release"
 msgid_plural "Security Releases"
 msgstr[0] "セキュリティリリース"
 
-#: wp-admin/about.php:158
+#: wp-admin/about.php:166
 msgid "Maintenance Release"
 msgid_plural "Maintenance Releases"
 msgstr[0] "メンテナンスリリース"
 
-#: wp-admin/about.php:146
+#: wp-admin/about.php:154
 msgid "Go to Dashboard"
 msgstr "ダッシュボードへ移動"
 
-#: wp-admin/about.php:146
+#: wp-admin/about.php:154
 msgid "Go to Dashboard &rarr; Home"
 msgstr "ダッシュボード &rarr; ホームへ移動"
 
-#: wp-admin/about.php:142
+#: wp-admin/about.php:150
 msgid "Return to Dashboard &rarr; Updates"
 msgstr "ダッシュボード &rarr; 更新へ戻る"
 
-#: wp-admin/about.php:142
+#: wp-admin/about.php:150
 msgid "Return to Updates"
 msgstr "更新ページへ戻る"
 
-#. translators: 1: WP_Query, 2: WP_Comment_Query, 3: WP_User_Query
-#: wp-admin/about.php:133
-msgid "%1$s, %2$s, and %3$s now support complex ordering with named meta query clauses."
-msgstr "%1$s と %2$s、%3$s は名前付きメタクエリ節の複雑な順序をサポートします。"
-
-#: wp-admin/about.php:130
+#: wp-admin/about.php:138
 msgid "Complex query ordering"
 msgstr "複雑なクエリの順序"
 
-#. translators: 1: Term splitting guide link
-#: wp-admin/about.php:127
-msgid "Terms shared across multiple taxonomies will be split when one of them is updated. Find out more in the <a href=\"%1$s\">Plugin Developer Handbook</a>."
-msgstr "複数のタクソノミー間で共有された項目はそのうち1つが更新されたときに分割されます。<a href=\"%1$s\">プラグイン開発者ハンドブック</a>で詳しく知ることができます。"
+#. translators: 1: WP_Query, 2: WP_Comment_Query, 3: WP_User_Query
+#: wp-admin/about.php:141
+msgid "%1$s, %2$s, and %3$s now support complex ordering with named meta query clauses."
+msgstr "%1$s と %2$s、%3$s は名前付きメタクエリ節の複雑な順序をサポートします。"
 
-#: wp-admin/about.php:124
+#: wp-admin/about.php:132
 msgid "Shared term splitting"
 msgstr "共有された項目の分割"
 
-#. translators: %s wp.a11y.speak()
-#: wp-admin/about.php:120
-msgid "You can now send audible notifications to screen readers in JavaScript with %s. Pass it a string, and an update will be sent to a dedicated ARIA live notifications area."
-msgstr "JavaScript で %s を使い、スクリーンリーダーで聞くことができる通知を送れるようになりました。文字列を渡せば更新が専用の ARIA のライブ通知エリアに送られます。"
+#. translators: 1: Term splitting guide link
+#: wp-admin/about.php:135
+msgid "Terms shared across multiple taxonomies will be split when one of them is updated. Find out more in the <a href=\"%1$s\">Plugin Developer Handbook</a>."
+msgstr "複数のタクソノミー間で共有された項目はそのうち1つが更新されたときに分割されます。<a href=\"%1$s\">プラグイン開発者ハンドブック</a>で詳しく知ることができます。"
 
-#: wp-admin/about.php:117
+#: wp-admin/about.php:125
 msgid "JavaScript accessibility"
 msgstr "JavaScript のアクセシビリティ"
 
-#: wp-admin/about.php:115
-msgid "Database character encoding has changed from utf8 to utf8mb4, which adds support for a whole range of new 4-byte characters."
-msgstr "データベースの文字エンコーディングが utf8 から新しい4バイト文字の全範囲のサポートを追加した utf8mb4 に変更されました。"
+#. translators: %s wp.a11y.speak()
+#: wp-admin/about.php:128
+msgid "You can now send audible notifications to screen readers in JavaScript with %s. Pass it a string, and an update will be sent to a dedicated ARIA live notifications area."
+msgstr "JavaScript で %s を使い、スクリーンリーダーで聞くことができる通知を送れるようになりました。文字列を渡せば更新が専用の ARIA のライブ通知エリアに送られます。"
 
-#: wp-admin/about.php:114
+#: wp-admin/about.php:122
 msgid "utf8mb4 support"
 msgstr "utf8mb4 のサポート"
 
-#: wp-admin/about.php:110
+#: wp-admin/about.php:123
+msgid "Database character encoding has changed from utf8 to utf8mb4, which adds support for a whole range of new 4-byte characters."
+msgstr "データベースの文字エンコーディングが utf8 から新しい4バイト文字の全範囲のサポートを追加した utf8mb4 に変更されました。"
+
+#: wp-admin/about.php:118
 msgid "Under the Hood"
 msgstr "開発者向けの変更"
 
-#: wp-admin/about.php:105
+#: wp-admin/about.php:113
 msgid "Goodbye boring loading screen, hello smooth and simple plugin updates. Click <em>Update&nbsp;Now</em> and watch the magic happen."
 msgstr "退屈な読み込み画面にさよなら。スムーズかつシンプルにプラグインを更新できます。<em>今すぐ更新</em>をクリックして、魔法が起こるのを見てみましょう。"
 
-#: wp-admin/about.php:104
-msgid "Streamlined plugin updates"
-msgstr "プラグインの更新の効率化"
-
-#: wp-admin/about.php:100
-msgid "Paste links from Tumblr.com and Kickstarter and watch them magically appear right in the editor. With every release, your publishing and editing experience get closer together."
-msgstr "Tumblr.com や Kickstarter のリンクを貼りつけると、魔法のようにエディターに現れます。リリースを重ねるごとにパブリッシングと編集の体験が互いにもっと近づきます。"
-
-#: wp-admin/about.php:99
+#: wp-admin/about.php:107
 msgid "Even more embeds"
 msgstr "さらに多くの埋め込み"
 
-#: wp-admin/about.php:95
+#: wp-admin/about.php:108
+msgid "Paste links from Tumblr.com and Kickstarter and watch them magically appear right in the editor. With every release, your publishing and editing experience get closer together."
+msgstr "Tumblr.com や Kickstarter のリンクを貼りつけると、魔法のようにエディターに現れます。リリースを重ねるごとにパブリッシングと編集の体験が互いにもっと近づきます。"
+
+#: wp-admin/about.php:112
+msgid "Streamlined plugin updates"
+msgstr "プラグインの更新の効率化"
+
+#: wp-admin/about.php:102
+msgid "Switch themes in the Customizer"
+msgstr "カスタマイザーでのテーマの切り替え"
+
+#: wp-admin/about.php:103
 msgid "Browse and preview your installed themes from the Customizer. Make sure the theme looks great with <em>your</em> content, before it debuts on your site. "
 msgstr "カスタマイザーからインストール済みのテーマを探して、プレビューしてみましょう。サイトにデビューさせる前に、<em>あなたの</em>コンテンツとテーマが似合っているかを確かめることができます。"
 
 #: wp-admin/about.php:94
-msgid "Switch themes in the Customizer"
-msgstr "カスタマイザーでのテーマの切り替え"
-
-#: wp-admin/about.php:86
 msgid "https://codex.wordpress.org/Emoji"
 msgstr "http://wpdocs.osdn.jp/%E7%B5%B5%E6%96%87%E5%AD%97"
 
-#. translators: 1: heart emoji, 2: frog face emoji, 3, monkey emoji, 4: pizza
-#. emoji, 5: Emoji Codex link
-#: wp-admin/about.php:86
-msgid "Don&#8217;t use any of those characters? You can still have fun &mdash; emoji are now available in WordPress! Get creative and decorate your content with %1$s, %2$s, %3$s, %4$s, and all the many other <a href=\"%5$s\">emoji</a>."
-msgstr "これらの文字を使っていなくても楽しむことができます &mdash; WordPress で絵文字が利用可能になりました。工夫して、%1$s や %2$s、%3$s、%4$s、その他多くの<a href=\"%5$s\">絵文字</a>でコンテンツを飾りましょう。"
-
-#: wp-admin/about.php:83
+#: wp-admin/about.php:91
 msgid "Writing in WordPress, whatever your language, just got better. WordPress 4.2 supports a host of new characters out-of-the-box, including native Chinese, Japanese, and Korean characters, musical and mathematical symbols, and hieroglyphs."
 msgstr "お使いの言語に関わらず、WordPress での執筆機能がさらに改善されました。WordPress 4.2 は中国語・日本語・韓国語の文字、音楽・数学用の記号、象形文字を含む多くの新しい文字に対応しています。"
 
-#: wp-admin/about.php:82
+#. translators: 1: heart emoji, 2: frog face emoji, 3, monkey emoji, 4: pizza
+#. emoji, 5: Emoji Codex link
+#: wp-admin/about.php:94
+msgid "Don&#8217;t use any of those characters? You can still have fun &mdash; emoji are now available in WordPress! Get creative and decorate your content with %1$s, %2$s, %3$s, %4$s, and all the many other <a href=\"%5$s\">emoji</a>."
+msgstr "これらの文字を使っていなくても楽しむことができます &mdash; WordPress で絵文字が利用可能になりました。工夫して、%1$s や %2$s、%3$s、%4$s、その他多くの<a href=\"%5$s\">絵文字</a>でコンテンツを飾りましょう。"
+
+#: wp-admin/about.php:90
 msgid "Extended character support"
 msgstr "拡張文字のサポート"
 
-#: wp-admin/about.php:68 wp-admin/tools.php:16 wp-admin/tools.php:40
+#: wp-admin/about.php:76 wp-admin/tools.php:16 wp-admin/tools.php:40
 #: wp-admin/tools.php:51
 msgid "Press This"
 msgstr "Press This"
 
-#: wp-admin/about.php:65 wp-admin/tools.php:48
-msgid "Drag the bookmarklet below to your bookmarks bar. Then, when you&#8217;re on a page you want to share, simply &#8220;press&#8221; it."
-msgstr "下記のブックマークレットをブックマークバーへドラッグします。そして、シェアしたいページを閲覧しているときに押すだけです。"
-
-#: wp-admin/about.php:64
+#: wp-admin/about.php:72
 msgid "Clip it, edit it, publish it. Get familiar with the new and improved Press This. From the <a href=\"%s\">Tools</a> menu, add Press This to your browser bookmark bar or your mobile device home screen. Once installed you can share your content with lightning speed. Sharing your favorite videos, images, and content has never been this fast or this easy."
 msgstr "クリップ、編集、公開。新しく改善された Press This に慣れましょう。<a href=\"%s\">ツール</a>メニューからお使いのブラウザーのブックマークバーか携帯端末のホーム画面に Press This を追加できます。一度インストールすれば素早くコンテンツを共有できます。これまでにないスピードと簡単さで、お気に入りの動画や画像、コンテンツを共有しましょう。"
 
-#: wp-admin/about.php:63
+#: wp-admin/about.php:73 wp-admin/tools.php:48
+msgid "Drag the bookmarklet below to your bookmarks bar. Then, when you&#8217;re on a page you want to share, simply &#8220;press&#8221; it."
+msgstr "下記のブックマークレットをブックマークバーへドラッグします。そして、シェアしたいページを閲覧しているときに押すだけです。"
+
+#: wp-admin/about.php:71
 msgid "An easier way to share content"
 msgstr "コンテンツを共有するより簡単な方法"
 
 #. translators: 1: WordPress version number.
-#: wp-admin/about.php:49 wp-admin/about.php:163
+#: wp-admin/about.php:57 wp-admin/about.php:171
 msgid "<strong>Version %1$s</strong> addressed a security issue."
 msgid_plural "<strong>Version %1$s</strong> addressed some security issues."
 msgstr[0] "<strong>バージョン %1$s</strong> はセキュリティ問題に対応しました。"
 
-#: wp-admin/about.php:47 wp-admin/about.php:51 wp-admin/about.php:178
+#: wp-admin/about.php:47 wp-admin/about.php:51 wp-admin/about.php:55
+#: wp-admin/about.php:59 wp-admin/about.php:186
 msgid "For more information, see <a href=\"%s\">the release notes</a>."
 msgstr "詳しくは<a href=\"%s\">リリースノート</a>をご覧ください。"
 
 #. translators: 1: WordPress version number, 2: plural number of bugs. More
 #. than one security issue.
-#: wp-admin/about.php:45 wp-admin/about.php:175
+#: wp-admin/about.php:45 wp-admin/about.php:49 wp-admin/about.php:53
+#: wp-admin/about.php:183
 msgid "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug."
 msgid_plural "<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs."
 msgstr[0] "<strong>バージョン %1$s</strong> はいくつかのセキュリティ問題に対応し、%2$s個のバグを修正しました。"
 
-#: wp-admin/about.php:44 wp-admin/about.php:160
+#: wp-admin/about.php:44 wp-admin/about.php:168
 msgid "Maintenance and Security Release"
 msgid_plural "Maintenance and Security Releases"
 msgstr[0] "メンテナンス & セキュリティリリース"
@@ -10562,8 +10560,8 @@ msgid "What&#8217;s New"
 msgstr "新着情報"
 
 #: wp-admin/about.php:31 wp-admin/credits.php:87 wp-admin/freedoms.php:24
-#: wp-admin/includes/ajax-actions.php:2897
-#: wp-admin/includes/ajax-actions.php:2935
+#: wp-admin/includes/ajax-actions.php:2900
+#: wp-admin/includes/ajax-actions.php:2941
 #: wp-admin/includes/class-wp-ms-themes-list-table.php:406
 #: wp-admin/includes/class-wp-plugins-list-table.php:557
 #: wp-admin/includes/update.php:164 wp-admin/includes/update.php:188

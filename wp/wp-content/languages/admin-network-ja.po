@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: GlotPress/1.0-alpha-1000\n"
+"X-Generator: GlotPress/1.0-alpha-1100\n"
 "Project-Id-Version: Network Admin\n"
 
 #: wp-admin/network.php:545
@@ -23,13 +23,13 @@ msgstr "%2$s にある %1$s ファイルに含まれる他の WordPress ルー�
 msgid "To make your installation more secure, you should also add:"
 msgstr "インストールをさらに安全にするため、次を追加するとよいでしょう。"
 
-#: wp-admin/network.php:429
-msgid "These unique authentication keys are also missing from your <code>wp-config.php</code> file."
-msgstr "これらの一意な認証鍵も <code>wp-config.php</code> ファイルに見当たりません。"
-
 #: wp-admin/network.php:427
 msgid "This unique authentication key is also missing from your <code>wp-config.php</code> file."
 msgstr "認証用ユニークキーが <code>wp-config.php</code> にありません。"
+
+#: wp-admin/network.php:429
+msgid "These unique authentication keys are also missing from your <code>wp-config.php</code> file."
+msgstr "これらの一意な認証鍵も <code>wp-config.php</code> ファイルに見当たりません。"
 
 #: wp-admin/network.php:393
 msgid "Add the following to your <code>wp-config.php</code> file in <code>%s</code> <strong>above</strong> the line reading <code>/* That&#8217;s all, stop editing! Happy blogging. */</code>:"
@@ -214,13 +214,13 @@ msgstr "ネットワークを作成するにあたって、定数 DO_NOT_UPGRADE
 msgid "Network"
 msgstr "ネットワーク"
 
-#: wp-admin/network.php:124 wp-admin/network.php:135
-msgid "<a href=\"https://codex.wordpress.org/Tools_Network_Screen\" target=\"_blank\">Documentation on the Network Screen</a>"
-msgstr "<a href=\"http://wpdocs.sourceforge.jp/Tools_Network_Screen target=\"_blank\">ネットワークの解説</a>"
-
 #: wp-admin/network.php:123 wp-admin/network.php:134
 msgid "<a href=\"https://codex.wordpress.org/Create_A_Network\" target=\"_blank\">Documentation on Creating a Network</a>"
 msgstr "<a href=\"http://wpdocs.sourceforge.jp/Create_A_Network\" target=\"_blank\">ネットワークの作成の解説</a>"
+
+#: wp-admin/network.php:124 wp-admin/network.php:135
+msgid "<a href=\"https://codex.wordpress.org/Tools_Network_Screen\" target=\"_blank\">Documentation on the Network Screen</a>"
+msgstr "<a href=\"http://wpdocs.sourceforge.jp/Tools_Network_Screen target=\"_blank\">ネットワークの解説</a>"
 
 #: wp-admin/network.php:121
 msgid "The choice of subdirectory sites is disabled if this setup is more than a month old because of permalink problems with &#8220;/blog/&#8221; from the main site. This disabling will be addressed in a future version."
@@ -298,25 +298,25 @@ msgstr "このテーブルでは、ネットワーク上のすべてのユーザ
 msgid "Warning! User cannot be modified. The user %s is a network administrator."
 msgstr "注意: ユーザーを変更できません。ユーザー %s はネットワーク管理者です。"
 
-#: wp-admin/network/users.php:113
-msgid "Once you hit &#8220;Confirm Deletion&#8221;, these users will be permanently removed."
-msgstr "「削除を確認」を押すと、これらのユーザーは永久的に削除されます。"
-
 #: wp-admin/network/users.php:111
 msgid "Once you hit &#8220;Confirm Deletion&#8221;, the user will be permanently removed."
 msgstr "「削除を確認」を押すと、このユーザーは永久的に削除されます。"
+
+#: wp-admin/network/users.php:113
+msgid "Once you hit &#8220;Confirm Deletion&#8221;, these users will be permanently removed."
+msgstr "「削除を確認」を押すと、これらのユーザーは永久的に削除されます。"
 
 #: wp-admin/network/users.php:97
 msgid "User has no sites or content and will be deleted."
 msgstr "サイトやコンテンツを持たないユーザーは削除されます。"
 
-#: wp-admin/network/users.php:85
-msgid "Site: %s"
-msgstr "サイト: %s"
-
 #: wp-admin/network/users.php:70
 msgid "Select a user"
 msgstr "ユーザーを選択"
+
+#: wp-admin/network/users.php:85
+msgid "Site: %s"
+msgstr "サイト: %s"
 
 #. translators: user login
 #: wp-admin/network/users.php:62
@@ -327,29 +327,29 @@ msgstr "%s が所有しているコンテンツをどう処理しますか ?"
 msgid "Warning! User cannot be deleted. The user %s is a network administrator."
 msgstr "警告 ! ユーザーは削除できません。このユーザー %s はネットワーク管理者です。"
 
-#: wp-admin/network/users.php:45
-msgid "Warning! User %s cannot be deleted."
-msgstr "警告 ! ユーザー %s は削除できません。"
+#: wp-admin/network/users.php:28
+msgid "You have chosen to delete the user from all networks and sites."
+msgstr "すべてのネットワークとサイトからユーザーを削除しようとしています。"
 
 #: wp-admin/network/users.php:30
 msgid "You have chosen to delete the following users from all networks and sites."
 msgstr "すべてのネットワークとサイトから以下のユーザーを削除しようとしています。"
 
-#: wp-admin/network/users.php:28
-msgid "You have chosen to delete the user from all networks and sites."
-msgstr "すべてのネットワークとサイトからユーザーを削除しようとしています。"
+#: wp-admin/network/users.php:45
+msgid "Warning! User %s cannot be deleted."
+msgstr "警告 ! ユーザー %s は削除できません。"
 
 #: wp-admin/network/user-new.php:52
 msgid "Cannot add user."
 msgstr "ユーザーを追加できません。"
 
-#: wp-admin/network/user-new.php:40
-msgid "Cannot create an empty user."
-msgstr "空のユーザーは作成できません。"
-
 #: wp-admin/network/user-new.php:29 wp-admin/network/users.php:275
 msgid "<a href=\"https://codex.wordpress.org/Network_Admin_Users_Screen\" target=\"_blank\">Documentation on Network Users</a>"
 msgstr "<a href=\"http://wpdocs.sourceforge.jp/Network_Admin_Users_Screen\" target=\"_blank\">ネットワークユーザーの解説</a>"
+
+#: wp-admin/network/user-new.php:40
+msgid "Cannot create an empty user."
+msgstr "空のユーザーは作成できません。"
 
 #: wp-admin/network/user-new.php:24
 msgid "Users who are signed up to the network without a site are added as subscribers to the main or primary dashboard site, giving them profile pages to manage their accounts. These users will only see Dashboard and My Sites in the main navigation until a site is created for them."
@@ -408,14 +408,14 @@ msgstr "コアに対するバージョンの更新がない場合は、このボ
 msgid "Only use this screen once you have updated to a new version of WordPress through Updates/Available Updates (via the Network Administration navigation menu or the Toolbar). Clicking the Upgrade Network button will step through each site in the network, five at a time, and make sure any database updates are applied."
 msgstr "この画面は、ネットワーク管理メニューまたはツールバーから「更新 / 利用可能な更新」を使って新バージョンの WordPress へアップグレードした際にのみご利用ください。「ネットワークをアップグレード」をクリックすると、ネットワーク内の各サイトを5つずつチェックしてデータベースの更新を適用します。"
 
-#: wp-admin/network/themes.php:297
-msgid "You cannot delete a theme while it is active on the main site."
-msgstr "メインのサイトで使用中のテーマは削除できません。"
-
 #: wp-admin/network/themes.php:291
 msgid "%s theme deleted."
 msgid_plural "%s themes deleted."
 msgstr[0] "%s個のテーマが削除されました。"
+
+#: wp-admin/network/themes.php:297
+msgid "You cannot delete a theme while it is active on the main site."
+msgstr "メインのサイトで使用中のテーマは削除できません。"
 
 #: wp-admin/network/themes.php:250
 msgid "<a href=\"https://codex.wordpress.org/Network_Admin_Themes_Screen\" target=\"_blank\">Documentation on Network Themes</a>"
@@ -433,13 +433,13 @@ msgstr "ネットワーク管理者が利用中のテーマを停止した場合
 msgid "This screen enables and disables the inclusion of themes available to choose in the Appearance menu for each site. It does not activate or deactivate which theme a site is currently using."
 msgstr "この画面では、テーマを各サイトの「外観」パネルで選択できる、またはできないようにします。現在サイトが使用しているテーマの有効化または停止ではありません。"
 
-#: wp-admin/network/themes.php:195
-msgid "No, Return me to the theme list"
-msgstr "いいえ、テーマ一覧に戻ります"
-
 #: wp-admin/network/themes.php:187
 msgid "Yes, Delete these themes"
 msgstr "はい、これらのテーマを削除します"
+
+#: wp-admin/network/themes.php:195
+msgid "No, Return me to the theme list"
+msgstr "いいえ、テーマ一覧に戻ります"
 
 #: wp-admin/network/themes.php:185
 msgid "Yes, Delete this theme"
@@ -449,13 +449,13 @@ msgstr "はい、削除します"
 msgid "Are you sure you wish to delete these themes?"
 msgstr "ほんとうにこれらのテーマを削除しますか ?"
 
-#: wp-admin/network/themes.php:170
-msgid "Are you sure you wish to delete this theme?"
-msgstr "本当にこのテーマを削除してもよろしいですか？"
-
 #: wp-admin/network/themes.php:159
 msgid "You are about to remove the following themes:"
 msgstr "以下のテーマを削除しようとしています:"
+
+#: wp-admin/network/themes.php:170
+msgid "Are you sure you wish to delete this theme?"
+msgstr "本当にこのテーマを削除してもよろしいですか？"
 
 #: wp-admin/network/themes.php:158
 msgid "These themes may be active on other sites in the network."
@@ -465,13 +465,13 @@ msgstr "これらのテーマはネットワークの他のサイトで有効か
 msgid "Delete Themes"
 msgstr "テーマの削除"
 
-#: wp-admin/network/themes.php:155
-msgid "You are about to remove the following theme:"
-msgstr "次のテーマを削除しようとしています:"
-
 #: wp-admin/network/themes.php:154
 msgid "This theme may be active on other sites in the network."
 msgstr "このテーマはネットワークのほかのサイトで使用中です。"
+
+#: wp-admin/network/themes.php:155
+msgid "You are about to remove the following theme:"
+msgstr "次のテーマを削除しようとしています:"
 
 #: wp-admin/network/themes.php:153
 msgid "Delete Theme"
@@ -625,23 +625,23 @@ msgstr "ユーザーは既にこのサイトのメンバーです。"
 msgid "Network enabled themes are not shown on this screen."
 msgstr "ネットワークで有効化されたテーマはこの画面には表示されていません。"
 
-#: wp-admin/network/site-themes.php:175 wp-admin/network/themes.php:295
-msgid "No theme selected."
-msgstr "テーマが選択されていません。"
-
 #: wp-admin/network/site-themes.php:171 wp-admin/network/themes.php:283
 msgid "%s theme disabled."
 msgid_plural "%s themes disabled."
 msgstr[0] "%s個のテーマが無効化されました。"
 
-#: wp-admin/network/site-themes.php:169 wp-admin/network/themes.php:281
-msgid "Theme disabled."
-msgstr "%s 個のテーマを無効化しました。"
+#: wp-admin/network/site-themes.php:175 wp-admin/network/themes.php:295
+msgid "No theme selected."
+msgstr "テーマが選択されていません。"
 
 #: wp-admin/network/site-themes.php:163 wp-admin/network/themes.php:275
 msgid "%s theme enabled."
 msgid_plural "%s themes enabled."
 msgstr[0] "%s個のテーマが有効化されました。"
+
+#: wp-admin/network/site-themes.php:169 wp-admin/network/themes.php:281
+msgid "Theme disabled."
+msgstr "%s 個のテーマを無効化しました。"
 
 #: wp-admin/network/site-themes.php:161 wp-admin/network/themes.php:273
 msgid "Theme enabled."
@@ -814,26 +814,26 @@ msgstr "管理メニューを有効化"
 msgid "Default Language"
 msgstr "初期設定言語:"
 
-#: wp-admin/network/settings.php:330
-msgid "Language Settings"
-msgstr "言語の設定"
-
 #: wp-admin/network/settings.php:319
 msgid "Size in kilobytes"
 msgstr "サイズ (KB)"
+
+#: wp-admin/network/settings.php:330
+msgid "Language Settings"
+msgstr "言語の設定"
 
 #: wp-admin/network/settings.php:317
 msgctxt "File size in kilobytes"
 msgid "%s KB"
 msgstr "%s KB"
 
-#: wp-admin/network/settings.php:315
-msgid "Max upload file size"
-msgstr "アップロードファイルの最大サイズ"
-
 #: wp-admin/network/settings.php:309
 msgid "Allowed file types. Separate types by spaces."
 msgstr "許可するファイルの種類。半角スペースで区切って入力してください。"
+
+#: wp-admin/network/settings.php:315
+msgid "Max upload file size"
+msgstr "アップロードファイルの最大サイズ"
 
 #: wp-admin/network/settings.php:305
 msgid "Upload file types"
@@ -963,13 +963,13 @@ msgstr "ログイン中のユーザーによる新規サイト登録を許可す
 msgid "User accounts may be registered."
 msgstr "ユーザーアカウントの新規登録を許可する。"
 
-#: wp-admin/network/settings.php:156
-msgid "Registration is disabled."
-msgstr "新規登録を許可しない。"
-
 #: wp-admin/network/settings.php:155
 msgid "New registrations settings"
 msgstr "新しい登録設定"
+
+#: wp-admin/network/settings.php:156
+msgid "Registration is disabled."
+msgstr "新規登録を許可しない。"
 
 #: wp-admin/network/settings.php:147
 msgid "Allow new registrations"
@@ -995,13 +995,13 @@ msgstr "ネットワークのタイトル"
 msgid "Operational Settings"
 msgstr "運用設定"
 
-#: wp-admin/network/settings.php:117
-msgid "Options saved."
-msgstr "設定を保存しました。"
-
 #: wp-admin/network/settings.php:64
 msgid "<a href=\"https://codex.wordpress.org/Network_Admin_Settings_Screen\" target=\"_blank\">Documentation on Network Settings</a>"
 msgstr "<a href=\"http://wpdocs.sourceforge.jp/Network_Admin_Settings_Screen\" target=\"_blank\">ネットワーク設定の解説</a>"
+
+#: wp-admin/network/settings.php:117
+msgid "Options saved."
+msgstr "設定を保存しました。"
 
 #: wp-admin/network/settings.php:59
 msgid "Super admins can no longer be added on the Options screen. You must now go to the list of existing users on Network Admin > Users and click on Username or the Edit action link below that name. This goes to an Edit User page where you can check a box to grant super admin privileges."
@@ -1070,6 +1070,10 @@ msgstr "新規追加"
 msgid "All Sites"
 msgstr "すべてのサイト"
 
+#: wp-admin/network/index.php:53
+msgid "<a href=\"https://codex.wordpress.org/Network_Admin\" target=\"_blank\">Documentation on the Network Admin</a>"
+msgstr "<a href=\"http://wpdocs.sourceforge.jp/Network_Admin\" target=\"_blank\">ネットワーク管理の解説</a>"
+
 #: wp-admin/network/index.php:54 wp-admin/network/site-info.php:33
 #: wp-admin/network/site-new.php:30 wp-admin/network/site-settings.php:33
 #: wp-admin/network/site-themes.php:33 wp-admin/network/site-users.php:36
@@ -1077,10 +1081,6 @@ msgstr "すべてのサイト"
 #: wp-admin/network/users.php:276
 msgid "<a href=\"https://wordpress.org/support/forum/multisite/\" target=\"_blank\">Support Forums</a>"
 msgstr "<a href=\"http://ja.forums.wordpress.org/forum/11\" target=\"_blank\">サポートフォーラム</a>"
-
-#: wp-admin/network/index.php:53
-msgid "<a href=\"https://codex.wordpress.org/Network_Admin\" target=\"_blank\">Documentation on the Network Admin</a>"
-msgstr "<a href=\"http://wpdocs.sourceforge.jp/Network_Admin\" target=\"_blank\">ネットワーク管理の解説</a>"
 
 #: wp-admin/network/index.php:47
 msgid "Quick Tasks"
