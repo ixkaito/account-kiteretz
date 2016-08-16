@@ -16,7 +16,7 @@ class CPAC_Column_Post_Before_Moretag extends CPAC_Column {
 
 		// Properties
 		$this->properties['type']	 = 'column-before_moretag';
-		$this->properties['label']	 = __( 'Before More Tag', 'cpac' );
+		$this->properties['label']	 = __( 'Before More Tag', 'codepress-admin-columns' );
 
 		// Options
 		$this->options['excerpt_length'] = 15;
@@ -43,7 +43,7 @@ class CPAC_Column_Post_Before_Moretag extends CPAC_Column {
 		$extended = get_extended( $p->post_content );
 
 		if ( ! empty( $extended['extended'] ) ) {
-			$value = $this->get_shortened_string( $extended['main'], $this->options->excerpt_length );
+			$value = $this->get_shortened_string( $extended['main'], $this->get_option( 'excerpt_length' ) );
 		}
 
 		return $value;

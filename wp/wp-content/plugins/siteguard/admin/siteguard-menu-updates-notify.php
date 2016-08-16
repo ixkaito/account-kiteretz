@@ -1,66 +1,67 @@
 <?php
 
 class SiteGuard_Menu_Updates_Notify extends SiteGuard_Base {
+	const	OPT_NAME_ENABLE  = 'updates_notify_enable';
+	const	OPT_NAME_WPCORE  = 'notify_wpcore';
+	const	OPT_NAME_PLUGINS = 'notify_plugins';
+	const	OPT_NAME_THEMES  = 'notify_themes';
+
 	function __construct( ) {
 		$this->render_page( );
 	}
 	function is_notify_value( $value ) {
-		if ( '0' == $value || '1' == $value || '2' == $value ) {
+		$items = array( '0', '1', '2' );
+		if ( in_array( $value, $items ) ) {
 			return true;
 		}
 		return false;
 	}
 	function render_page( ) {
-		global $config, $updates_notify;
+		global $siteguard_config, $siteguard_updates_notify;
 
-		$opt_name_enable  = 'updates_notify_enable';
-		$opt_name_wpcore  = 'notify_wpcore';
-		$opt_name_plugins = 'notify_plugins';
-		$opt_name_themes  = 'notify_themes';
-
-		$opt_val_enable  = $config->get( $opt_name_enable );
-		$opt_val_wpcore  = $config->get( $opt_name_wpcore );
-		$opt_val_plugins = $config->get( $opt_name_plugins );
-		$opt_val_themes  = $config->get( $opt_name_themes );
+		$opt_val_enable  = $siteguard_config->get( self::OPT_NAME_ENABLE );
+		$opt_val_wpcore  = $siteguard_config->get( self::OPT_NAME_WPCORE );
+		$opt_val_plugins = $siteguard_config->get( self::OPT_NAME_PLUGINS );
+		$opt_val_themes  = $siteguard_config->get( self::OPT_NAME_THEMES );
 		if ( isset( $_POST['update'] ) && check_admin_referer( 'siteguard-menu-updates-notify-submit' ) ) {
 			$error = false;
-			$errors = check_multisite( );
+			$errors = siteguard_check_multisite( );
 			if ( is_wp_error( $errors ) ) {
 				echo '<div class="error settings-error"><p><strong>';
 				esc_html_e( $errors->get_error_message( ), 'siteguard' );
 				echo '</strong></p></div>';
 				$error = true;
 			}
-			if ( ( false == $error )
-			  && ( ( false == $this->is_switch_value( $_POST[ $opt_name_enable ] ) )
-			    || ( false == $this->is_switch_value( $_POST[ $opt_name_wpcore ] ) )
-			    || ( false == $this->is_notify_value( $_POST[ $opt_name_plugins ] ) )
-			    || ( false == $this->is_notify_value( $_POST[ $opt_name_themes ] ) ) ) ) {
+			if ( ( false === $error )
+			  && ( ( false === $this->is_switch_value( $_POST[ self::OPT_NAME_ENABLE ] ) )
+			    || ( false === $this->is_switch_value( $_POST[ self::OPT_NAME_WPCORE ] ) )
+			    || ( false === $this->is_notify_value( $_POST[ self::OPT_NAME_PLUGINS ] ) )
+			    || ( false === $this->is_notify_value( $_POST[ self::OPT_NAME_THEMES ] ) ) ) ) {
 				echo '<div class="error settings-error"><p><strong>';
 				esc_html_e( 'ERROR: Invalid input value.', 'siteguard' );
 				echo '</strong></p></div>';
 				$error = true;
 			}
-			if ( false == $error && '1' == $_POST[ $opt_name_enable ] ) {
-				$ret = $updates_notify->check_requirements( );
+			if ( false === $error && '1' === $_POST[ self::OPT_NAME_ENABLE ] ) {
+				$ret = $siteguard_updates_notify->check_requirements( );
 				if ( is_wp_error( $ret ) ) {
 					echo '<div class="error settings-error"><p><strong>' . $ret->get_error_message( ) . '</strong></p></div>';
 					$error = true;
-					$config->set( $opt_name_enable, '0' );
-					$config->update( );
+					$siteguard_config->set( self::OPT_NAME_ENABLE, '0' );
+					$siteguard_config->update( );
 				}
 			}
-			if ( false == $error ) {
-				$opt_val_enable  = $_POST[ $opt_name_enable ];
-				$opt_val_wpcore  = $_POST[ $opt_name_wpcore ];
-				$opt_val_plugins = $_POST[ $opt_name_plugins ];
-				$opt_val_themes  = $_POST[ $opt_name_themes ];
-				$config->set( $opt_name_enable,  $opt_val_enable );
-				$config->set( $opt_name_wpcore,  $opt_val_wpcore );
-				$config->set( $opt_name_plugins, $opt_val_plugins );
-				$config->set( $opt_name_themes,  $opt_val_themes );
-				$config->update( );
-				if ( '1' == $opt_val_enable ) {
+			if ( false === $error ) {
+				$opt_val_enable  = $_POST[ self::OPT_NAME_ENABLE ];
+				$opt_val_wpcore  = $_POST[ self::OPT_NAME_WPCORE ];
+				$opt_val_plugins = $_POST[ self::OPT_NAME_PLUGINS ];
+				$opt_val_themes  = $_POST[ self::OPT_NAME_THEMES ];
+				$siteguard_config->set( self::OPT_NAME_ENABLE,  $opt_val_enable );
+				$siteguard_config->set( self::OPT_NAME_WPCORE,  $opt_val_wpcore );
+				$siteguard_config->set( self::OPT_NAME_PLUGINS, $opt_val_plugins );
+				$siteguard_config->set( self::OPT_NAME_THEMES,  $opt_val_themes );
+				$siteguard_config->update( );
+				if ( '1' === $opt_val_enable ) {
 					SiteGuard_UpdatesNotify::feature_on( );
 				} else {
 					SiteGuard_UpdatesNotify::feature_off( );
@@ -76,11 +77,11 @@ class SiteGuard_Menu_Updates_Notify extends SiteGuard_Base {
 		echo '<h2>' . esc_html__( 'Updates Notify', 'siteguard' ) . '</h2>';
 		echo '<div class="siteguard-description">'
 		. esc_html__( 'You can find docs about this function on ', 'siteguard' )
-		. '<a href="' . esc_html__( 'http://www.jp-secure.com/cont/products/siteguard_wp_plugin/updates_notify_en.html', 'siteguard' ) 
-		. '" target="_blank">' 
-		. esc_html__( 'here', 'siteguard' ) 
-		. '</a>' 
-		. esc_html__( '.', 'siteguard' ) 
+		. '<a href="' . esc_url( __( 'http://www.jp-secure.com/cont/products/siteguard_wp_plugin/updates_notify_en.html', 'siteguard' ) )
+		. '" target="_blank">'
+		. esc_html__( 'here', 'siteguard' )
+		. '</a>'
+		. esc_html__( '.', 'siteguard' )
 		. '</div>';
 		?>
 		<form name="form1" method="post" action="">
@@ -89,15 +90,15 @@ class SiteGuard_Menu_Updates_Notify extends SiteGuard_Base {
 		<th scope="row" colspan="2">
 			<ul class="siteguard-radios">
 			<li>
-			<input type="radio" name="<?php echo $opt_name_enable ?>" id="<?php echo $opt_name_enable.'_on' ?>" value="1" <?php echo ( '1' == $opt_val_enable ? 'checked' : '') ?> >
-			<label for="<?php echo $opt_name_enable.'_on' ?>"><?php esc_html_e( 'ON', 'siteguard' ) ?></label>
+			<input type="radio" name="<?php echo self::OPT_NAME_ENABLE ?>" id="<?php echo self::OPT_NAME_ENABLE.'_on' ?>" value="1" <?php checked( $opt_val_enable, '1' ) ?> >
+			<label for="<?php echo self::OPT_NAME_ENABLE.'_on' ?>"><?php esc_html_e( 'ON', 'siteguard' ) ?></label>
 			</li><li>
-			<input type="radio" name="<?php echo $opt_name_enable ?>" id="<?php echo $opt_name_enable.'_off' ?>" value="0" <?php echo ( '0' == $opt_val_enable ? 'checked' : '') ?> >
-			<label for="<?php echo $opt_name_enable.'_off' ?>"><?php esc_html_e( 'OFF', 'siteguard' ) ?></label>
+			<input type="radio" name="<?php echo self::OPT_NAME_ENABLE ?>" id="<?php echo self::OPT_NAME_ENABLE.'_off' ?>" value="0" <?php checked( $opt_val_enable, '0' ) ?> >
+			<label for="<?php echo self::OPT_NAME_ENABLE.'_off' ?>"><?php esc_html_e( 'OFF', 'siteguard' ) ?></label>
 			</li>
 			</ul>
 			<?php
-			$error = $updates_notify->check_requirements( );
+			$error = $siteguard_updates_notify->check_requirements( );
 			if ( is_wp_error( $error ) ) {
 				echo '<p class="description">';
 				echo $error->get_error_message( );
@@ -108,35 +109,35 @@ class SiteGuard_Menu_Updates_Notify extends SiteGuard_Base {
 		</tr><tr>
 		<th scope="row"><?php esc_html_e( 'WordPress updates', 'siteguard' ); ?></th>
 			<td>
-				<input type="radio" name="<?php echo $opt_name_wpcore ?>" id="<?php echo $opt_name_wpcore.'_0' ?>" value="0" <?php echo ( '0' == $opt_val_wpcore ? 'checked' : '') ?> >
-				<label for="<?php echo $opt_name_wpcore.'_0' ?>"><?php esc_html_e( 'Disable', 'siteguard' ) ?></label>
+				<input type="radio" name="<?php echo self::OPT_NAME_WPCORE ?>" id="<?php echo self::OPT_NAME_WPCORE.'_0' ?>" value="0" <?php checked( $opt_val_wpcore, '0' ) ?> >
+				<label for="<?php echo self::OPT_NAME_WPCORE.'_0' ?>"><?php esc_html_e( 'Disable', 'siteguard' ) ?></label>
 				<br />
-				<input type="radio" name="<?php echo $opt_name_wpcore ?>" id="<?php echo $opt_name_wpcore.'_1' ?>" value="1" <?php echo ( '1' == $opt_val_wpcore ? 'checked' : '') ?> >
-				<label for="<?php echo $opt_name_wpcore.'_1' ?>"><?php esc_html_e( 'Enable', 'siteguard' ) ?></label>
+				<input type="radio" name="<?php echo self::OPT_NAME_WPCORE ?>" id="<?php echo self::OPT_NAME_WPCORE.'_1' ?>" value="1" <?php checked( $opt_val_wpcore, '1' ) ?> >
+				<label for="<?php echo self::OPT_NAME_WPCORE.'_1' ?>"><?php esc_html_e( 'Enable', 'siteguard' ) ?></label>
 			</td>
 		</tr><tr>
 		<th scope="row"><?php esc_html_e( 'Plugins updates', 'siteguard' ); ?></th>
 			<td>
-				<input type="radio" name="<?php echo $opt_name_plugins ?>" id="<?php echo $opt_name_plugins.'_0' ?>" value="0" <?php echo ( '0' == $opt_val_plugins ? 'checked' : '') ?> >
-				<label for="<?php echo $opt_name_plugins.'_0' ?>"><?php esc_html_e( 'Disable', 'siteguard' ) ?></label>
+				<input type="radio" name="<?php echo self::OPT_NAME_PLUGINS ?>" id="<?php echo self::OPT_NAME_PLUGINS.'_0' ?>" value="0" <?php checked( $opt_val_plugins, '0' ) ?> >
+				<label for="<?php echo self::OPT_NAME_PLUGINS.'_0' ?>"><?php esc_html_e( 'Disable', 'siteguard' ) ?></label>
 				<br />
-				<input type="radio" name="<?php echo $opt_name_plugins ?>" id="<?php echo $opt_name_plugins.'_1' ?>" value="1" <?php echo ( '1' == $opt_val_plugins ? 'checked' : '') ?> >
-				<label for="<?php echo $opt_name_plugins.'_1' ?>"><?php esc_html_e( 'All plugins', 'siteguard' ) ?></label>
+				<input type="radio" name="<?php echo self::OPT_NAME_PLUGINS ?>" id="<?php echo self::OPT_NAME_PLUGINS.'_1' ?>" value="1" <?php checked( $opt_val_plugins, '1' ) ?> >
+				<label for="<?php echo self::OPT_NAME_PLUGINS.'_1' ?>"><?php esc_html_e( 'All plugins', 'siteguard' ) ?></label>
 				<br />
-				<input type="radio" name="<?php echo $opt_name_plugins ?>" id="<?php echo $opt_name_plugins.'_2' ?>" value="2" <?php echo ( '2' == $opt_val_plugins ? 'checked' : '') ?> >
-				<label for="<?php echo $opt_name_plugins.'_2' ?>"><?php esc_html_e( 'Active plugins only', 'siteguard' ) ?></label>
+				<input type="radio" name="<?php echo self::OPT_NAME_PLUGINS ?>" id="<?php echo self::OPT_NAME_PLUGINS.'_2' ?>" value="2" <?php checked( $opt_val_plugins, '2' ) ?> >
+				<label for="<?php echo self::OPT_NAME_PLUGINS.'_2' ?>"><?php esc_html_e( 'Active plugins only', 'siteguard' ) ?></label>
 			</td>
 		</tr><tr>
 		<th scope="row"><?php esc_html_e( 'Themes updates', 'siteguard' ); ?></th>
 			<td>
-				<input type="radio" name="<?php echo $opt_name_themes ?>" id="<?php echo $opt_name_themes.'_0' ?>" value="0" <?php echo ( '0' == $opt_val_themes ? 'checked' : '') ?> >
-				<label for="<?php echo $opt_name_themes.'_0' ?>"><?php esc_html_e( 'Disable', 'siteguard' ) ?></label>
+				<input type="radio" name="<?php echo self::OPT_NAME_THEMES ?>" id="<?php echo self::OPT_NAME_THEMES.'_0' ?>" value="0" <?php checked( $opt_val_themes, '0' ) ?> >
+				<label for="<?php echo self::OPT_NAME_THEMES.'_0' ?>"><?php esc_html_e( 'Disable', 'siteguard' ) ?></label>
 				<br />
-				<input type="radio" name="<?php echo $opt_name_themes ?>" id="<?php echo $opt_name_themes.'_1' ?>" value="1" <?php echo ( '1' == $opt_val_themes ? 'checked' : '') ?> >
-				<label for="<?php echo $opt_name_themes.'_1' ?>"><?php esc_html_e( 'All themes', 'siteguard' ) ?></label>
+				<input type="radio" name="<?php echo self::OPT_NAME_THEMES ?>" id="<?php echo self::OPT_NAME_THEMES.'_1' ?>" value="1" <?php checked( $opt_val_themes, '1' ) ?> >
+				<label for="<?php echo self::OPT_NAME_THEMES.'_1' ?>"><?php esc_html_e( 'All themes', 'siteguard' ) ?></label>
 				<br />
-				<input type="radio" name="<?php echo $opt_name_themes ?>" id="<?php echo $opt_name_themes.'_2' ?>" value="2" <?php echo ( '2' == $opt_val_themes ? 'checked' : '') ?> >
-				<label for="<?php echo $opt_name_themes.'_2' ?>"><?php esc_html_e( 'Active themes only', 'siteguard' ) ?></label>
+				<input type="radio" name="<?php echo self::OPT_NAME_THEMES ?>" id="<?php echo self::OPT_NAME_THEMES.'_2' ?>" value="2" <?php checked( $opt_val_themes, '2' ) ?> >
+				<label for="<?php echo self::OPT_NAME_THEMES.'_2' ?>"><?php esc_html_e( 'Active themes only', 'siteguard' ) ?></label>
 			</td>
 		</tr>
 		</table>
@@ -157,4 +158,3 @@ class SiteGuard_Menu_Updates_Notify extends SiteGuard_Base {
 		<?php
 	}
 }
-?>

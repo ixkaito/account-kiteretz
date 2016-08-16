@@ -17,7 +17,7 @@ function siteguard_error_dump( $title, $obj ) {
 	siteguard_error_log( "$title: $msg" );
 }
 
-function check_multisite( ) {
+function siteguard_check_multisite( ) {
 	if ( ! is_multisite() ) {
 		return true;
 	}
@@ -30,7 +30,7 @@ class SiteGuard_Base {
 	function __construct() {
 	}
 	function is_switch_value( $value ) {
-		if ( '0' == $value || '1' == $value ) {
+		if ( '0' === $value || '1' === $value ) {
 			return true;
 		}
 		return false;
@@ -68,5 +68,3 @@ class SiteGuard_Base {
 		}
 	}
 }
-
-?>

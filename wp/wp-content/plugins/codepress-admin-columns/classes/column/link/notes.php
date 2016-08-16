@@ -16,7 +16,7 @@ class CPAC_Column_Link_Notes extends CPAC_Column {
 
 		// Properties
 		$this->properties['type']	 	= 'column-notes';
-		$this->properties['label']	 	= __( 'Notes', 'cpac' );
+		$this->properties['label']	 	= __( 'Notes', 'codepress-admin-columns' );
 
 		// Options
 		$this->options['excerpt_length'] = 30;
@@ -30,7 +30,7 @@ class CPAC_Column_Link_Notes extends CPAC_Column {
 
 		$bookmark = get_bookmark( $id );
 
-		return $this->get_shortened_string( $bookmark->link_notes, $this->options->excerpt_length );
+		return $this->get_shortened_string( $bookmark->link_notes, $this->get_option( 'excerpt_length' ) );
 	}
 
 	/**

@@ -17,5 +17,3 @@ function delete_siteguard_plugin( ) {
 }
 
 delete_siteguard_plugin( );
-
-?>

@@ -32,8 +32,8 @@ class SiteGuard_WAF_Exclude_Rule_Table extends WP_List_Table {
 
 		//Build row actions
 		$actions = array(
-			'edit'   => sprintf( '<a href="?page=%s&action=%s&rule=%s">%s</a>', esc_html( $_REQUEST['page'] ), 'edit',   esc_html( $item['ID'] ), esc_html__( 'Edit' ) ),
-			'delete' => sprintf( '<a href="?page=%s&action=%s&rule=%s">%s</a>', esc_html( $_REQUEST['page'] ), 'delete', esc_html( $item['ID'] ), esc_html__( 'Delete' ) ),
+			'edit'   => '<a href="' . esc_url( sprintf( '?page=%s&action=edit&rule=%s', esc_html( $_REQUEST['page'] ), esc_html( $item['ID'] ) ) ) . '">' . esc_html( __( 'Edit' ) ) . '</a>' ,
+			'delete' => '<a href="' . esc_url( sprintf( '?page=%s&action=delete&rule=%s', esc_html( $_REQUEST['page'] ), esc_html( $item['ID'] ) ) ) . '">' . esc_html( __( 'Delete' ) ) . '</a>',
 		);
 
 		//Return the target contents
@@ -47,8 +47,8 @@ class SiteGuard_WAF_Exclude_Rule_Table extends WP_List_Table {
 	function column_cb( $item ) {
 		return sprintf(
 			'<input type="checkbox" name="%1$s[]" value="%2$s" />',
-			/*$1%s*/ esc_html( $this->_args['singular'] ), //Let's simply repurpose the table's singular label ("rule")
-			/*$2%s*/ esc_html( $item['ID'] )               //The value of the checkbox should be the record's id
+			/*$1%s*/ esc_attr( $this->_args['singular'] ), //Let's simply repurpose the table's singular label ("rule")
+			/*$2%s*/ esc_attr( $item['ID'] )               //The value of the checkbox should be the record's id
 		);
 	}
 
@@ -86,14 +86,16 @@ class SiteGuard_WAF_Exclude_Rule_Table extends WP_List_Table {
 	}
 
 	function usort_reorder( $a, $b ) {
-		$orderby = ( ! empty( $_REQUEST['orderby'] ) ) ? $_REQUEST['orderby'] : 'sig'; //If no sort, default to filename
-		$order = ( ! empty( $_REQUEST['order'] ) ) ? $_REQUEST['order'] : 'asc'; //If no order, default to asc
+		$orderby_values = array( 'sig', 'filename', 'comment' );
+		$order_values = array( 'asc', 'desc' );
+		$orderby = ( ! empty( $_REQUEST['orderby'] ) ) ? ( in_array( $_REQUEST['orderby'], $orderby_values ) ? $_REQUEST['orderby'] : 'sig' ) : 'sig'; //If no sort, default to filename
+		$order = ( ! empty( $_REQUEST['order'] ) ) ? ( in_array( $_REQUEST['order'], $order_values ) ? $_REQUEST['order'] : 'asc' ) : 'asc'; //If no order, default to asc
 		$result = strcmp( $a[ $orderby ], $b[ $orderby ] ); //Determine sort order
 		return ( 'asc' === $order ) ? $result : -$result; //Send final sort direction to usort
 	}
 
 	function prepare_items( ) {
-		global $waf_exclude_rule;
+		global $siteguard_waf_exclude_rule;
 
 		$per_page = 5;
 
@@ -105,7 +107,7 @@ class SiteGuard_WAF_Exclude_Rule_Table extends WP_List_Table {
 
 		$this->process_bulk_action( );
 
-		$data = $waf_exclude_rule->get_rules( );
+		$data = $siteguard_waf_exclude_rule->get_rules( );
 
 		$total_items = count( $data );
 		$current_page = $this->get_pagenum( );
@@ -126,4 +128,3 @@ class SiteGuard_WAF_Exclude_Rule_Table extends WP_List_Table {
 		) );
 	}
 }
-?>

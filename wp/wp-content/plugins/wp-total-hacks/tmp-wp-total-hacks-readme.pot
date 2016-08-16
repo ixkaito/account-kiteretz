@@ -1,0 +1,402 @@
+msgid ""
+msgstr "MIME-Version: 1.0\n"
+
+#. Name.
+msgid "WP Total Hacks"
+msgstr ""
+
+#. Short description.
+msgid ""
+"WP Total Hacks can customize more than 20 settings on your WordPress Site.\n"
+"PHP5 is required!"
+msgstr ""
+
+#. Screenshot description.
+msgid "Site settings"
+msgstr ""
+
+#. Screenshot description.
+msgid "Posts &amp; Pages"
+msgstr ""
+
+#. Screenshot description.
+msgid "Appearance in Admin"
+msgstr ""
+
+#. Screenshot description.
+msgid "Other"
+msgstr ""
+
+#. Found in description header.
+msgid "Some features:"
+msgstr ""
+
+#. Found in description header.
+msgid "Support"
+msgstr ""
+
+#. Found in description header.
+msgid "Translators"
+msgstr ""
+
+#. Found in description header.
+msgid "Contributors"
+msgstr ""
+
+#. Found in description list item.
+msgid "Add a favicon."
+msgstr ""
+
+#. Found in description list item.
+msgid "Change admin header logo."
+msgstr ""
+
+#. Found in description list item.
+msgid "Change admin footer text."
+msgstr ""
+
+#. Found in description list item.
+msgid "Change login logo."
+msgstr ""
+
+#. Found in description list item.
+msgid "Deactivate selected meta boxes for Posts &amp; Pages."
+msgstr ""
+
+#. Found in description list item.
+msgid "Deactivate selected dashboard widgets."
+msgstr ""
+
+#. Found in description list item.
+msgid "Remove unnecessary meta tags."
+msgstr ""
+
+#. Found in description list item.
+msgid "Change default email address."
+msgstr ""
+
+#. Found in description list item.
+msgid "Remove Update Notification for all users except Admin User."
+msgstr ""
+
+#. Found in description list item.
+msgid "Delete default contact methods from user profile."
+msgstr ""
+
+#. Found in description list item.
+msgid "Customize limit the number of allowed revisions."
+msgstr ""
+
+#. Found in description list item.
+msgid "Disable auto save."
+msgstr ""
+
+#. Found in description list item.
+msgid "Stop sending pings from your own site to your own site when you write posts."
+msgstr ""
+
+#. Found in description list item.
+msgid "Block pingbacks."
+msgstr ""
+
+#. Found in description list item.
+msgid "Enable shortcode/oEmbed in the text widget."
+msgstr ""
+
+#. Found in description list item.
+msgid "And other!"
+msgstr ""
+
+#. Found in description list item.
+msgid "English - http://wpist.me/wp/wp-total-hacks/"
+msgstr ""
+
+#. Found in description list item.
+msgid "Japanese - http://firegoby.jp/wp/wp-total-hacks"
+msgstr ""
+
+#. Found in description list item.
+msgid "Japanese(ja) - <a href=\"http://wpist.me/\">Takayuki Miyauchi</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "Italian(it_IT) - <a href=\"http://www.andreabersi.com/\">Andrea Bersi</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "Russian(ru_RU) - <a href=\"http://lezhnevs.ru/\">LiVsI</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "Turkish(tr_TR) - <a href=\"http://www.kaisercrazy.com/\">Serkan Algur</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "German(de_DE) - <a href=\"http://twitter.com/#!/kernfel\">Felix Kern</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "Dutch(nl_NL) - <a href=\"https://twitter.com/#!/ideosky/\">Guy Steyaert</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "Chinese(zh_CN) - <a href=\"https://github.com/missingPig\">missingPig</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "Belarusian(be_BY) - <a href=\"http://webhostinggeeks.com/science/\">Alexander Ovsov</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "Malay(ms_MY) - <a href=\"http://flavors.me/zairul#2fa/wordpress\">Zairul Azmil</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "Brazilian Portuguese(pt_BR) - <a href=\"http://www.rafaelfunchal.com.br/\">Rafael Funchal</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "French(fr_FR) - <a href=\"http://www.chaptalstreetquartetfamily.fr/\">Guillaume VASLIN</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "Greek(el) - <a href=\"https://www.facebook.com/darkosxrc\">George Siamidis</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "Slovak(sk_SK) - <a href=\"http://webhostinggeeks.com/\">Branco</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "Persian(fa_IR) - <a href=\"http://emir.ir/\">Amir Maskani</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "Serbo-Croation(sr_RS) - <a href=\"http://webhostinggeeks.com/wordpresshosting.php\">Anja Skrba</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "Vietnamese(vi) - <a href=\"http://bizover.net/\">Trong</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "Polish(pl_PL) - <a href=\"http://livepoint.pl/\">Michael Skweres</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "http://wpist.me/ (en)"
+msgstr ""
+
+#. Found in description list item.
+msgid "http://firegoby.theta.ne.jp/ (ja)"
+msgstr ""
+
+#. Found in description list item.
+msgid "@miya0001 on twitter."
+msgstr ""
+
+#. Found in description list item.
+msgid "https://github.com/miya0001/wp-total-hacks"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://firegoby.theta.ne.jp/\">Takayuki Miyauchi</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://twitter.com/#!/kernfel\">Felix Kern</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://profiles.wordpress.org/users/mako09\">Mako</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"http://private.hibou-web.com/\">Shuhei Nishimura</a>"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "WP Total Hacks can customize more than 20 settings on your WordPress Site."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "http://www.youtube.com/watch?v=05LFDZJwPAE"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "<a href=\"https://github.com/miya0001/wp-total-hacks\">This Plugin published on GitHub.</a>"
+msgstr ""
+
+#. Found in description paragraph.
+msgid ""
+"All items you can select to Activate or Deactivate.\n"
+"PHP5 is required!"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "You can send your own language pack to me."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "Please contact to me."
+msgstr ""
+
+#. Found in installation list item.
+msgid "A plug-in installation screen is displayed in the WordPress admin panel."
+msgstr ""
+
+#. Found in installation list item.
+msgid "It installs in <code>wp-content/plugins</code>."
+msgstr ""
+
+#. Found in installation list item.
+msgid "The plug-in is activated."
+msgstr ""
+
+#. Found in installation list item.
+msgid "Open 'Settings' -&gt; 'WP Total Hacks' menu."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Tested on WordPress 4.3"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add translation pl_PL"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Tested up to WordPress 4.2."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Enable shortcode/oembed in the text widget."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add \"Block pingbacks\"."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add language Vietnamese."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "<a href=\"https://github.com/miya0001/wp-total-hacks/compare/1.6.0...1.7.0\">Bug fix</a>"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Tested up to 3.8"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add marushu to contributors."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "bug fix (logo in admin bar not display on the site.)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "fix for WordPress 3.5"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "remove \"disable auto_save\" function."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "remove \"remove attachment link\" function."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Allow you to remove attachment page."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Allow you to create child page for \"Draft\"."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Brazilian Portuguese support."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "<a href=\"http://wpist.me/2012/04/29/wp-total-hacks-0-9/\">apple-touch-icon-precomposed support.</a>"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Malay support"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "http://wpist.me/2011/12/06/wp-total-hacks-0-7-0/"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "http://wpist.me/2011/11/21/wp-total-hacks-0-6-1/"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "http://wpist.me/2011/11/17/wp-total-hacks-0-6-0/"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Belarusian support"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Chinese support"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Security fix."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "apple-touch-icon"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix for admin UI"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Dutch support"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "German support"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "fixed typo"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Turkish &amp; Russian Support"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "The first release."
+msgstr ""
+
+#. Found in remaining content header.
+msgid "Credits"
+msgstr ""
+
+#. Found in remaining content header.
+msgid "Contact"
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"This plug-in is not guaranteed though the user of WordPress can freely use this plug-in free of charge regardless of the purpose.\n"
+"The author must acknowledge the thing that the operation guarantee and the support in this plug-in use are not done at all beforehand."
+msgstr ""
+
+#. Found in remaining content paragraph.
+msgid ""
+"email to miya[at]theta.ne.jp\n"
+"twitter @miya0001"
+msgstr ""

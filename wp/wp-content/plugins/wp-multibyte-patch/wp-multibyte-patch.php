@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Multibyte Patch
 Description: Multibyte functionality enhancement for the WordPress Japanese package.
-Version: 2.3.1
+Version: 2.7
 Plugin URI: http://eastcoder.com/code/wp-multibyte-patch/
 Author: Seisuke Kuraishi
 Author URI: http://tinybit.co.jp/
@@ -15,9 +15,9 @@ Domain Path: /languages
  * Multibyte functionality enhancement for the WordPress Japanese package.
  *
  * @package WP_Multibyte_Patch
- * @version 2.3.1
+ * @version 2.7
  * @author Seisuke Kuraishi <210pura@gmail.com>
- * @copyright Copyright (c) 2015 Seisuke Kuraishi, Tinybit Inc.
+ * @copyright Copyright (c) 2016 Seisuke Kuraishi, Tinybit Inc.
  * @license http://opensource.org/licenses/gpl-2.0.php GPLv2
  * @link http://eastcoder.com/code/wp-multibyte-patch/
  */
@@ -28,7 +28,7 @@ Domain Path: /languages
 class multibyte_patch {
 
 	// Do not edit this section. Use wpmp-config.php instead.
-	var $conf = array(
+	public $conf = array(
 		'excerpt_mblength' => 110,
 		'excerpt_more' => ' [&hellip;]',
 		'comment_excerpt_mblength' => 40,
@@ -43,30 +43,30 @@ class multibyte_patch {
 		'patch_process_search_terms' => false,
 		'patch_admin_custom_css' => false,
 		'patch_wplink_js' => true,
-		'patch_word_count_js' => true,
 		'patch_force_character_count' => false,
 		'patch_force_twentytwelve_open_sans_off' => false,
 		'patch_force_twentythirteen_google_fonts_off' => false,
 		'patch_force_twentyfourteen_google_fonts_off' => false,
 		'patch_force_twentyfifteen_google_fonts_off' => false,
+		'patch_force_twentysixteen_google_fonts_off' => false,
 		'patch_sanitize_file_name' => true,
 		'patch_bp_create_excerpt' => false,
 		'bp_excerpt_mblength' => 110,
 		'bp_excerpt_more' => ' [&hellip;]'
 	);
 
-	var $blog_encoding = 'UTF-8';
-	var $has_mbfunctions = false;
-	var $mbfunctions_required = false;
-	var $has_mb_strlen = false;
-	var $debug_suffix = '';
-	var $textdomain = 'wp-multibyte-patch';
-	var $lang_dir = 'languages';
-	var $required_version = '4.1-RC1';
-	var $query_based_vars = array();
+	protected $blog_encoding = 'UTF-8';
+	protected $has_mbfunctions = false;
+	protected $mbfunctions_required = false;
+	protected $has_mb_strlen = false;
+	protected $debug_suffix = '';
+	protected $textdomain = 'wp-multibyte-patch';
+	protected $lang_dir = 'languages';
+	protected $required_version = '4.5';
+	protected $query_based_vars = array();
 
 	// For fallback purpose only. (1.6)
-	function guess_encoding( $string, $encoding = '' ) {
+	public function guess_encoding( $string, $encoding = '' ) {
 		$blog_encoding = $this->blog_encoding;
 
 		if ( !$encoding && seems_utf8( $string ) )
@@ -78,7 +78,7 @@ class multibyte_patch {
 	}
 
 	// For fallback purpose only. (1.6)
-	function convenc( $string, $to_encoding, $from_encoding = '' ) {
+	public function convenc( $string, $to_encoding, $from_encoding = '' ) {
 		$blog_encoding = $this->blog_encoding;
 
 		if ( '' == $from_encoding )
@@ -90,7 +90,7 @@ class multibyte_patch {
 			return mb_convert_encoding( $string, $to_encoding, $from_encoding );
 	}
 
-	function incoming_trackback( $commentdata ) {
+	public function incoming_trackback( $commentdata ) {
 		if ( 'trackback' != $commentdata['comment_type'] )
 			return $commentdata;
 
@@ -126,13 +126,13 @@ class multibyte_patch {
 		return $commentdata;
 	}
 
-	function pre_remote_source( $linea, $pagelinkedto ) {
-		$this->pingback_ping_linea = $linea;
+	public function pre_remote_source( $remote_source, $pagelinkedto ) {
+		$this->pingback_ping_remote_source = $remote_source;
 		$this->pingback_ping_pagelinkedto = $pagelinkedto;
-		return $linea;
+		return $remote_source;
 	}
 
-	function incoming_pingback( $commentdata ) {
+	public function incoming_pingback( $commentdata ) {
 		if ( 'pingback' != $commentdata['comment_type'] )
 			return $commentdata;
 
@@ -140,23 +140,23 @@ class multibyte_patch {
 			return $commentdata;
 
 		$pagelinkedto = $this->pingback_ping_pagelinkedto;
-		$linea = $this->pingback_ping_linea;
+		$remote_source = $this->pingback_ping_remote_source;
 
-		$linea = preg_replace( "/" . preg_quote( '<!DOC', '/' ) . "/i", '<DOC', $linea );
-		$linea = preg_replace( "/[\r\n\t ]+/", ' ', $linea );
-		$linea = preg_replace( "/<\/*(h1|h2|h3|h4|h5|h6|p|th|td|li|dt|dd|pre|caption|input|textarea|button|body)[^>]*>/i", "\n\n", $linea );
+		$remote_source = preg_replace( "/" . preg_quote( '<!DOC', '/' ) . "/i", '<DOC', $remote_source );
+		$remote_source = preg_replace( "/[\r\n\t ]+/", ' ', $remote_source );
+		$remote_source = preg_replace( "/<\/*(h1|h2|h3|h4|h5|h6|p|th|td|li|dt|dd|pre|caption|input|textarea|button|body)[^>]*>/i", "\n\n", $remote_source );
 
-		preg_match( '|<title>([^<]*?)</title>|is', $linea, $matchtitle );
+		preg_match( '|<title>([^<]*?)</title>|is', $remote_source, $matchtitle );
 		$title = $matchtitle[1];
 
-		preg_match( "/<meta[^<>]+charset=\"*([a-zA-Z0-9\-_]+)\"*[^<>]*>/i", $linea, $matches );
+		preg_match( "/<meta[^<>]+charset=\"*([a-zA-Z0-9\-_]+)\"*[^<>]*>/i", $remote_source, $matches );
 		$charset = isset( $matches[1] ) ? $matches[1] : '';
-		$from_encoding = $this->guess_encoding( strip_tags( $linea ), $charset );
+		$from_encoding = $this->guess_encoding( strip_tags( $remote_source ), $charset );
 		$blog_encoding = $this->blog_encoding;
 
-		$linea = strip_tags( $linea, '<a>' );
-		$linea = $this->convenc( $linea, $blog_encoding, $from_encoding );
-		$p = explode( "\n\n", $linea );
+		$remote_source = strip_tags( $remote_source, '<a>' );
+		$remote_source = $this->convenc( $remote_source, $blog_encoding, $from_encoding );
+		$p = explode( "\n\n", $remote_source );
 
 		foreach ( $p as $para ) {
 			if ( strpos( $para, $pagelinkedto ) !== false && preg_match( "/^([^<>]*)(\<a[^<>]+[\"']" . preg_quote( $pagelinkedto, '/' ) . "[\"'][^<>]*\>)([^<>]+)(\<\/a\>)(.*)$/i", $para, $context ) )
@@ -205,7 +205,7 @@ class multibyte_patch {
 		return $commentdata;
 	}
 
-	function preprocess_comment( $commentdata ) {
+	public function preprocess_comment( $commentdata ) {
 		if ( $commentdata['comment_type'] == 'trackback' )
 			return $this->incoming_trackback( $commentdata );
 		elseif ( $commentdata['comment_type'] == 'pingback' )
@@ -214,7 +214,7 @@ class multibyte_patch {
 			return $commentdata;
 	}
 
-	function trim_multibyte_excerpt( $text = '', $length = 110, $more = ' [&hellip;]', $encoding = 'UTF-8' ) {
+	public function trim_multibyte_excerpt( $text = '', $length = 110, $more = ' [&hellip;]', $encoding = 'UTF-8' ) {
 		$text = strip_shortcodes( $text );
 		$text = str_replace( ']]>', ']]&gt;', $text );
 		$text = strip_tags( $text );
@@ -226,19 +226,17 @@ class multibyte_patch {
 		return $text;
 	}
 
-	function bp_create_excerpt( $text = '' ) {
+	public function bp_create_excerpt( $text = '' ) {
 		return $this->trim_multibyte_excerpt( $text, $this->conf['bp_excerpt_mblength'], $this->conf['bp_excerpt_more'], $this->blog_encoding );
 	}
 
-	function bp_get_activity_content_body( $content = '' ) {
+	public function bp_get_activity_content_body( $content = '' ) {
 		return preg_replace( "/<a [^<>]+>([^<>]+)<\/a>(" . preg_quote( $this->conf['bp_excerpt_more'], '/' ) . "<\/p>)$/", "$1$2", $content );
 	}
 
-	// $excerpt param could already be truncated to 20 words or less by the original get_comment_excerpt() function.
-	// $comment param (introduced in WP 4.1) should be used instead.
-	function get_comment_excerpt( $excerpt = '' ) {
-		$excerpt = preg_replace( "/\.\.\.$/", '', $excerpt );
+	public function get_comment_excerpt( $excerpt = '', $comment_ID = 0, $comment = '' ) {
 		$blog_encoding = $this->blog_encoding;
+		$excerpt = strip_tags( str_replace( array( "\n", "\r" ), ' ', $comment->comment_content ) );
 
 		if ( $this->mb_strlen( $excerpt, $blog_encoding ) > $this->conf['comment_excerpt_mblength'] )
 			$excerpt = mb_substr( $excerpt, 0, $this->conf['comment_excerpt_mblength'], $blog_encoding ) . '&hellip;';
@@ -246,7 +244,7 @@ class multibyte_patch {
 		return $excerpt;
 	}
 
-	function excerpt_mblength() {
+	public function excerpt_mblength() {
 		if ( isset( $this->query_based_vars['excerpt_mblength'] ) && (int) $this->query_based_vars['excerpt_mblength'] )
 			$length = (int) $this->query_based_vars['excerpt_mblength'];
 		else
@@ -255,14 +253,14 @@ class multibyte_patch {
 		return apply_filters( 'excerpt_mblength', $length );
 	}
 
-	function excerpt_more() {
+	public function excerpt_more() {
 		if ( isset( $this->query_based_vars['excerpt_more'] ) )
 			return $this->query_based_vars['excerpt_more'];
 		else
 			return $this->conf['excerpt_more'];
 	}
 
-	function sanitize_file_name( $name ) {
+	public function sanitize_file_name( $name ) {
 		$info = pathinfo( $name );
 		$ext = !empty( $info['extension'] ) ? '.' . $info['extension'] : '';
 		$name = str_replace( $ext, '', $name );
@@ -271,52 +269,62 @@ class multibyte_patch {
 		return $name;
 	}
 
-	function wplink_js( &$scripts ) {
-		global $wp_version;
-		$script_required_version = '4.2-RC1';
+	public function wplink_js( &$scripts ) {
+		global $pagenow;
 
-		if ( version_compare( substr( $wp_version, 0, strlen( $script_required_version ) ), $script_required_version, '<' ) )
-			$scripts->add( 'wplink', plugin_dir_url( __FILE__ ) . "js/20141213/wplink{$this->debug_suffix}.js", array( 'jquery' ), '20141213', 1 );
-		else
-			$scripts->add( 'wplink', plugin_dir_url( __FILE__ ) . "js/wplink{$this->debug_suffix}.js", array( 'jquery' ), '20150424', 1 );
+		$file = dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) . "/wp-includes/js/wplink{$this->debug_suffix}.js";
+
+		if( ! is_admin() || ! isset( $pagenow ) || ! in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) || ! is_file( $file ) )
+			return;
+
+		$debug_qs = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '?sd=1' : '';
+
+		$scripts->add( 'wplink', plugin_dir_url( __FILE__ ) . "wplink.php{$debug_qs}", array( 'jquery', 'wp-a11y' ), false, 1 );
 	}
 
-	function word_count_js( &$scripts ) {
-		$scripts->add( 'word-count', plugin_dir_url( __FILE__ ) . "js/word-count{$this->debug_suffix}.js", array( 'jquery' ),  '20131219', 1 );
-	}
-
-	function force_character_count( $translations = '', $text = '', $context = '' ) {
+	public function force_character_count( $translations = '', $text = '', $context = '' ) {
 		if ( 'word count: words or characters?' == $context && 'words' == $text )
 			return 'characters';
+
+		if ( 'Word count type. Do not translate!' == $context && 'words' == $text )
+			return 'characters_including_spaces';
+
 		return $translations;
 	}
 
-	function force_twentytwelve_open_sans_off() {
+	public function force_twentytwelve_open_sans_off() {
 		wp_dequeue_style( 'twentytwelve-fonts' );
 	}
 
-	function force_twentythirteen_google_fonts_off() {
+	public function force_twentythirteen_google_fonts_off() {
 		wp_dequeue_style( 'twentythirteen-fonts' );
 	}
 
-	function force_twentyfourteen_google_fonts_off() {
+	public function force_twentyfourteen_google_fonts_off() {
 		wp_dequeue_style( 'twentyfourteen-lato' );
 	}
 
-	function force_twentyfifteen_google_fonts_off() {
-		global $wp_styles;
-
+	public function force_twentyfifteen_google_fonts_off() {
 		wp_dequeue_style( 'twentyfifteen-fonts' );
+	}
 
-		$styles = $wp_styles->query( 'twentyfifteen-style' );
+	public function force_twentysixteen_google_fonts_off() {
+		wp_dequeue_style( 'twentysixteen-fonts' );
+	}
 
-		if ( !empty( $styles->deps ) && is_array( $styles->deps ) ) {
-			if ( false !== $key = array_search( 'twentyfifteen-fonts', $styles->deps ) )
-				unset( $styles->deps[$key] );
+	public function remove_editor_style( $file = '' ) {
+		global $editor_styles;
+
+		if ( ! is_admin() || empty( $editor_styles ) || ! is_array( $editor_styles ) )
+			return;
+
+		foreach ( $editor_styles as $key => $value ) {
+			if( $file === $value )
+				unset( $editor_styles[$key] );
 		}
 	}
 
-	function query_based_settings() {
+	public function query_based_settings() {
 		$is_query_funcs = array( 'is_feed', 'is_404', 'is_search', 'is_tax', 'is_front_page', 'is_home', 'is_attachment', 'is_single', 'is_page', 'is_category', 'is_tag', 'is_author', 'is_date', 'is_archive', 'is_paged' );
 
 		foreach ( $is_query_funcs as $func ) {
@@ -329,17 +337,24 @@ class multibyte_patch {
 	}
 
 	// The fallback only works with UTF-8 blog.
-	function mb_strlen( $str = '', $encoding = 'UTF-8' ) {
+	public function mb_strlen( $str = '', $encoding = 'UTF-8' ) {
 		if ( $this->has_mb_strlen )
 			return mb_strlen( $str, $encoding );
 		else
 			return preg_match_all( "/./us", $str, $match );
 	}
 
-	function filters_after_setup_theme() {
+	public function is_wp_required_version( $required_version ) {
+		global $wp_version;
+		return version_compare( $wp_version, $required_version, '<' ) ? false : true;
+	}
+
+	public function filters_after_setup_theme() {
 		// add filter
-		if ( false !== $this->conf['patch_force_character_count'] && 'characters' != _x( 'words', 'word count: words or characters?' ) )
+		if ( false !== $this->conf['patch_force_character_count']) {
+			if ( 'characters_including_spaces' != _x( 'words', 'Word count type. Do not translate!' ) )
 			add_filter( 'gettext_with_context', array( $this, 'force_character_count' ), 10, 3 );
+		}
 
 		if ( false !== $this->conf['patch_force_twentytwelve_open_sans_off'] && 'twentytwelve' == get_template() ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'force_twentytwelve_open_sans_off' ), 99 );
@@ -358,10 +373,20 @@ class multibyte_patch {
 
 		if ( false !== $this->conf['patch_force_twentyfifteen_google_fonts_off'] && 'twentyfifteen' == get_template() ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'force_twentyfifteen_google_fonts_off' ), 99 );
+
+			if ( function_exists( 'twentyfifteen_fonts_url' ) )
+				$this->remove_editor_style( twentyfifteen_fonts_url() );
+		}
+
+		if ( false !== $this->conf['patch_force_twentysixteen_google_fonts_off'] && 'twentysixteen' == get_template() ) {
+			add_action( 'wp_enqueue_scripts', array( $this, 'force_twentysixteen_google_fonts_off' ), 99 );
+
+			if ( function_exists( 'twentysixteen_fonts_url' ) )
+				$this->remove_editor_style( twentysixteen_fonts_url() );
 		}
 	}
 
-	function filters() {
+	public function filters() {
 		// add filter
 		add_filter( 'preprocess_comment', array( $this, 'preprocess_comment' ), 99 );
 
@@ -374,7 +399,7 @@ class multibyte_patch {
 		}
 
 		if ( false !== $this->conf['patch_get_comment_excerpt'] )
-			add_filter( 'get_comment_excerpt', array( $this, 'get_comment_excerpt' ) );
+			add_filter( 'get_comment_excerpt', array( $this, 'get_comment_excerpt' ), 10, 3 );
 
 		if ( false !== $this->conf['patch_sanitize_file_name'] )
 			add_filter( 'sanitize_file_name', array( $this, 'sanitize_file_name' ) );
@@ -404,13 +429,10 @@ class multibyte_patch {
 		if ( false !== $this->conf['patch_wplink_js'] )
 			add_action( 'wp_default_scripts', array( $this, 'wplink_js' ), 9 );
 
-		if ( false !== $this->conf['patch_word_count_js'] )
-			add_action( 'wp_default_scripts', array( $this, 'word_count_js' ), 9 );
-
 		add_action( 'after_setup_theme', array( $this, 'filters_after_setup_theme' ), 99 );
 	}
 
-	function mbfunctions_exist() {
+	public function mbfunctions_exist() {
 		return (
 			function_exists( 'mb_convert_encoding' ) &&
 			function_exists( 'mb_convert_kana' ) &&
@@ -420,11 +442,10 @@ class multibyte_patch {
 		) ? true : false;
 	}
 
-	function activation_check() {
-		global $wp_version;
+	public function activation_check() {
 		$required_version = $this->required_version;
 
-		if ( version_compare( substr( $wp_version, 0, strlen( $required_version ) ), $required_version, '<' ) ) {
+		if ( !$this->is_wp_required_version( $required_version ) ) {
 			deactivate_plugins( __FILE__ );
 			exit( sprintf( __( 'Sorry, WP Multibyte Patch requires WordPress %s or later.', 'wp-multibyte-patch' ), $required_version ) );
 		}
@@ -434,7 +455,7 @@ class multibyte_patch {
 		}
 	}
 
-	function load_conf() {
+	public function load_conf() {
 		$wpmp_conf = array();
 
 		if ( file_exists( WP_CONTENT_DIR . '/wpmp-config.php' ) )
@@ -449,7 +470,7 @@ class multibyte_patch {
 		$this->conf = array_merge( $this->conf, $wpmp_conf );
 	}
 
-	function __construct() {
+	public function __construct() {
 		$this->load_conf();
 		$this->blog_encoding = get_option( 'blog_charset' );
 		if ( empty( $this->blog_encoding ) )

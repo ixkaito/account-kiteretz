@@ -31,45 +31,47 @@ Base-Author URI: http://ideasilo.wordpress.com/
 */
 
 class SiteGuardReallySimpleCaptcha extends SiteGuard_Base {
+	/* Mode of character set alphabet(en) or hiragana(jp) */
+	protected $lang_mode;
+
+	/* Length of a word in an image */
+	protected $char_length;
+
+	/* Directory temporary keeping CAPTCHA images and corresponding text files */
+	protected $tmp_dir;
+
+	/* Array of CAPTCHA image size. Width and height */
+	protected $img_size;
+
+	/* Coordinates for a text in an image. I don't know the meaning. Just adjust. */
+	protected $base;
+
+	/* Font size */
+	protected $font_size;
+
+	/* Width of a character */
+	protected $font_char_width;
+
+	/* Image type. 'png', 'gif' or 'jpeg' */
+	protected $img_type;
+
+	/* Mode of temporary image files */
+	protected $file_mode;
+
+	/* Mode of temporary answer text files */
+	protected $answer_file_mode;
 
 	public function __construct() {
-
-		/* Mode of character set alphabet(en) or hiragana(jp) */
 		$this->lang_mode = 'jp';
-
-		/* Length of a word in an image */
 		$this->char_length = 4;
-
-		/* Directory temporary keeping CAPTCHA images and corresponding text files */
 		$this->tmp_dir = path_join( dirname( __FILE__ ), 'tmp' );
-
-		/* Array of CAPTCHA image size. Width and height */
 		$this->img_size = array( 72, 24 );
-
-		/* Background color of CAPTCHA image. RGB color 0-255 */
-		$this->bg = array( 255, 255, 255 );
-
-		/* Foreground (character) color of CAPTCHA image. RGB color 0-255 */
-		$this->fg = array( 0, 0, 0 );
-
-		/* Coordinates for a text in an image. I don't know the meaning. Just adjust. */
 		$this->base = array( 6, 18 );
-
-		/* Font size */
 		$this->font_size = 14;
-
-		/* Width of a character */
 		$this->font_char_width = 15;
-
-		/* Image type. 'png', 'gif' or 'jpeg' */
 		$this->img_type = 'png';
-
-		/* Mode of temporary image files */
 		$this->file_mode = 0444;
-
-		/* Mode of temporary answer text files */
 		$this->answer_file_mode = 0440;
-
 	}
 
 	/**
@@ -81,7 +83,7 @@ class SiteGuardReallySimpleCaptcha extends SiteGuard_Base {
 
 		/* Characters available in images */
 		$chars_en = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-		$chars_jp = 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよん';
+		$chars_jp = 'あいうえおかきくけこさしすせそたちつてとなにのひふへまみむもやゆよらりん';
 
 		$word = '';
 
@@ -91,8 +93,9 @@ class SiteGuardReallySimpleCaptcha extends SiteGuard_Base {
 			$this->chars = $chars_en;
 		}
 
+		$chars_size = mb_strlen( $this->chars );
 		for ( $i = 0; $i < $this->char_length; $i++ ) {
-			$pos = mt_rand( 0, mb_strlen( $this->chars ) - 1 );
+			$pos = mt_rand( 0, $chars_size - 1 );
 			$char = mb_substr( $this->chars, $pos, 1 );
 			$word .= $char;
 		}
@@ -173,8 +176,8 @@ class SiteGuardReallySimpleCaptcha extends SiteGuard_Base {
 		$filename = null;
 
 		if ( $im = imagecreatetruecolor( $this->img_size[0], $this->img_size[1] ) ) {
-			$bg = imagecolorallocate( $im, $this->bg[0], $this->bg[1], $this->bg[2] );
-			$fg = imagecolorallocate( $im, $this->fg[0], $this->fg[1], $this->fg[2] );
+			$bg = imagecolorallocate( $im, 255, 255, 255 );
+			$fg = imagecolorallocate( $im, 0, 0, 0 );
 
 			imagefill( $im, 0, 0, $bg );
 
@@ -187,7 +190,8 @@ class SiteGuardReallySimpleCaptcha extends SiteGuard_Base {
 			$x = $this->base[0] + mt_rand( -2, 2 );
 
 			$gd_info = gd_info( );
-			for ( $i = 0; $i < mb_strlen( $word ); $i++ ) {
+			$word_size = mb_strlen( $word );
+			for ( $i = 0; $i < $word_size; $i++ ) {
 				$font = $this->fonts[ array_rand( $this->fonts ) ];
 				$font = $this->normalize_path( $font );
 				if ( $gd_info['JIS-mapped Japanese Font Support'] ) {
@@ -246,6 +250,8 @@ class SiteGuardReallySimpleCaptcha extends SiteGuard_Base {
 
 			fwrite( $fh, $code );
 			fclose( $fh );
+		} else {
+			siteguard_error_log( 'failed to open file (' . $answer_file . '). : ' . __FILENAME__ );
 		}
 
 		@chmod( $answer_file, $this->answer_file_mode );
@@ -311,13 +317,17 @@ class SiteGuardReallySimpleCaptcha extends SiteGuard_Base {
 		$dir = trailingslashit( $this->tmp_dir );
 		$dir = $this->normalize_path( $dir );
 
-		if ( ! @is_dir( $dir ) || ! @is_readable( $dir ) )
+		if ( ! @is_dir( $dir ) || ! @is_readable( $dir ) ) {
+			siteguard_error_log( $dir . ' is not directory or readable. :' . __FILENAME__ );
 			return false;
+		}
 
 		$is_win = ( 'WIN' === strtoupper( substr( PHP_OS, 0, 3 ) ) );
 
-		if ( ! ( $is_win ? win_is_writable( $dir ) : @is_writable( $dir ) ) )
+		if ( ! ( $is_win ? win_is_writable( $dir ) : @is_writable( $dir ) ) ) {
+			siteguard_error_log( $dir . ' is not writable. :' . __FILENAME__ );
 			return false;
+		}
 
 		$count = 0;
 
@@ -347,7 +357,7 @@ class SiteGuardReallySimpleCaptcha extends SiteGuard_Base {
 	 * @return bool True on successful create, false on failure.
 	 */
 	public function make_tmp_dir() {
-		global $config;
+		global $siteguard_config;
 
 		$dir = trailingslashit( $this->tmp_dir );
 		$dir = $this->normalize_path( $dir );
@@ -358,7 +368,7 @@ class SiteGuardReallySimpleCaptcha extends SiteGuard_Base {
 		$htaccess_file = $this->normalize_path( $dir . '.htaccess' );
 
 		// add 'Satisfy Any' in .htaccess from version 1.2.0
-		if ( version_compare( $config->get( 'version' ), '1.2.0' ) < 0 ) {
+		if ( version_compare( $siteguard_config->get( 'version' ), '1.2.0' ) < 0 ) {
 			@unlink( $htaccess_file );
 		}
 
@@ -371,6 +381,8 @@ class SiteGuardReallySimpleCaptcha extends SiteGuard_Base {
 				fwrite( $handle, '    Satisfy Any' . "\n" );
 				fwrite( $handle, '</Files>' . "\n" );
 				fclose( $handle );
+			} else {
+				siteguard_error_log( 'failed to open file (' . $htaccess_file . '). :' . __FILENAME__ );
 			}
 		}
 
@@ -398,6 +410,13 @@ class SiteGuardReallySimpleCaptcha extends SiteGuard_Base {
 		$path = preg_replace( '|/+|', '/', $path );
 		return $path;
 	}
-}
 
-?>
+	/**
+ 	 * set $this->lang_mode
+	 */
+	public function set_lang_mode( $mode ) {
+		if ( 'jp' === $mode || 'en' === $mode ) {
+			$this->lang_mode = $mode;
+		}
+	}
+}

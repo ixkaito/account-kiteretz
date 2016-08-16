@@ -10,25 +10,25 @@ class SiteGuard_UpdatesNotify extends SiteGuard_Base {
 	}
 
 	public function init( ) {
-		global $config;
-		$config->set( 'notify_wpcore', '1' );
-		$config->set( 'notify_plugins', '2' );
-		$config->set( 'notify_themes',  '2' );
-		$config->set( 'notified', array( 'core' => '', 'plugin' => array(), 'theme' => array() ) );
-		$config->set( 'last_check_time', false );
+		global $siteguard_config;
+		$siteguard_config->set( 'notify_wpcore', '1' );
+		$siteguard_config->set( 'notify_plugins', '2' );
+		$siteguard_config->set( 'notify_themes',  '2' );
+		$siteguard_config->set( 'notified', array( 'core' => '', 'plugin' => array(), 'theme' => array() ) );
+		$siteguard_config->set( 'last_check_time', false );
 		// We need save the configuration before calling self::check_requirements.
-		$config->update( );
+		$siteguard_config->update( );
 		if ( true === self::check_requirements( ) ) {
-			$config->set( 'updates_notify_enable', '1' );
-			$config->update( );
+			$siteguard_config->set( 'updates_notify_enable', '1' );
+			$siteguard_config->update( );
 			self::feature_on( );
 		} else {
-			$config->set( 'updates_notify_enable', '0' );
-			$config->update( );
+			$siteguard_config->set( 'updates_notify_enable', '0' );
+			$siteguard_config->update( );
 		}
 	}
-	public function check_requirements( ) {
-		$error = check_multisite( );
+	public static function check_requirements( ) {
+		$error = siteguard_check_multisite( );
 		if ( is_wp_error( $error ) ) {
 			return $error;
 		}
@@ -74,18 +74,20 @@ class SiteGuard_UpdatesNotify extends SiteGuard_Base {
 	}
 
 	public function do_update_check() {
-		global $config;
+		global $siteguard_config;
 		$message = ''; // start with a blank message
-		if ( '0' != $config->get( 'notify_wpcore' ) ) {  // are we to check for WordPress core?
+		if ( '0' != $siteguard_config->get( 'notify_wpcore' ) ) {  // are we to check for WordPress core?
 			$core_updated = self::core_update_check( $message ); // check the WP core for updates
+		} else {
+			$core_updated = false; // no core updates
 		}
-		if ( '0' != $config->get( 'notify_plugins' ) ) { // are we to check for plugin updates?
-			$plugins_updated = self::plugins_update_check( $message, $config->get( 'notify_plugins' ) ); // check for plugin updates
+		if ( '0' != $siteguard_config->get( 'notify_plugins' ) ) { // are we to check for plugin updates?
+			$plugins_updated = self::plugins_update_check( $message, $siteguard_config->get( 'notify_plugins' ) ); // check for plugin updates
 		} else {
 			$plugins_updated = false; // no plugin updates
 		}
-		if ( '0' != $config->get( 'notify_themes' ) ) { // are we to check for theme updates?
-			$themes_updated = self::themes_update_check( $message, $config->get( 'notify_themes' ) ); // check for theme updates
+		if ( '0' != $siteguard_config->get( 'notify_themes' ) ) { // are we to check for theme updates?
+			$themes_updated = self::themes_update_check( $message, $siteguard_config->get( 'notify_themes' ) ); // check for theme updates
 		} else {
 			$themes_updated = false; // no theme updates
 		}
@@ -99,10 +101,10 @@ class SiteGuard_UpdatesNotify extends SiteGuard_Base {
 	}
 
 	private static function core_update_check( &$message ) {
-		global $config, $wp_version;
+		global $siteguard_config, $wp_version;
 		do_action( 'wp_version_check' ); // force WP to check its core for updates
 		$update_core = get_site_transient( 'update_core' ); // get information of updates
-		$notified = $config->get( 'notified' );
+		$notified = $siteguard_config->get( 'notified' );
 		if ( 'upgrade' == $update_core->updates[0]->response ) { // is WP core update available?
 			if ( $update_core->updates[0]->current != $notified['core'] ) { // have we already notified about this version?
 				require_once( ABSPATH . WPINC . '/version.php' ); // Including this because some plugins can mess with the real version stored in the DB.
@@ -110,23 +112,23 @@ class SiteGuard_UpdatesNotify extends SiteGuard_Base {
 				$old_core_ver = $wp_version; // the old WP core version
 				$message .= "\n" . sprintf( esc_html__( 'WP-Core: WordPress is out of date. Please update from version %s to %s', 'siteguard' ), $old_core_ver, $new_core_ver ) . "\n";
 				$notified['core'] = $new_core_ver; // set core version we are notifying about
-				$config->set( 'notified', $notified );
-				$config->update( );
+				$siteguard_config->set( 'notified', $notified );
+				$siteguard_config->update( );
 				return true; // we have updates so return true
 			} else {
 				return false; // There are updates but we have already notified in the past.
 			}
 		}
 		$notified['core'] = ''; // no updates lets set this nothing
-		$config->set( 'notified', $notified );
-		$config->update( );
+		$siteguard_config->set( 'notified', $notified );
+		$siteguard_config->update( );
 		return false; // no updates return false
 	}
 
 	private static function plugins_update_check( &$message, $allOrActive ) {
-		global $config, $wp_version;
+		global $siteguard_config, $wp_version;
 		$cur_wp_version = preg_replace( '/-.*$/', '', $wp_version );
-		$notified = $config->get( 'notified' );
+		$notified = $siteguard_config->get( 'notified' );
 		do_action( 'wp_update_plugins' ); // force WP to check plugins for updates
 		$update_plugins = get_site_transient( 'update_plugins' ); // get information of updates
 		if ( ! empty( $update_plugins->response ) ) { // any plugin updates available?
@@ -156,23 +158,23 @@ class SiteGuard_UpdatesNotify extends SiteGuard_Base {
 					$message .= "\t" . sprintf( esc_html__( 'Compatibility: %s', 'siteguard' ), $compat ) . "\n";
 					$notified['plugin'][ $key ] = $data->new_version; // set plugin version we are notifying about
 				}
-				$config->set( 'notified', $notified );
-				$config->update( );
+				$siteguard_config->set( 'notified', $notified );
+				$siteguard_config->update( );
 				return true; // we have plugin updates return true
 			}
 		} else {
 			if ( 0 != count( $notified['plugin'] ) ) { // is there any plugin notifications?
 				$notified['plugin'] = array(); // set plugin notifications to empty as all plugins up-to-date
-				$config->set( 'notified', $notified );
-				$config->update( );
+				$siteguard_config->set( 'notified', $notified );
+				$siteguard_config->update( );
 			}
 		}
 		return false; // No plugin updates so return false
 	}
 
-	private function themes_update_check( &$message, $allOrActive ) {
-		global $config;
-		$notified = $config->get( 'notified' );
+	private static function themes_update_check( &$message, $allOrActive ) {
+		global $siteguard_config;
+		$notified = $siteguard_config->get( 'notified' );
 		do_action( 'wp_update_themes' ); // force WP to check for theme updates
 		$update_themes = get_site_transient( 'update_themes' ); // get information of updates
 		if ( ! empty( $update_themes->response ) ) { // any theme updates available?
@@ -188,23 +190,23 @@ class SiteGuard_UpdatesNotify extends SiteGuard_Base {
 					$message .= "\n" . sprintf( esc_html__( 'Theme: %s is out of date. Please update from version %s to %s', 'siteguard' ), $theme_info['Name'], $theme_info['Version'], $data['new_version'] ) . "\n";
 					$notified['theme'][ $key ] = $data['new_version']; // set theme version we are notifying about
 				}
-				$config->set( 'notified', $notified );
-				$config->update( );
+				$siteguard_config->set( 'notified', $notified );
+				$siteguard_config->update( );
 				return true; // we have theme updates return true
 			}
 		} else {
 			if ( 0 != count( $notified['theme'] ) ) { // is there any theme notifications?
 				$notified['theme'] = array(); // set theme notifications to empty as all themes up-to-date
-				$config->set( 'notified', $notified );
-				$config->update( );
+				$siteguard_config->set( 'notified', $notified );
+				$siteguard_config->update( );
 			}
 		}
 		return false; // No theme updates so return false
 	}
 
-	public function check_plugins_against_notified( $plugins_need_update ) {
-		global $config;
-		$notified = $config->get( 'notified' );
+	public static function check_plugins_against_notified( $plugins_need_update ) {
+		global $siteguard_config;
+		$notified = $siteguard_config->get( 'notified' );
 		if ( is_array( $plugins_need_update ) ) {
 			foreach ( $plugins_need_update as $key => $data ) {   // loop through plugins that need update
 				if ( isset( $notified['plugin'][ $key ] ) ) { // has this plugin been notified before?
@@ -217,9 +219,9 @@ class SiteGuard_UpdatesNotify extends SiteGuard_Base {
 		return $plugins_need_update;
 	}
 
-	public function check_themes_against_notified( $themes_need_update ) {
-		global $config;
-		$notified = $config->get( 'notified' );
+	public static function check_themes_against_notified( $themes_need_update ) {
+		global $siteguard_config;
+		$notified = $siteguard_config->get( 'notified' );
 		if ( is_array( $themes_need_update ) ) {
 			foreach ( $themes_need_update as $key => $data ) {   // loop through themes that need update
 				if ( isset( $notified['theme'][ $key ] ) ) { // has this theme been notified before?
@@ -233,21 +235,23 @@ class SiteGuard_UpdatesNotify extends SiteGuard_Base {
 	}
 
 	public function send_notify( $message ) {
-		global $config;
+		global $siteguard_config;
 		$subject = sprintf( esc_html__( 'WordPress: Updates Available @ %s', 'siteguard' ), home_url() );
 
 		$user_query = new WP_User_Query( array( 'role' => 'Administrator' ) );
 		if ( is_array( $user_query->results ) ) {
 			foreach ( $user_query->results as $user ) {
-				@wp_mail( $user->get( 'user_email' ), $subject, $message );
+				if ( true !== @wp_mail( $user->get( 'user_email' ), $subject, $message ) ) {;
+					siteguard_error_log( 'Failed send mail. To:' . $user_email . ' Subject:' . $esc_html( $subject ) );
+				}
 			}
 		}
 	}
 
 	private function log_last_check_time() {
-		global $config;
-		$config->set( 'last_check_time', current_time( 'timestamp' ) );
-		$config->update( );
+		global $siteguard_config;
+		$siteguard_config->set( 'last_check_time', current_time( 'timestamp' ) );
+		$siteguard_config->update( );
 	}
 
 	private static function get_schedules() {
@@ -267,5 +271,3 @@ class SiteGuard_UpdatesNotify extends SiteGuard_Base {
 		return $a['interval'] - $b['interval'];
 	}
 }
-
-?>

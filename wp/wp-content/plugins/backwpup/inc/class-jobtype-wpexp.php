@@ -12,9 +12,9 @@ class BackWPup_JobType_WPEXP extends BackWPup_JobTypes {
 		$this->info[ 'ID' ]        	 = 'WPEXP';
 		$this->info[ 'name' ]        = __( 'XML export', 'backwpup' );
 		$this->info[ 'description' ] = __( 'WordPress XML export', 'backwpup' );
-		$this->info[ 'URI' ]         = translate( BackWPup::get_plugin_data( 'PluginURI' ), 'backwpup' );
-		$this->info[ 'author' ]      = BackWPup::get_plugin_data( 'Author' );
-		$this->info[ 'authorURI' ]   = translate( BackWPup::get_plugin_data( 'AuthorURI' ), 'backwpup' );
+		$this->info[ 'URI' ]         = __( 'http://backwpup.com', 'backwpup' );
+		$this->info[ 'author' ]      = 'Inpsyde GmbH';
+		$this->info[ 'authorURI' ]   = __( 'http://inpsyde.com', 'backwpup' );
 		$this->info[ 'version' ]     = BackWPup::get_plugin_data( 'Version' );
 
 	}
@@ -31,7 +31,7 @@ class BackWPup_JobType_WPEXP extends BackWPup_JobTypes {
 	 * @return array
 	 */
 	public function option_defaults() {
-		return array( 'wpexportcontent' => 'all', 'wpexportfilecompression' => '', 'wpexportfile' => sanitize_file_name( get_bloginfo( 'name' ) ) . '.wordpress.%Y-%m-%d' );
+		return array( 'wpexportcontent' => 'all', 'wpexportfilecompression' => '', 'wpexportfile' => sanitize_text_field( get_bloginfo( 'name' ) ) . '.wordpress.%Y-%m-%d' );
 	}
 
 
@@ -43,7 +43,7 @@ class BackWPup_JobType_WPEXP extends BackWPup_JobTypes {
 		?>
 		<table class="form-table">
 			<tr>
-				<th scope="row"><?php _e( 'Items to export', 'backwpup' ) ?></th>
+				<th scope="row"><?php esc_html_e( 'Items to export', 'backwpup' ) ?></th>
 				<td>
 					<fieldset>
 						<label for="idwpexportcontent-all"><input type="radio" name="wpexportcontent" id="idwpexportcontent-all" value="all" <?php checked( BackWPup_Option::get( $jobid, 'wpexportcontent' ), 'all' ); ?> /> <?php _e( 'All content', 'backwpup' ); ?></label><br />
@@ -58,27 +58,27 @@ class BackWPup_JobType_WPEXP extends BackWPup_JobTypes {
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><label for="idwpexportfile"><?php _e( 'XML Export file name', 'backwpup' ) ?></label></th>
+				<th scope="row"><label for="idwpexportfile"><?php esc_html_e( 'XML Export file name', 'backwpup' ) ?></label></th>
 				<td>
 					<input name="wpexportfile" type="text" id="idwpexportfile"
-						   value="<?php echo BackWPup_Option::get( $jobid, 'wpexportfile' );?>"
+						   value="<?php echo esc_attr(BackWPup_Option::get( $jobid, 'wpexportfile' ));?>"
 						   class="medium-text code"/>.xml
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><?php _e( 'File compression', 'backwpup' ) ?></th>
+				<th scope="row"><?php esc_html_e( 'File compression', 'backwpup' ) ?></th>
 				<td>
 					<fieldset>
 						<?php
-						echo '<label for="idwpexportfilecompression"><input class="radio" type="radio"' . checked( '', BackWPup_Option::get( $jobid, 'wpexportfilecompression' ), FALSE ) . ' name="wpexportfilecompression" id="idwpexportfilecompression" value="" /> ' . __( 'none', 'backwpup' ). '</label><br />';
+						echo '<label for="idwpexportfilecompression"><input class="radio" type="radio"' . checked( '', BackWPup_Option::get( $jobid, 'wpexportfilecompression' ), FALSE ) . ' name="wpexportfilecompression" id="idwpexportfilecompression" value="" /> ' . esc_html__( 'none', 'backwpup' ). '</label><br />';
 						if ( function_exists( 'gzopen' ) )
-							echo '<label for="idwpexportfilecompression-gz"><input class="radio" type="radio"' . checked( '.gz', BackWPup_Option::get( $jobid, 'wpexportfilecompression' ), FALSE ) . ' name="wpexportfilecompression" id="idwpexportfilecompression-gz" value=".gz" /> ' . __( 'GZip', 'backwpup' ). '</label><br />';
+							echo '<label for="idwpexportfilecompression-gz"><input class="radio" type="radio"' . checked( '.gz', BackWPup_Option::get( $jobid, 'wpexportfilecompression' ), FALSE ) . ' name="wpexportfilecompression" id="idwpexportfilecompression-gz" value=".gz" /> ' . esc_html__( 'GZip', 'backwpup' ). '</label><br />';
 						else
-							echo '<label for="idwpexportfilecompression-gz"><input class="radio" type="radio"' . checked( '.gz', BackWPup_Option::get( $jobid, 'wpexportfilecompression' ), FALSE ) . ' name="wpexportfilecompression" id="idwpexportfilecompression-gz" value=".gz" disabled="disabled" /> ' . __( 'GZip', 'backwpup' ). '</label><br />';
+							echo '<label for="idwpexportfilecompression-gz"><input class="radio" type="radio"' . checked( '.gz', BackWPup_Option::get( $jobid, 'wpexportfilecompression' ), FALSE ) . ' name="wpexportfilecompression" id="idwpexportfilecompression-gz" value=".gz" disabled="disabled" /> ' . esc_html__( 'GZip', 'backwpup' ). '</label><br />';
 						if ( function_exists( 'bzopen' ) )
-							echo '<label for="idwpexportfilecompression-bz2"><input class="radio" type="radio"' . checked( '.bz2', BackWPup_Option::get( $jobid, 'wpexportfilecompression' ), FALSE ) . ' name="wpexportfilecompression" id="idwpexportfilecompression-bz2" value=".bz2" /> ' . __( 'BZip2', 'backwpup' ). '</label><br />';
+							echo '<label for="idwpexportfilecompression-bz2"><input class="radio" type="radio"' . checked( '.bz2', BackWPup_Option::get( $jobid, 'wpexportfilecompression' ), FALSE ) . ' name="wpexportfilecompression" id="idwpexportfilecompression-bz2" value=".bz2" /> ' . esc_html__( 'BZip2', 'backwpup' ). '</label><br />';
 						else
-							echo '<label for="idwpexportfilecompression-bz2"><input class="radio" type="radio"' . checked( '.bz2', BackWPup_Option::get( $jobid, 'wpexportfilecompression' ), FALSE ) . ' name="wpexportfilecompression" id="idwpexportfilecompression-bz2" value=".bz2" disabled="disabled" /> ' . __( 'BZip2', 'backwpup' ). '</label><br />';
+							echo '<label for="idwpexportfilecompression-bz2"><input class="radio" type="radio"' . checked( '.bz2', BackWPup_Option::get( $jobid, 'wpexportfilecompression' ), FALSE ) . ' name="wpexportfilecompression" id="idwpexportfilecompression-bz2" value=".bz2" disabled="disabled" /> ' . esc_html__( 'BZip2', 'backwpup' ). '</label><br />';
 						?>
 					</fieldset>
 				</td>
@@ -92,17 +92,18 @@ class BackWPup_JobType_WPEXP extends BackWPup_JobTypes {
 	 */
 	public function edit_form_post_save( $id ) {
 
-		BackWPup_Option::update( $id, 'wpexportcontent', $_POST[ 'wpexportcontent' ] );
-		BackWPup_Option::update( $id, 'wpexportfile', BackWPup_Job::sanitize_file_name( $_POST[ 'wpexportfile' ] ) );
-		if ( $_POST[ 'wpexportfilecompression' ] == '' || $_POST[ 'wpexportfilecompression' ] == '.gz' || $_POST[ 'wpexportfilecompression' ] == '.bz2' )
+		BackWPup_Option::update( $id, 'wpexportcontent', sanitize_text_field( $_POST[ 'wpexportcontent' ] ) );
+		BackWPup_Option::update( $id, 'wpexportfile', sanitize_file_name( $_POST[ 'wpexportfile' ] ) );
+		if ( $_POST[ 'wpexportfilecompression' ] === '' || $_POST[ 'wpexportfilecompression' ] === '.gz' || $_POST[ 'wpexportfilecompression' ] === '.bz2' ) {
 			BackWPup_Option::update( $id, 'wpexportfilecompression', $_POST[ 'wpexportfilecompression' ] );
+		}
 	}
 
 	/**
 	 * @param $job_object
 	 * @return bool
 	 */
-	public function job_run( &$job_object ) {
+	public function job_run( BackWPup_Job $job_object ) {
 		global $wpdb, $post, $wp_query;
 
 		$wxr_version = '1.2';
@@ -393,7 +394,7 @@ class BackWPup_JobType_WPEXP extends BackWPup_JobTypes {
 			$job_object->do_restart_time();
 		}
 
-		remove_filter( 'wxr_export_skip_postmeta', array( $this, 'wxr_filter_postmeta' ), 10, 2 );
+		remove_filter( 'wxr_export_skip_postmeta', array( $this, 'wxr_filter_postmeta' ), 10 );
 
 		if ( $job_object->steps_data[ $job_object->step_working ]['substep'] == 'check' ) {
 
@@ -458,7 +459,7 @@ class BackWPup_JobType_WPEXP extends BackWPup_JobTypes {
 				if ( $valid )
 					$job_object->log( __( 'WP Export file is a valid WXR file.', 'backwpup' ) );
 			} else {
-				$job_object->log( __( 'WP Export file can not checked, because no XML extension loaded with the file can checked.', 'backwpup' ) );
+				$job_object->log( __( 'WP Export file can not be checked, because no XML extension is loaded, to ensure the file verification.', 'backwpup' ) );
 			}
 
 			$job_object->steps_data[ $job_object->step_working ]['substep'] = 'compress';
@@ -495,9 +496,7 @@ class BackWPup_JobType_WPEXP extends BackWPup_JobTypes {
 			//add XML file to backup files
 			if ( is_readable( $job_object->steps_data[ $job_object->step_working ]['wpexportfile'] ) ) {
 				$job_object->additional_files_to_backup[ ] = $job_object->steps_data[ $job_object->step_working ]['wpexportfile'];
-				$job_object->count_files ++;
 				$filesize = filesize( $job_object->steps_data[ $job_object->step_working ][ 'wpexportfile' ] );
-				$job_object->count_filesize = $job_object->count_filesize + $filesize;
 				$job_object->log( sprintf( __( 'Added XML export "%1$s" with %2$s to backup file list.', 'backwpup' ), basename( $job_object->steps_data[ $job_object->step_working ]['wpexportfile'] ), size_format( $filesize, 2 ) ) );
 			}
 			$job_object->substeps_done ++;
@@ -516,8 +515,9 @@ class BackWPup_JobType_WPEXP extends BackWPup_JobTypes {
 	 * @return string
 	 */
 	private function wxr_cdata( $str ) {
-		if ( seems_utf8( $str ) == false )
+		if ( ! seems_utf8( $str ) ) {
 			$str = utf8_encode( $str );
+		}
 
 		// not allowed UTF-8 chars in XML
 		$str = preg_replace( '/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', '', $str );
@@ -638,8 +638,10 @@ class BackWPup_JobType_WPEXP extends BackWPup_JobTypes {
 	 * Output list of authors with posts
 	 *
 	 * @since WordPress 3.1.0
+	 *
+	 * @return string
 	 */
-	private function wxr_authors_list() {
+	private function wxr_authors_list( ) {
 		global $wpdb;
 
 		$authors = array();

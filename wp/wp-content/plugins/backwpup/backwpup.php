@@ -1,21 +1,20 @@
 <?php
 /**
  * Plugin Name: BackWPup
- * Plugin URI: https://marketpress.com/product/backwpup-pro/
+ * Plugin URI: http://backwpup.com
  * Description: WordPress Backup Plugin
  * Author: Inpsyde GmbH
  * Author URI: http://inpsyde.com
- * Version: 3.1.4
+ * Version: 3.3.4
  * Text Domain: backwpup
  * Domain Path: /languages/
  * Network: true
  * License: GPLv3
  * License URI: http://www.gnu.org/licenses/gpl-3.0
- * Slug: backwpup
  */
 
 /**
- *	Copyright (C) 2012-2014 Inpsyde GmbH (email: info@inpsyde.com)
+ *	Copyright (C) 2012-2016 Inpsyde GmbH (email: info@inpsyde.com)
  *
  *	This program is free software; you can redistribute it and/or
  *	modify it under the terms of the GNU General Public License
@@ -34,13 +33,11 @@
 
 if ( ! class_exists( 'BackWPup' ) ) {
 
-	// Don't activate on anything less than PHP 5.2.7 or WordPress 3.1
-	if ( version_compare( PHP_VERSION, '5.2.7', '<' ) || version_compare( get_bloginfo( 'version' ), '3.4', '<' ) || ! function_exists( 'spl_autoload_register' ) ) {
+	// Don't activate on anything less than PHP 5.2.7 or WordPress 3.9
+	if ( version_compare( PHP_VERSION, '5.2.7', '<' ) || version_compare( get_bloginfo( 'version' ), '3.9', '<' ) || ! function_exists( 'spl_autoload_register' ) ) {
 		require_once ABSPATH . 'wp-admin/includes/plugin.php';
-		deactivate_plugins( basename( __FILE__ ) );
-		if ( isset( $_GET['action'] ) && ( $_GET['action'] == 'activate' || $_GET['action'] == 'error_scrape' ) ) {
-			die( __( 'BackWPup requires PHP version 5.2.7 with spl extension or greater and WordPress 3.4 or greater.', 'backwpup' ) );
-		}
+		deactivate_plugins( __FILE__ );
+		die( 'BackWPup requires PHP version 5.2.7 with spl extension or greater and WordPress 3.8 or greater.' );
 	}
 
 	//Start Plugin
@@ -73,7 +70,7 @@ if ( ! class_exists( 'BackWPup' ) ) {
 			//auto loader
 			spl_autoload_register( array( $this, 'autoloader' ) );
 			//start upgrade if needed
-			if ( get_site_option( 'backwpup_version' ) != self::get_plugin_data( 'Version' ) ) {
+			if ( get_site_option( 'backwpup_version' ) !== self::get_plugin_data( 'Version' ) || ! wp_next_scheduled( 'backwpup_check_cleanup' ) ) {
 				BackWPup_Install::activate();
 			}
 			//load pro features
@@ -82,23 +79,23 @@ if ( ! class_exists( 'BackWPup' ) ) {
 			}
 			//WP-Cron
 			if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
-				//early disable caches
 				if ( ! empty( $_GET[ 'backwpup_run' ] ) && class_exists( 'BackWPup_Job' ) ) {
+					//early disable caches
 					BackWPup_Job::disable_caches();
+					//add action for running jobs in wp-cron.php
+					add_action( 'wp_loaded', array( 'BackWPup_Cron', 'cron_active' ), PHP_INT_MAX );
+				} else {
+					//add cron actions
+					add_action( 'backwpup_cron', array( 'BackWPup_Cron', 'run' ) );
+					add_action( 'backwpup_check_cleanup', array( 'BackWPup_Cron', 'check_cleanup' ) );
 				}
-				// add normal cron actions
-				add_action( 'backwpup_cron', array( 'BackWPup_Cron', 'run' ) );
-				add_action( 'backwpup_check_cleanup', array( 'BackWPup_Cron', 'check_cleanup' ) );
-				// add action for doing thinks if cron active
-				// must done in wp_loaded so that all is really loaded and initiated
-				add_action( 'wp_loaded', array( 'BackWPup_Cron', 'cron_active' ), 999 );
-				// if in cron the rest must not needed
+				//if in cron the rest is not needed
 				return;
 			}
 			//deactivation hook
 			register_deactivation_hook( __FILE__, array( 'BackWPup_Install', 'deactivate' ) );
 			//Admin bar
-			if ( is_admin_bar_showing() ) {
+			if ( get_site_option( 'backwpup_cfg_showadminbar' ) ) {
 				add_action( 'init', array( 'BackWPup_Adminbar', 'get_instance' ) );
 			}
 			//only in backend
@@ -141,46 +138,27 @@ if ( ! class_exists( 'BackWPup' ) ) {
 			if ( empty( self::$plugin_data ) ) {
 				self::$plugin_data = get_file_data( __FILE__, array(
 																   'name'        => 'Plugin Name',
-																   'pluginuri'   => 'Plugin URI',
-																   'version'     => 'Version',
-																   'description' => 'Description',
-																   'author'      => 'Author',
-																   'authoruri'   => 'Author URI',
-																   'textdomain'  => 'Text Domain',
-																   'domainpath'  => 'Domain Path',
-																   'slug'  		 => 'Slug',
-																   'license'     => 'License',
-																   'licenseuri'  => 'License URI'
+																   'version'     => 'Version'
 															  ), 'plugin' );
-				//Translate some vars
 				self::$plugin_data[ 'name' ]        = trim( self::$plugin_data[ 'name' ] );
-				self::$plugin_data[ 'pluginuri' ]   = trim( self::$plugin_data[ 'pluginuri' ] );
-				self::$plugin_data[ 'description' ] = trim( self::$plugin_data[ 'description' ] );
-				self::$plugin_data[ 'author' ]      = trim( self::$plugin_data[ 'author' ] );
-				self::$plugin_data[ 'authoruri' ]   = trim( self::$plugin_data[ 'authoruri' ] );
 				//set some extra vars
 				self::$plugin_data[ 'basename' ] = plugin_basename( dirname( __FILE__ ) );
 				self::$plugin_data[ 'mainfile' ] = __FILE__ ;
 				self::$plugin_data[ 'plugindir' ] = untrailingslashit( dirname( __FILE__ ) ) ;
 				self::$plugin_data[ 'hash' ] = get_site_option( 'backwpup_cfg_hash' );
 				if ( empty( self::$plugin_data[ 'hash' ] ) || strlen( self::$plugin_data[ 'hash' ] ) < 6 || strlen( self::$plugin_data[ 'hash' ] ) > 12 ) {
-					update_site_option( 'backwpup_cfg_hash', substr( md5( md5( BackWPup::get_plugin_data( "mainfile" ) ) ), 14, 6 ) );
-					self::$plugin_data[ 'hash' ] = get_site_option( 'backwpup_cfg_hash' );
+					self::$plugin_data[ 'hash' ] = substr( md5( md5( __FILE__ ) ), 14, 6 );
+					update_site_option( 'backwpup_cfg_hash', self::$plugin_data[ 'hash' ] );
 				}
 				if ( defined( 'WP_TEMP_DIR' ) && is_dir( WP_TEMP_DIR ) ) {
-					self::$plugin_data[ 'temp' ] = trailingslashit( str_replace( '\\', '/', realpath( WP_TEMP_DIR ) ) . '/backwpup-' . self::$plugin_data[ 'hash' ] );
+					self::$plugin_data['temp'] = str_replace( '\\', '/', get_temp_dir() ) . 'backwpup-' . self::$plugin_data['hash'] . '/';
 				} else {
-					$upload_dir = wp_upload_dir();
-					self::$plugin_data[ 'temp' ] = trailingslashit( str_replace( '\\', '/', realpath( $upload_dir[ 'basedir' ] ) ) . '/backwpup-' . self::$plugin_data[ 'hash' ] . '-temp' );
+					$upload_dir                = wp_upload_dir();
+					self::$plugin_data['temp'] = str_replace( '\\', '/', $upload_dir['basedir'] ) . '/backwpup-' . self::$plugin_data['hash'] . '-temp/';
 				}
 				self::$plugin_data[ 'running_file' ] = self::$plugin_data[ 'temp' ] . 'backwpup-working.php';
 				self::$plugin_data[ 'url' ] = plugins_url( '', __FILE__ );
-				self::$plugin_data[ 'cacert' ] = FALSE;
-				if ( file_exists( ABSPATH . WPINC . '/certificates/ca-bundle.crt' ) )
-					self::$plugin_data[ 'cacert' ] = ABSPATH . WPINC . '/certificates/ca-bundle.crt';
-				elseif ( file_exists( self::$plugin_data[ 'plugindir' ] . '/vendor/Guzzle/Http/Resources/cacert.pem' ) )
-					self::$plugin_data[ 'cacert' ] = self::$plugin_data[ 'plugindir' ] . '/vendor/Guzzle/Http/Resources/cacert.pem';
-				self::$plugin_data[ 'cacert' ] = apply_filters( 'backwpup_cacert_bundle', self::$plugin_data[ 'cacert' ] );
+				self::$plugin_data[ 'cacert' ] = apply_filters( 'backwpup_cacert_bundle', ABSPATH . WPINC . '/certificates/ca-bundle.crt' );
 				//get unmodified WP Versions
 				include ABSPATH . WPINC . '/version.php';
 				/** @var $wp_version string */
@@ -244,6 +222,20 @@ if ( ! class_exists( 'BackWPup' ) ) {
 				}
 			}
 
+		}
+
+		/**
+		 * Load Plugin Translation
+		 *
+		 * @return bool Text domain loaded
+		 */
+		public static function load_text_domain() {
+
+			if ( is_textdomain_loaded( 'backwpup' ) ) {
+				return TRUE;
+			}
+
+			return load_plugin_textdomain( 'backwpup', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 		}
 
 		/**
@@ -346,42 +338,24 @@ if ( ! class_exists( 'BackWPup' ) ) {
 								'autoload'	=> array()
 							);
 			// Backup to S3
-			if ( version_compare( PHP_VERSION, '5.3.3', '>=' ) )
-				self::$registered_destinations[ 'S3' ] 	= array(
-									'class' => 'BackWPup_Destination_S3',
-									'info'	=> array(
-										'ID'        	=> 'S3',
-										'name'       	=> __( 'S3 Service', 'backwpup' ),
-										'description' 	=> __( 'Backup to an S3 Service', 'backwpup' ),
-									),
-									'can_sync' => FALSE,
-									'needed' => array(
-										'php_version'	=> '5.3.3',
-										'functions'	=> array( 'curl_exec' ),
-										'classes'	=> array()
-									),
-									'autoload'	=> array( 	'Aws\\Common' => dirname( __FILE__ ) .'/vendor',
-															'Aws\\S3' => dirname( __FILE__ ) .'/vendor',
-															'Symfony\\Component\\EventDispatcher'  => BackWPup::get_plugin_data( 'plugindir' ) . '/vendor',
-															'Guzzle' => dirname( __FILE__ ) . '/vendor'	)
-								);
-			else
-				self::$registered_destinations[ 'S3' ] 	= array(
-									'class' => 'BackWPup_Destination_S3_V1',
-									'info'	=> array(
-										'ID'        	=> 'S3',
-										'name'       	=> __( 'S3 Service', 'backwpup' ),
-										'description' 	=> __( 'Backup to an S3 Service v1', 'backwpup' ),
-									),
-									'can_sync' => FALSE,
-									'needed' => array(
-										'php_version'	=> '',
-										'functions'	=> array( 'curl_exec' ),
-										'classes'	=> array()
-									),
-									'autoload'	=> array( 'AmazonS3' => dirname( __FILE__ ) . '/vendor/Aws_v1/sdk.class.php' )
-								);
-
+			self::$registered_destinations[ 'S3' ] 	= array(
+								'class' => 'BackWPup_Destination_S3',
+								'info'	=> array(
+									'ID'        	=> 'S3',
+									'name'       	=> __( 'S3 Service', 'backwpup' ),
+									'description' 	=> __( 'Backup to an S3 Service', 'backwpup' ),
+								),
+								'can_sync' => FALSE,
+								'needed' => array(
+									'php_version'	=> '5.3.3',
+									'functions'	=> array( 'curl_exec' ),
+									'classes'	=> array( 'XMLWriter' )
+								),
+								'autoload'	=> array( 	'Aws\\Common' => dirname( __FILE__ ) .'/vendor',
+														'Aws\\S3' => dirname( __FILE__ ) .'/vendor',
+														'Symfony\\Component\\EventDispatcher'  => dirname( __FILE__ ) . '/vendor',
+														'Guzzle' => dirname( __FILE__ ) . '/vendor'	)
+							);
 			// backup to MS Azure
 			self::$registered_destinations[ 'MSAZURE' ] 	= array(
 								'class' => 'BackWPup_Destination_MSAzure',
@@ -413,7 +387,8 @@ if ( ! class_exists( 'BackWPup' ) ) {
 									'classes'	=> array()
 								),
 								'autoload'	=> array( 'OpenCloud' => dirname( __FILE__ ) . '/vendor',
-													  'Guzzle' => dirname( __FILE__ ) . '/vendor' )
+													  'Guzzle' => dirname( __FILE__ ) . '/vendor',
+													  'Psr' => dirname( __FILE__ ) . '/vendor' )
 							);
 			// backup to Sugarsync
 			self::$registered_destinations[ 'SUGARSYNC' ] 	= array(

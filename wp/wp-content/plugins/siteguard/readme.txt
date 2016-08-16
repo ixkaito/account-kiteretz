@@ -3,8 +3,8 @@ Contributors: jp-secure
 Donate link: -
 Tags: security, waf, brute force, password list, login lock, login alert, captcha, pingback, fail once
 Requires at least: 3.9
-Tested up to: 4.2
-Stable tag: 1.2.3
+Tested up to: 4.6
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,7 +14,7 @@ SiteGurad WP Plugin is the plugin specialized for the protection against the att
 
 You can find docs, FAQ and more detailed information on [English Page](http://www.jp-secure.com/cont/products/siteguard_wp_plugin/index_en.html) [Japanese Page](http://www.jp-secure.com/cont/products/siteguard_wp_plugin/index.html).
 
-Simply install the SiteGuard WP Plugin, WordPress security is improved. 
+Simply install the SiteGuard WP Plugin, WordPress security is improved.
 This plugin is a security plugin that specializes in the login attack of brute force, such as protection and management capabilities.
 
 Notes
@@ -23,9 +23,9 @@ Notes
 * It only supports Apache 1.3, 2.x for Web servers.
 * To use the CAPTCHA function, the expansion library “mbstring” and “gd” should be installed on php.
 * To use the management page filter function and login page change function, “mod_rewrite” should be loaded on Apache.
-* To use the WAF Tuning Support, WAF ( SiteGuard Lite ) should be installed on Apache. 
+* To use the WAF Tuning Support, WAF ( SiteGuard Lite ) should be installed on Apache.
 
-There are the following functions. 
+There are the following functions.
 
 * Admin Page IP Filter
 
@@ -40,7 +40,7 @@ The URL (under wp-admin) where this function is excluded can be specified.
 It is the function to decrease the vulnerability against an illegal login attempt attack such as a brute force attack or a password list attack.
 The login page name (wp-login.php) is changed. The initial value is “login_<5 random digits>” but it can be changed to a favorite name.
 
-* CAPTCHA 
+* CAPTCHA
 
 It is the function to decrease the vulnerability against an illegal login attempt attack such as a brute force attack or a password list attack,
 or to receive less comment spam. For the character of CAPTCHA, hiragana and alphanumeric characters can be selected.
@@ -55,12 +55,12 @@ Each user account is not locked.
 * Login Alert
 
 It is the function to make it easier to notice unauthorized login. E-mail will be sent to a login user when logged in.
-If you receive an e-mail to there is no logged-in idea, please suspect unauthorized login. 
+If you receive an e-mail to there is no logged-in idea, please suspect unauthorized login.
 
 * Fail Once
 
 It is the function to decrease the vulnerability against a password list attack. Even is the login input is correct, the first login must fail.
-After 5 seconds and later within 60 seconds, another correct login input make login succeed. At the first login failure, the following error message is displayed. 
+After 5 seconds and later within 60 seconds, another correct login input make login succeed. At the first login failure, the following error message is displayed.
 
 * Disable Pingback
 
@@ -75,7 +75,7 @@ Basic of security is that always you use the latest version. If WordPress core, 
 It is the function to create the rule to avoid the false detection in WordPress (including 403 error occurrence with normal access,)
 if WAF ( SiteGuard Lite ) by JP-Secure is installed on a Web server. WAF prevents the attack from the outside against the Web server,
 but for some WordPress or plugin functions, WAF may detect the attack which is actually not attack and block the function.
-By creating the WAF exclude rule, the WAF protection function can be activated while the false detection for the specified function is prevented. 
+By creating the WAF exclude rule, the WAF protection function can be activated while the false detection for the specified function is prevented.
 
 = Translate =
 
@@ -102,6 +102,18 @@ If you have created your own language pack, or have an update of an existing one
 [Japanese Page](http://www.jp-secure.com/cont/products/siteguard_wp_plugin/faq.html)
 
 == Changelog ==
+= 1.3.0 =
+* Add the "Disable XMLRPC" feature
+* In the Login History, add display the login type that indicates whether via login page or xmlrpc 
+* Fix that the Fail Once error message to be not the same as the failure
+* Fix that the permission of .htaccess to change from 0644 to 0604
+* Delete the mistaken characters of CAPTCHA
+= 1.2.5 =
+* In the Admin Page IP Filter function, fix bug that can be accessed from the IP address that failed to login to the management page
+* In the Rename Login function, correct the problem that is redirected to the renamed login page from the /wp-signup.php
+= 1.2.4 =
+* Fix bug that there is a case which can acccess management pages from non login client
+* Disabling the several functions when there is no .htaccess write permission
 = 1.2.3 =
 * Fix bug that you can not reply comments from the dashboard, if the CAPTCHA is enabled
 * Fix bug that the login page is displayed in '/wp-login' even if the Rename Login is enabled
@@ -117,7 +129,7 @@ If you have created your own language pack, or have an update of an existing one
 * Fix bug that sometimes can't login when you enable the Fail once
 = 1.1.2 =
 * Supported with WP 4.1
-* Disabling the Admin IP Filter function by default 
+* Disabling the Admin IP Filter function by default
 = 1.1.1 =
 * Fix bug that can not save "Login Alert" settings
 * Add the "Login Alert" notification variables, IP Address, User-Agent and Referer

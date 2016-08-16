@@ -3,7 +3,7 @@
 require_once( 'siteguard-waf-exclude-rule-table.php' );
 
 class SiteGuard_Menu_WAF_Tuning_Support extends SiteGuard_Base {
-	var $wp_list_table;
+	protected $wp_list_table;
 	function __construct( ) {
 		$this->wp_list_table = new SiteGuard_WAF_Exclude_Rule_Table( );
 		$this->wp_list_table->prepare_items( );
@@ -19,21 +19,26 @@ class SiteGuard_Menu_WAF_Tuning_Support extends SiteGuard_Base {
 			return $base;
 		}
 	}
+	function htaccess_error( ) {
+		echo '<div class="error settings-error"><p><strong>';
+		esc_html_e( 'ERROR: Failed to .htaccess update.', 'siteguard' );
+		echo '</strong></p></div>';
+	}
 	function render_page( ) {
-		global $waf_exclude_rule;
+		global $siteguard_waf_exclude_rule;
 		isset( $_GET['action'] ) ? $action = $_GET['action'] : $action = 'list';
 		if ( 'list' == $action && isset( $_POST['action'] ) ) {
 			$action = $_POST['action'];
 		}
-		if ( 'list' != $action && 'add' != $action && 'edit' != $action && 'delete' != $action ) {
+		if ( ! in_array( $action, array( 'list', 'add', 'edit', 'delete' ) ) ) {
 			$action = 'list';
 		}
 
-		$waf_exclude_rule_enable = $waf_exclude_rule->get_enable( );
+		$waf_exclude_rule_enable = $siteguard_waf_exclude_rule->get_enable( );
 		if ( 'edit' == $action && isset( $_GET['rule'] ) ) {
 			$offset = 0;
 			$id = intval( $_GET['rule'] );
-			$rule = $waf_exclude_rule->get_rule( $id, $offset );
+			$rule = $siteguard_waf_exclude_rule->get_rule( $id, $offset );
 			if ( false === $rule ) {
 				$filename  = '';
 				$sig       = '';
@@ -60,21 +65,32 @@ class SiteGuard_Menu_WAF_Tuning_Support extends SiteGuard_Base {
 				case 'add':
 					if ( check_admin_referer( 'siteguard-menu-waf-tuning-support-add' ) ) {
 						$error = false;
-						$errors = check_multisite( );
+						$errors = siteguard_check_multisite( );
 						if ( is_wp_error( $errors ) ) {
 							$error = true;
 						}
 						if ( true == $error || ! isset( $_POST['filename'] )  || ! isset( $_POST['sig'] ) || ! isset( $_POST['comment'] ) ) {
 							// error
+							if ( true === $error ) {
+								siteguard_error_log( 'multisite enabled: ' . __FILENAME__ );
+							}
+							if ( ! isset( $_POST['sig'] ) ) {
+								siteguard_error_log( 'post value sig not set: ' . __FILENAME__ );
+							}
+							if ( ! isset( $_POST['comment'] ) ) {
+								siteguard_error_log( 'post value comment not set: ' . __FILENAME__ );
+							}
 						} else {
 							$filename  = $this->set_filename( stripslashes( $_POST['filename'] ) );
 							$sig       = stripslashes( $_POST['sig'] );
 							$comment   = stripslashes( $_POST['comment'] );
 
-							$errors = $waf_exclude_rule->add_rule( $filename, $sig, $comment );
+							$errors = $siteguard_waf_exclude_rule->add_rule( $filename, $sig, $comment );
 							if ( ! is_wp_error( $errors ) ) {
 								if ( $waf_exclude_rule_enable ) {
-									$waf_exclude_rule->feature_on( );
+									if ( false === $siteguard_waf_exclude_rule->feature_on( ) ) {
+										$this->htaccess_error( );
+									}
 								}
 								echo '<div class="updated"><p><strong>' . esc_html__( 'New rule created', 'siteguard' ) . '</strong></p></div>';
 								$action = 'list';
@@ -94,12 +110,13 @@ class SiteGuard_Menu_WAF_Tuning_Support extends SiteGuard_Base {
 							$filename  = $this->set_filename( stripslashes( $_POST['filename'] ) );
 							$sig       = stripslashes( $_POST['sig'] );
 							$comment   = stripslashes( $_POST['comment'] );
-							$errors = $waf_exclude_rule->set_rule( $id, $filename, $sig, $comment );
+							$errors = $siteguard_waf_exclude_rule->update_rule( $id, $filename, $sig, $comment );
 							if ( ! is_wp_error( $errors ) ) {
 								if ( $waf_exclude_rule_enable ) {
-									$waf_exclude_rule->feature_on( );
+									if ( false === $siteguard_waf_exclude_rule->feature_on( ) ) {
+										$this->htaccess_error( );
+									}
 								}
-
 								echo '<div class="updated"><p><strong>' . esc_html__( 'Rule updated', 'siteguard' ) . '</strong></p></div>';
 								$action = 'list';
 								$this->wp_list_table->prepare_items( );
@@ -115,9 +132,11 @@ class SiteGuard_Menu_WAF_Tuning_Support extends SiteGuard_Base {
 							// error
 						} else {
 							$ids = $_POST['rule'];
-							$waf_exclude_rule->delete_rule( $ids );
+							$siteguard_waf_exclude_rule->delete_rule( $ids );
 							if ( $waf_exclude_rule_enable ) {
-								$waf_exclude_rule->feature_on( );
+								if ( false === $siteguard_waf_exclude_rule->feature_on( ) ) {
+									$this->htaccess_error( );
+								}
 							}
 							echo '<div class="updated"><p><strong>' . esc_html__( 'Rule deleted', 'siteguard' ) . '</strong></p></div>';
 							$action = 'list';
@@ -133,35 +152,47 @@ class SiteGuard_Menu_WAF_Tuning_Support extends SiteGuard_Base {
 						if ( ! isset( $_POST['waf_exclude_rule_enable'] ) ) {
 							// error
 						} else {
-				                        $error = false;
-							$errors = check_multisite( );
+							$error = false;
+							$errors = siteguard_check_multisite( );
 							if ( is_wp_error( $errors ) ) {
 								$error = true;
 							}
-							if ( false == $error && '1' == $_POST['waf_exclude_rule_enable'] && false == $this->check_module( 'siteguard' ) ) {
+							if ( false === $error && '1' === $_POST['waf_exclude_rule_enable'] && false === $this->check_module( 'siteguard' ) ) {
 								echo '<div class="error settings-error"><p><strong>';
 								esc_html_e( 'To use the WAF exclude rule, WAF ( SiteGuard Lite ) should be installed on Apache.', 'siteguard' );
 								echo '</strong></p></div>';
 								$error = true;
-								$waf_exclude_rule->set_enable( '0' );
-								$waf_exclude_rule->feature_off( );
+								$siteguard_waf_exclude_rule->set_enable( '0' );
+								if ( false === $siteguard_waf_exclude_rule->feature_off( ) ) {
+									$this->htaccess_error( );
+								}
 								$waf_exclude_rule_enable = '0';
 							}
-							if ( false == $error && false == $this->is_switch_value( $_POST['waf_exclude_rule_enable'] ) ) {
+							if ( false === $error && false === $this->is_switch_value( $_POST['waf_exclude_rule_enable'] ) ) {
 								echo '<div class="error settings-error"><p><strong>';
 								esc_html_e( 'ERROR: Invalid input value.', 'siteguard' );
 								echo '</strong></p></div>';
 								$error = true;
 							}
-							if ( false == $error ) {
+							if ( false === $error ) {
+								$old_waf_exclude_rule_enable = $waf_exclude_rule_enable;
 								$waf_exclude_rule_enable = $_POST['waf_exclude_rule_enable'];
-								$waf_exclude_rule->set_enable( $waf_exclude_rule_enable );
+								$siteguard_waf_exclude_rule->set_enable( $waf_exclude_rule_enable );
 								if ( '1' == $waf_exclude_rule_enable ) {
-									$waf_exclude_rule->feature_on( );
-									echo '<div class="updated"><p><strong>' . esc_html__( 'Rules applied', 'siteguard' ) . '</strong></p></div>';
+									$result = $siteguard_waf_exclude_rule->feature_on( );
+									if ( true === $result ) {
+										echo '<div class="updated"><p><strong>' . esc_html__( 'Rules applied', 'siteguard' ) . '</strong></p></div>';
+									}
 								} else {
-									$waf_exclude_rule->feature_off( );
-									echo '<div class="updated"><p><strong>' . esc_html__( 'Rules unapplied', 'siteguard' ) . '</strong></p></div>';
+									$result = $siteguard_waf_exclude_rule->feature_off( );
+									if ( true === $result ) {
+										echo '<div class="updated"><p><strong>' . esc_html__( 'Rules unapplied', 'siteguard' ) . '</strong></p></div>';
+									}
+								}
+								if ( false === $result ) {
+									$waf_exclude_rule_enable = $old_waf_exclude_rule_enable;
+									$siteguard_waf_exclude_rule->set_enable( $waf_exclude_rule_enable );
+									$this->htaccess_error( );
 								}
 							}
 						}
@@ -198,11 +229,11 @@ class SiteGuard_Menu_WAF_Tuning_Support extends SiteGuard_Base {
 				echo '<h2>' . esc_html__( 'WAF Tuning Support', 'siteguard' ) . ' <a href="?page=siteguard_waf_tuning_support&action=add" class="add-new-h2">' . esc_html__( 'Add New', 'siteguard' ) . '</a></h2>';
 				echo '<div class="siteguard-description">'
 				. esc_html__( 'You can find docs about this function on ', 'siteguard' )
-				. '<a href="' . esc_html__( 'http://www.jp-secure.com/cont/products/siteguard_wp_plugin/waf_tuning_support_en.html', 'siteguard' ) 
-				. '" target="_blank">' 
-				. esc_html__( 'here', 'siteguard' ) 
-				. '</a>' 
-				. esc_html__( '.', 'siteguard' ) 
+				. '<a href="' . esc_url( __( 'http://www.jp-secure.com/cont/products/siteguard_wp_plugin/waf_tuning_support_en.html', 'siteguard' ) )
+				. '" target="_blank">'
+				. esc_html__( 'here', 'siteguard' )
+				. '</a>'
+				. esc_html__( '.', 'siteguard' )
 				. '</div>';
 				?>
 				<form name="form1" method="post" action="">
@@ -211,15 +242,15 @@ class SiteGuard_Menu_WAF_Tuning_Support extends SiteGuard_Base {
 				<th scope="row" colspan="2">
 					<ul class="siteguard-radios">
 					<li>
-					<input type="radio" name="waf_exclude_rule_enable" id="waf_exclude_rule_enable_on" value="1" <?php echo ( '1' == $waf_exclude_rule_enable ? 'checked' : '' ) ?> >
+					<input type="radio" name="waf_exclude_rule_enable" id="waf_exclude_rule_enable_on" value="1" <?php checked( $waf_exclude_rule_enable, '1' ) ?> >
 					<label for="waf_exclude_rule_enable_on"><?php esc_html_e( 'ON', 'siteguard' ) ?></label>
 					</li><li>
-					<input type="radio" name="waf_exclude_rule_enable" id="waf_exclude_rule_enable_off" value="0" <?php echo ( '0' == $waf_exclude_rule_enable ? 'checked' : '' ) ?> >
+					<input type="radio" name="waf_exclude_rule_enable" id="waf_exclude_rule_enable_off" value="0" <?php checked( $waf_exclude_rule_enable, '0' ) ?> >
 					<label for="waf_exclude_rule_enable_off"><?php esc_html_e( 'OFF', 'siteguard' ) ?></label>
 					</li>
 					</ul>
 					<?php
-					$error = check_multisite( );
+					$error = siteguard_check_multisite( );
 					if ( is_wp_error( $error ) ) {
 						echo '<p class="description">';
 						echo $error->get_error_message( );
@@ -258,27 +289,27 @@ By creating the WAF exclude rule, the WAF protection function can be activated w
 				<form name="form1" method="post" action="<?php echo esc_url( menu_page_url( 'siteguard_waf_tuning_support', false ) ) ?>">
 				<table class="form-table">
 				<tr>
-				<th scope="row"><label for="sig"><?php echo esc_html_e( 'Signature', 'siteguard' ) ?></label></th>
+				<th scope="row"><label for="sig"><?php esc_html_e( 'Signature', 'siteguard' ) ?></label></th>
 				<td>
 				<textarea name="sig" id="sig" style="width:350px;" rows="5" ><?php echo esc_html( $sig ) ?></textarea>
-				<p class="description"><?php esc_html_e( 'The detected signature name or signature ID is specified. To specify more than one, separate them with new line.', 'siteguard' ) ?></p> 
+				<p class="description"><?php esc_html_e( 'The detected signature name or signature ID is specified. To specify more than one, separate them with new line.', 'siteguard' ) ?></p>
 				</td>
 				</tr>
 				<tr>
-				<th scope="row"><label for="filename"><?php echo esc_html_e( 'Filename (optional)', 'siteguard' ) ?></label></th>
+				<th scope="row"><label for="filename"><?php esc_html_e( 'Filename (optional)', 'siteguard' ) ?></label></th>
 				<td>
 				<input type="text" name="filename" id="filename" value="<?php echo esc_attr( $filename ) ?>" class="regular-text code" >
 				<p class="description"><?php esc_html_e( 'The target file name is specified. URL ( the part before ? ) can also be pasted.', 'siteguard' ) ?></p>
 				</td>
 				</tr>
 				<tr>
-				<th scope="row"><label for="comment"><?php echo esc_html_e( 'Comment (optional)', 'siteguard' ) ?></label></th>
+				<th scope="row"><label for="comment"><?php esc_html_e( 'Comment (optional)', 'siteguard' ) ?></label></th>
 				<td>
 				<input type="text" name="comment" id="comment" value="<?php echo esc_attr( $comment ) ?>" class="regular-text" >
 				</td>
 				</tr>
 				</table>
-	
+
 				<hr />
 				<?php
 				if ( 'add' == $action ) {
@@ -302,7 +333,7 @@ By creating the WAF exclude rule, the WAF protection function can be activated w
 				$go_delete = 0;
 				foreach ( $ids as $id ) {
 					$offset = 0;
-					$rule = $waf_exclude_rule->get_rule( $id, $offset );
+					$rule = $siteguard_waf_exclude_rule->get_rule( $id, $offset );
 					echo '<input type="hidden" name="rule[]" value="' . esc_attr( $id ) . '" />' . esc_html__( 'Signature', 'siteguard' ) . ' : ' . esc_html__( 'Filename', 'siteguard' ) . ' : ' . esc_html__( 'Comment', 'siteguard' ) . ' [' . esc_html( $rule['sig'] ) . ' : ' . esc_html( $rule['filename'] ) . ' : ' . esc_html( $rule['comment'] ) . "]<br />\n";
 					$go_delete = 1;
 				}
@@ -321,5 +352,3 @@ By creating the WAF exclude rule, the WAF protection function can be activated w
 		<?php
 	}
 }
-
-?>

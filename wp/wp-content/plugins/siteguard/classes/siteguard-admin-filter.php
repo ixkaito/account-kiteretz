@@ -11,7 +11,7 @@ class SiteGuard_AdminFilter extends SiteGuard_Base {
 		return SiteGuard_AdminFilter::$htaccess_mark;
 	}
 	function init( ) {
-		global $wpdb, $config;
+		global $wpdb, $siteguard_config;
 		$table_name = $wpdb->prefix . SITEGUARD_TABLE_LOGIN;
 		$sql = 'CREATE TABLE ' . $table_name . " (
 			ip_address varchar(40) NOT NULL DEFAULT '',
@@ -23,37 +23,42 @@ class SiteGuard_AdminFilter extends SiteGuard_Base {
 		CHARACTER SET 'utf8';";
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta( $sql );
-		$config->set( 'admin_filter_exclude_path', 'css,images,admin-ajax.php' );
-		$config->set( 'admin_filter_enable', '0' );
-		$config->update( );
+		$siteguard_config->set( 'admin_filter_exclude_path', 'css,images,admin-ajax.php' );
+		$siteguard_config->set( 'admin_filter_enable', '0' );
+		$siteguard_config->update( );
 	}
 	function handler_wp_login( $login, $current_user ) {
-		global $htaccess, $config;
+		global $siteguard_htaccess, $siteguard_config;
 
 		if ( '' == $current_user->user_login ) {
 			return;
 		}
-		if ( 1 == $config->get( 'admin_filter_enable' ) ) {
+		if ( 1 == $siteguard_config->get( 'admin_filter_enable' ) ) {
 			$this->feature_on( $_SERVER['REMOTE_ADDR'] );
 		}
 	}
 	function cvt_exclude( $exclude ) {
 		return str_replace( ',', '|', $exclude );
 	}
+	function cvt_status_for_1_2_5( $ip_address ) {
+		global $wpdb;
+		$table_name = $wpdb->prefix . SITEGUARD_TABLE_LOGIN;
+		$wpdb->update( $table_name, array( 'status' => 0 ), array( 'ip_address' => $ip_address ) );
+	}
 	function update_settings( $ip_address ) {
-		global $wpdb, $config;
+		global $wpdb, $siteguard_config;
 		$htaccess_str = '';
 		$table_name = $wpdb->prefix . SITEGUARD_TABLE_LOGIN;
-		$exclude_paths = preg_split( '/,/', $config->get( 'admin_filter_exclude_path' ) );
+		$exclude_paths = preg_split( '/,/', $siteguard_config->get( 'admin_filter_exclude_path' ) );
 
 		$now_str = current_time( 'mysql' );
 		$now_bin = strtotime( $now_str );
 
 		$wpdb->query( 'START TRANSACTION' );
-		$wpdb->query( "DELETE FROM $table_name WHERE status = 1 AND last_login_time < SYSDATE() - INTERVAL 1 DAY;" );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM $table_name WHERE status = %d AND last_login_time < SYSDATE() - INTERVAL 1 DAY;", SITEGUARD_LOGIN_SUCCESS ) );
 		$data = array(
 			'ip_address' => $ip_address,
-			'status' => 1,
+			'status' => SITEGUARD_LOGIN_SUCCESS,
 			'count' => 0,
 			'last_login_time' => $now_str,
 		);
@@ -80,11 +85,11 @@ class SiteGuard_AdminFilter extends SiteGuard_Base {
 		foreach ( $exclude_paths as $path ) {
 			$htaccess_str .= '    RewriteRule ^wp-admin/' . trim( $path ) . " - [L]\n";
 		}
-		$htaccess_str .= '    RewriteCond %{REMOTE_ADDR} !(127.0.0.1|'. $_SERVER['SERVER_ADDR'] . ")\n";
-		$results = $wpdb->get_col( "SELECT ip_address FROM $table_name;" );
+		$htaccess_str .= '    RewriteCond %{REMOTE_ADDR} !^(127\.0\.0\.1|'. str_replace( '.', '\.', $_SERVER['SERVER_ADDR'] ) . ")$\n";
+		$results = $wpdb->get_col( $wpdb->prepare( "SELECT ip_address FROM $table_name WHERE status = %d;", SITEGUARD_LOGIN_SUCCESS ) );
 		if ( $results ) {
 			foreach ( $results as $ip ) {
-				$htaccess_str .= '    RewriteCond %{REMOTE_ADDR} !' . $ip . "\n";
+				$htaccess_str .= '    RewriteCond %{REMOTE_ADDR} !^' . str_replace( '.', '\.', $ip ) . "$\n";
 			}
 		}
 		$htaccess_str .= "    RewriteRule ^wp-admin 404-siteguard [L]\n";
@@ -94,16 +99,17 @@ class SiteGuard_AdminFilter extends SiteGuard_Base {
 
 		return $htaccess_str;
 	}
-	function feature_on( $ip_addres ) {
-		global $htaccess, $config;
+	function feature_on( $ip_address ) {
+		global $siteguard_htaccess, $siteguard_config;
+		if ( false === SiteGuard_Htaccess::check_permission( ) ) {
+			return false;
+		}
 		$mark = $this->get_mark( );
-		$data = $this->update_settings( $ip_addres );
-		return $htaccess->update_settings( $mark, $data );
+		$data = $this->update_settings( $ip_address );
+		return $siteguard_htaccess->update_settings( $mark, $data );
 	}
 	static function feature_off( ) {
 		$mark = SiteGuard_AdminFilter::get_mark( );
-		SiteGuard_Htaccess::clear_settings( $mark );
+		return SiteGuard_Htaccess::clear_settings( $mark );
 	}
 }
-
-?>

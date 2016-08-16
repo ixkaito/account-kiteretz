@@ -16,6 +16,12 @@ msgstr ""
 msgid "Date Time"
 msgstr "日時"
 
+msgid "Type"
+msgstr "タイプ"
+
+msgid "Login Page"
+msgstr "ログインページ"
+
 #: admin/siteguard-login-history-table.php:63
 msgid "Operation"
 msgstr "結果"
@@ -27,6 +33,27 @@ msgstr "ログイン名"
 #: admin/siteguard-login-history-table.php:65
 msgid "IP Address"
 msgstr "IPアドレス"
+
+msgid "All Operations"
+msgstr "すべての結果"
+
+msgid "All Types"
+msgstr "すべてのタイプ"
+
+msgid "Other"
+msgstr "以外"
+
+msgid "Protect XMLRPC"
+msgstr "XMLRPC防御"
+
+msgid "Disable XMLRPC"
+msgstr "XMLRPC無効化"
+
+msgid "Login history can be referenced. Let's see if there are any suspicious history. History, registered 10,000 maximum, will be removed from those old and more than 10,000."
+msgstr "ログインの履歴が参照できます。怪しい履歴がないか確認しましょう。履歴は、最大10,000件記錄され、10,000件を超えると古いものから削除されます。"
+
+msgid "To disable the Pingback, or disable the entire XMLRPC ( xmlrpc.php ), to prevent abuse. When you disable the whole XMLRPC, you will not be able to use plug-ins and apps that use XMLRPC. If there is trouble, please do not use this function."
+msgstr "Pingback機能を無効化する、あるいは、XMLRPC全体（ xmlrpc.php ）を無効化し、悪用を防止します。XMLRPC全体を無効化すると、XMLRPCを使用したプラグインやアプリの使用ができなくなります。支障がある場合には、本機能を使わないでください。"
 
 #: admin/siteguard-menu-admin-filter.php:32
 #: admin/siteguard-menu-admin-filter.php:81
@@ -576,8 +603,8 @@ msgid "E-mail notifies that there was login."
 msgstr "ログインがあったことを、メールで通知します。"
 
 #: admin/siteguard-menu-dashboard.php:52
-msgid "The abuse of pingback is prevented."
-msgstr "ピンバックの悪用を防ぎます。"
+msgid "The abuse of XMLRPC is prevented."
+msgstr "XMLRPCの悪用を防ぎます。"
 
 #: admin/siteguard-menu-dashboard.php:57
 msgid "The exclude rule for WAF (SiteGuard Lite) is created."
@@ -599,6 +626,9 @@ msgstr "エラー: 画像認証が間違っています。"
 
 msgid "ERROR: Invalid input value."
 msgstr "エラー: 入力値が不正です。"
+
+msgid "ERROR: Failed to .htaccess update."
+msgstr "エラー: .htaccessの更新に失敗しました。"
 
 #: classes/siteguard-login-history.php:95
 msgid "Failed"
@@ -751,6 +781,9 @@ msgstr ""
 msgid "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/index_en.html"
 msgstr "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/index.html"
 
+msgid "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/login_history_en.html"
+msgstr "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/login_history.html"
+
 msgid "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/admin_filter_en.html"
 msgstr "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/admin_filter.html"
 
@@ -772,8 +805,8 @@ msgstr "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/login_alert.h
 msgid "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/fail_once_en.html"
 msgstr "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/fail_once.html"
 
-msgid "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/pingback_en.html"
-msgstr "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/pingback.html"
+msgid "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/xmlrpc_en.html"
+msgstr "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/xmlrpc.html"
 
 msgid "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/updates_notify_en.html"
 msgstr "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/updates_notify.html"

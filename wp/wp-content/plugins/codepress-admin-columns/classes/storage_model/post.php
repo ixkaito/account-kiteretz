@@ -4,64 +4,66 @@ class CPAC_Storage_Model_Post extends CPAC_Storage_Model {
 
 	public $post_type;
 
-	private $post_type_object;
-
 	/**
-	 * Constructor
-	 *
 	 * @since 2.0
 	 */
-	function __construct( $post_type ) {
+	public function __construct( $post_type ) {
 
-		$this->set_post_type( $post_type );
+		$this->key = $post_type;
+		$this->post_type = $post_type;
+		$this->type = 'post';
+		$this->meta_type = 'post';
+		$this->page = 'edit';
+		$this->screen = $this->page . '-' . $this->post_type;
+		$this->menu_type = __( 'Post Type', 'codepress-admin-columns' );
 
-		$this->key 		 		= $this->post_type;
-		$this->label 			= $this->post_type_object->labels->name;
-		$this->singular_label 	= $this->post_type_object->labels->singular_name;
-		$this->type 	 		= 'post';
-		$this->meta_type 		= 'post';
-		$this->page 	 		= 'edit';
-		$this->menu_type 	 	= 'post';
-
-		// Headings
-
-		// Since 3.1
-		add_filter( "manage_{$post_type}_posts_columns", array( $this, 'add_headings' ), 100, 1 );
-
-		// Deprecated ( as of 3.1 ) Note: This one is still used by woocommerce.
-		// Priority set to 100 top make sure the WooCommerce headings are overwritten by CAC
-		// Filter is located in get_column_headers().
-		// @todo_minor check compatibility issues for this deprecated filter
-		add_filter( "manage_{$this->page}-{$post_type}_columns",  array( $this, 'add_headings' ), 100, 1 );
-
-		// values
-		add_action( "manage_{$this->post_type}_posts_custom_column", array( $this, 'manage_value_callback' ), 100, 2 );
-
-		// @todo: description
-		add_action( 'load-edit.php', array( $this, 'set_columns_on_current_screen' ), 1000 );
+		$this->set_labels();
 
 		parent::__construct();
 	}
 
 	/**
-	 * Set posttype
-	 *
+	 * @since 2.4.9
+	 */
+	public function init_manage_columns() {
+
+		// Headings
+		// Filter is located in get_column_headers()
+		add_filter( "manage_{$this->page}-{$this->post_type}_columns", array( $this, 'add_headings' ), 200 );
+
+		// values
+		add_action( "manage_{$this->post_type}_posts_custom_column", array( $this, 'manage_value_callback' ), 100, 2 );
+	}
+
+	/**
 	 * @since 2.3.5
 	 */
 	public function get_post_type() {
-
 		return $this->post_type;
 	}
 
 	/**
-	 * Set posttype
-	 *
-	 * @since 2.3.5
+	 * @since 2.4.7
 	 */
-	private function set_post_type( $post_type ) {
+	public function get_posts( $args = array() ) {
+		$defaults = array(
+			'posts_per_page' => -1,
+			'post_status'    => apply_filters( 'cac/get_posts/post_status', array( 'any', 'trash' ), $this ),
+			'post_type'      => $this->get_post_type(),
+			'fields'         => 'ids',
+			'no_found_rows'  => 1,
+		);
 
-		$this->post_type 		= $post_type;
-		$this->post_type_object = get_post_type_object( $post_type );
+		return (array) get_posts( array_merge( $defaults, $args ) );
+	}
+
+	/**
+	 * @since 2.7.2
+	 */
+	private function set_labels() {
+		$post_type_object = get_post_type_object( $this->post_type );
+		$this->label = $post_type_object->labels->name;
+		$this->singular_label = $post_type_object->labels->singular_name;
 	}
 
 	/**
@@ -77,10 +79,9 @@ class CPAC_Storage_Model_Post extends CPAC_Storage_Model {
 		setup_postdata( $post );
 
 		// Remove Admin Columns action for this column's value
-		remove_action( "manage_{$this->post_type}_posts_custom_column", array( $this, 'manage_value_callback' ), 100, 2 );
+		remove_action( "manage_{$this->post_type}_posts_custom_column", array( $this, 'manage_value_callback' ), 100 );
 
 		ob_start();
-
 		// Run WordPress native actions to display column content
 		if ( is_post_type_hierarchical( $this->post_type ) ) {
 			do_action( 'manage_pages_custom_column', $column, $id );
@@ -107,45 +108,56 @@ class CPAC_Storage_Model_Post extends CPAC_Storage_Model {
 	}
 
 	/**
-	 * Get original columns
-	 *
 	 * @since 2.4.4
 	 */
 	public function get_default_column_names() {
-		if ( ! in_array( $this->post_type, array( 'post', 'page' ) ) ) {
-			return false;
+
+		$defaults = array( 'date' );
+
+		if ( post_type_supports( $this->post_type, 'title' ) ) {
+			$defaults[] = 'title';
 		}
-		return array( 'author', 'cb', 'categories', 'comments', 'date', 'parent', 'tags', 'title' );
+		if ( post_type_supports( $this->post_type, 'comments' ) ) {
+			$defaults[] = 'comments';
+		}
+
+		if ( in_array( $this->post_type, array( 'post', 'page' ) ) ) {
+			$defaults[] = 'cb';
+			$defaults[] = 'author';
+			$defaults[] = 'categories';
+			$defaults[] = 'parent';
+			$defaults[] = 'tags';
+		}
+
+		return $defaults;
 	}
 
 	/**
-	 * Get screen link
-	 *
+	 * @since 2.5
+	 */
+	public function get_default_column_widths() {
+		return array(
+			'author'     => array( 'width' => 10 ),
+			'categories' => array( 'width' => 15 ),
+			'tags'       => array( 'width' => 15 ),
+			'date'       => array( 'width' => 10 ),
+		);
+	}
+
+	/**
 	 * @since 2.0
-	 *
-	 * @return string Link
 	 */
 	protected function get_screen_link() {
-
 		return add_query_arg( array( 'post_type' => $this->key ), admin_url( $this->page . '.php' ) );
 	}
 
 	/**
 	 * @since 2.2
-	 *
-	 * @return bool
 	 */
-	public function is_columns_screen() {
+	public function is_current_screen() {
+		$post_type = isset( $_REQUEST['post_type'] ) ? $_REQUEST['post_type'] : 'post';
 
-		$is_columns_screen = parent::is_columns_screen();
-
-		if ( ! $is_columns_screen ) {
-			if ( ! empty( $_REQUEST['_inline_edit'] ) && wp_verify_nonce( $_REQUEST['_inline_edit'], 'inlineeditnonce' ) ) {
-				$is_columns_screen = true;
-			}
-		}
-
-		return $is_columns_screen;
+		return ( $this->post_type === $post_type ) && parent::is_current_screen();
 	}
 
 	/**
@@ -158,7 +170,7 @@ class CPAC_Storage_Model_Post extends CPAC_Storage_Model {
 	 */
 	public function get_default_columns() {
 
-		if ( ! function_exists('_get_list_table') ) {
+		if ( ! function_exists( '_get_list_table' ) ) {
 			return array();
 		}
 
@@ -180,33 +192,16 @@ class CPAC_Storage_Model_Post extends CPAC_Storage_Model {
 	}
 
 	/**
-     * Get Meta
-     *
 	 * @since 2.0
-	 *
-	 * @return array
-     */
-    public function get_meta() {
-        global $wpdb;
+	 */
+	public function get_meta() {
+		global $wpdb;
 
-        if ( $cache = wp_cache_get( $this->key, 'cac_columns' ) ) {
-        	$result = $cache;
-        }
-        else {
-			$result = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT meta_key FROM {$wpdb->postmeta} pm JOIN {$wpdb->posts} p ON pm.post_id = p.ID WHERE p.post_type = %s ORDER BY 1", $this->key ), ARRAY_N );
-			wp_cache_add( $this->key, $result, 'cac_columns', 10 ); // 10 sec.
-		}
-
-		return $result;
-    }
+		return $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT meta_key FROM {$wpdb->postmeta} pm JOIN {$wpdb->posts} p ON pm.post_id = p.ID WHERE p.post_type = %s ORDER BY 1", $this->key ), ARRAY_N );
+	}
 
 	/**
-	 * Manage value
-	 *
 	 * @since 2.0
-	 *
-	 * @param string $column_name
-	 * @param int $post_id
 	 */
 	public function manage_value( $column_name, $post_id ) {
 
@@ -221,11 +216,10 @@ class CPAC_Storage_Model_Post extends CPAC_Storage_Model {
 		$post = get_post( $post_id );
 		setup_postdata( $post );
 
-		$value = $column->get_value( $post_id );
+		$value = $column->get_display_value( $post_id );
 
 		$value = apply_filters( "cac/column/value", $value, $post_id, $column, $this->key );
 		$value = apply_filters( "cac/column/value/{$this->type}", $value, $post_id, $column, $this->key );
-
 
 		// Reset query to old post
 		$post = $post_old;
@@ -238,14 +232,11 @@ class CPAC_Storage_Model_Post extends CPAC_Storage_Model {
 	}
 
 	/**
-	 * Manage value callback
-	 *
-	 * @since ?
+	 * @since 2.4.7
 	 */
 	public function manage_value_callback( $column_name, $post_id ) {
 
 		$column = $this->get_column_by_name( $column_name );
-
 		if ( $column && ! empty( $column->properties->handle ) ) {
 			ob_start();
 			$this->manage_value( $column_name, $post_id );
@@ -255,5 +246,4 @@ class CPAC_Storage_Model_Post extends CPAC_Storage_Model {
 			$this->manage_value( $column_name, $post_id );
 		}
 	}
-
 }

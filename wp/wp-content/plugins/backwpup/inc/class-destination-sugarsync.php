@@ -19,46 +19,41 @@ class BackWPup_Destination_SugarSync extends BackWPup_Destinations {
 	 */
 	public function edit_tab( $jobid ) {
 		?>
-		<h3 class="title"><?php _e( 'Sugarsync Login', 'backwpup' ); ?></h3>
+		<h3 class="title"><?php esc_html_e( 'Sugarsync Login', 'backwpup' ); ?></h3>
         <p></p>
         <table class="form-table">
 
 		<?php if ( ! BackWPup_Option::get( $jobid, 'sugarrefreshtoken' ) ) { ?>
 			<tr>
-				<th scope="row"><?php _e( 'Authentication', 'backwpup' ); ?></th>
+				<th scope="row"><?php esc_html_e( 'Authentication', 'backwpup' ); ?></th>
                 <td>
-                    <label for="sugaremail"><?php _e( 'Email address:', 'backwpup' ); ?><br/>
-                    <input id="sugaremail" name="sugaremail" type="text"
-						   value="<?php if ( isset( $_POST[ 'sugaremail' ] ) ) echo $_POST[ 'sugaremail' ];?>" class="large-text" autocomplete="off" /></label>
+                    <label for="sugaremail"><?php esc_html_e( 'Email address:', 'backwpup' ); ?><br/>
+                    <input id="sugaremail" name="sugaremail" type="text" value="" class="large-text" autocomplete="off" /></label>
 					<br/>
-                    <label for="sugarpass"><?php _e( 'Password:', 'backwpup' ); ?><br/>
-					<input id="sugarpass" name="sugarpass" type="password"
-						   value="<?php if ( isset( $_POST[ 'sugarpass' ] ) ) echo $_POST[ 'sugarpass' ];?>" class="large-text" autocomplete="off" /></label>
+                    <label for="sugarpass"><?php esc_html_e( 'Password:', 'backwpup' ); ?><br/>
+					<input id="sugarpass" name="sugarpass" type="password" value="" class="large-text" autocomplete="off" /></label>
 					<br/>
 					<br/>
-					<input type="submit" id="idauthbutton" name="authbutton" class="button-primary" accesskey="d"
-						   value="<?php _e( 'Authenticate with Sugarsync!', 'backwpup' ); ?>"/>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="authbutton" class="button"
-														 value="<?php _e( 'Create Sugarsync account', 'backwpup' ); ?>"/>
+					<input type="submit" id="idauthbutton" name="authbutton" class="button-primary" value="<?php esc_html_e( 'Authenticate with Sugarsync!', 'backwpup' ); ?>"/>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="authbutton" class="button" value="<?php esc_html_e( 'Create Sugarsync account', 'backwpup' ); ?>"/>
                 </td>
             </tr>
 		<?php } else { ?>
             <tr>
-                <th scope="row"><label for="idauthbutton"><?php _e( 'Authentication', 'backwpup' ); ?></label></th>
+                <th scope="row"><label for="idauthbutton"><?php esc_html_e( 'Authentication', 'backwpup' ); ?></label></th>
                 <td>
-					<span style="color:green;"><?php _e( 'Authenticated!', 'backwpup' ); ?></span>
-					<input type="submit" id="idauthbutton" name="authbutton" class="button-primary" accesskey="d"
-						   value="<?php _e( 'Delete Sugarsync authentication!', 'backwpup' ); ?>" />
+					<span style="color:green;"><?php esc_html_e( 'Authenticated!', 'backwpup' ); ?></span>
+					<input type="submit" id="idauthbutton" name="authbutton" class="button-primary" value="<?php esc_html_e( 'Delete Sugarsync authentication!', 'backwpup' ); ?>" />
                 </td>
             </tr>
 		<?php } ?>
         </table>
 
-        <h3 class="title"><?php _e( 'SugarSync Root', 'backwpup' ); ?></h3>
+        <h3 class="title"><?php esc_html_e( 'SugarSync Root', 'backwpup' ); ?></h3>
         <p></p>
         <table class="form-table">
             <tr>
-                <th scope="row"><label for="sugarroot"><?php _e( 'Sync folder selection', 'backwpup' ); ?></label></th>
+                <th scope="row"><label for="sugarroot"><?php esc_html_e( 'Sync folder selection', 'backwpup' ); ?></label></th>
                 <td>
 				<?php
 				try {
@@ -83,28 +78,31 @@ class BackWPup_Destination_SugarSync extends BackWPup_Destinations {
             </tr>
         </table>
 
-    <h3 class="title"><?php _e( 'Backup settings', 'backwpup' ); ?></h3>
+    <h3 class="title"><?php esc_html_e( 'Backup settings', 'backwpup' ); ?></h3>
     <p></p>
     <table class="form-table">
         <tr>
-            <th scope="row"><label for="idsugardir"><?php _e( 'Folder in root', 'backwpup' ); ?></label></th>
+            <th scope="row"><label for="idsugardir"><?php esc_html_e( 'Folder in root', 'backwpup' ); ?></label></th>
             <td>
-                <input id="idsugardir" name="sugardir" type="text" value="<?php echo  BackWPup_Option::get( $jobid, 'sugardir' ); ?>" class="regular-text" />
+                <input id="idsugardir" name="sugardir" type="text" value="<?php echo esc_attr( BackWPup_Option::get( $jobid, 'sugardir' ) ) ; ?>" class="regular-text" />
             </td>
         </tr>
         <tr>
-            <th scope="row"><?php _e( 'File Deletion', 'backwpup' ); ?></th>
+            <th scope="row"><?php esc_html_e( 'File Deletion', 'backwpup' ); ?></th>
             <td>
-				<?php
-				if ( BackWPup_Option::get( $jobid, 'backuptype' ) == 'archive' ) {
-					?>
-                    <label for="idsugarmaxbackups"><input id="idsugarmaxbackups" name="sugarmaxbackups" type="text" size="3" value="<?php echo BackWPup_Option::get( $jobid, 'sugarmaxbackups' );?>" class="small-text help-tip" title="<?php esc_attr_e( 'Oldest files will be deleted first. 0 = no deletion', 'backwpup' ); ?>" />&nbsp;
-					<?php  _e( 'Number of files to keep in folder.', 'backwpup' ); ?></label>
-					<?php } else { ?>
-                    <label for="idsugarsyncnodelete"><input class="checkbox" value="1"
-                           type="checkbox" <?php checked( BackWPup_Option::get( $jobid, 'sugarsyncnodelete' ), TRUE ); ?>
-                           name="sugarsyncnodelete" id="idsugarsyncnodelete" /> <?php _e( 'Do not delete files while syncing to destination!', 'backwpup' ); ?></label>
-					<?php } ?>
+	            <?php
+	            if ( BackWPup_Option::get( $jobid, 'backuptype' ) === 'archive' ) {
+		            ?>
+		            <label for="idsugarmaxbackups">
+			            <input id="idsugarmaxbackups" name="sugarmaxbackups" type="number" min="0" step="1" value="<?php echo esc_attr( BackWPup_Option::get( $jobid, 'sugarmaxbackups' ) ); ?>" class="small-text" />
+			            &nbsp;<?php esc_html_e( 'Number of files to keep in folder.', 'backwpup' ); ?>
+		            </label>
+	            <?php } else { ?>
+		            <label for="idsugarsyncnodelete">
+			            <input class="checkbox" value="1" type="checkbox" <?php checked( BackWPup_Option::get( $jobid, 'sugarsyncnodelete' ), true ); ?> name="sugarsyncnodelete" id="idsugarsyncnodelete" />
+			            &nbsp;<?php esc_html_e( 'Do not delete files while syncing to destination!', 'backwpup' ); ?>
+		            </label>
+	            <?php } ?>
             </td>
         </tr>
     </table>
@@ -118,10 +116,10 @@ class BackWPup_Destination_SugarSync extends BackWPup_Destinations {
 	public function edit_form_post_save( $jobid ) {
 
 
-		if ( ! empty( $_POST[ 'sugaremail' ] ) && ! empty( $_POST[ 'sugarpass' ] ) && $_POST[ 'authbutton' ] == __( 'Authenticate with Sugarsync!', 'backwpup' ) ) {
+		if ( ! empty( $_POST[ 'sugaremail' ] ) && ! empty( $_POST[ 'sugarpass' ] ) && $_POST[ 'authbutton' ] === __( 'Authenticate with Sugarsync!', 'backwpup' ) ) {
 			try {
 				$sugarsync     = new BackWPup_Destination_SugarSync_API();
-				$refresh_token = $sugarsync->get_Refresh_Token( $_POST[ 'sugaremail' ], $_POST[ 'sugarpass' ] );
+				$refresh_token = $sugarsync->get_Refresh_Token( sanitize_email( $_POST[ 'sugaremail' ] ), $_POST[ 'sugarpass' ] );
 				if ( ! empty( $refresh_token ) )
 					BackWPup_Option::update( $jobid, 'sugarrefreshtoken', $refresh_token );
 			}
@@ -130,29 +128,29 @@ class BackWPup_Destination_SugarSync extends BackWPup_Destinations {
 			}
 		}
 
-		if ( isset( $_POST[ 'authbutton' ] ) && $_POST[ 'authbutton' ] == __( 'Delete Sugarsync authentication!', 'backwpup' ) ) {
+		if ( isset( $_POST[ 'authbutton' ] ) && $_POST[ 'authbutton' ] === __( 'Delete Sugarsync authentication!', 'backwpup' ) ) {
 			BackWPup_Option::delete( $jobid, 'sugarrefreshtoken' );
 		}
 
-		if ( isset( $_POST[ 'authbutton' ] ) && $_POST[ 'authbutton' ] == __( 'Create Sugarsync account', 'backwpup' ) ) {
+		if ( isset( $_POST[ 'authbutton' ] ) && $_POST[ 'authbutton' ] === __( 'Create Sugarsync account', 'backwpup' ) ) {
 			try {
 				$sugarsync = new BackWPup_Destination_SugarSync_API();
-				$sugarsync->create_account( $_POST[ 'sugaremail' ], $_POST[ 'sugarpass' ] );
+				$sugarsync->create_account( sanitize_email( $_POST[ 'sugaremail' ] ), $_POST[ 'sugarpass' ] );
 			}
 			catch ( Exception $e ) {
 				BackWPup_Admin::message( 'SUGARSYNC: ' . $e->getMessage(), TRUE );
 			}
 		}
 
-		$_POST[ 'sugardir' ] = trailingslashit( str_replace( '//', '/', str_replace( '\\', '/', trim( stripslashes( $_POST[ 'sugardir' ] ) ) ) ) );
+		$_POST[ 'sugardir' ] = trailingslashit( str_replace( '//', '/', str_replace( '\\', '/', trim( sanitize_text_field( $_POST[ 'sugardir' ] ) ) ) ) );
 		if ( substr( $_POST[ 'sugardir' ], 0, 1 ) == '/' )
 			$_POST[ 'sugardir' ] = substr( $_POST[ 'sugardir' ], 1 );
 		if ( $_POST[ 'sugardir' ] == '/' )
 			$_POST[ 'sugardir' ] = '';
 		BackWPup_Option::update( $jobid, 'sugardir', $_POST[ 'sugardir' ] );
 
-		BackWPup_Option::update( $jobid, 'sugarroot', isset( $_POST[ 'sugarroot' ] ) ? $_POST[ 'sugarroot' ] : '' );
-		BackWPup_Option::update( $jobid, 'sugarmaxbackups', isset( $_POST[ 'sugarmaxbackups' ] ) ? (int)$_POST[ 'sugarmaxbackups' ] : 0 );
+		BackWPup_Option::update( $jobid, 'sugarroot', isset( $_POST[ 'sugarroot' ] ) ? sanitize_text_field( $_POST[ 'sugarroot' ] ) : '' );
+		BackWPup_Option::update( $jobid, 'sugarmaxbackups', isset( $_POST[ 'sugarmaxbackups' ] ) ? absint( $_POST[ 'sugarmaxbackups' ] ) : 0 );
 	}
 
 	/**
@@ -180,7 +178,7 @@ class BackWPup_Destination_SugarSync extends BackWPup_Destinations {
 			}
 		}
 
-		set_site_transient( 'backwpup_' . strtolower( $jobdest ), $files, 60 * 60 * 24 * 7 );
+		set_site_transient( 'backwpup_' . strtolower( $jobdest ), $files, YEAR_IN_SECONDS );
 	}
 
 	/**
@@ -192,14 +190,18 @@ class BackWPup_Destination_SugarSync extends BackWPup_Destinations {
 		try {
 			$sugarsync = new BackWPup_Destination_SugarSync_API( BackWPup_Option::get( $jobid, 'sugarrefreshtoken' ) );
 			$response  = $sugarsync->get( urldecode( $get_file ) );
-			header( "Pragma: public" );
-			header( "Expires: 0" );
-			header( "Cache-Control: must-revalidate, post-check=0, pre-check=0" );
-			header( "Content-Type: application/octet-stream" );
-			header( "Content-Disposition: attachment; filename=" . (string)$response->displayName . ";" );
-			header( "Content-Transfer-Encoding: binary" );
-			header( "Content-Length: " . (int)$response->size );
+			if ( $level = ob_get_level() ) {
+				for ( $i = 0; $i < $level; $i ++ ) {
+					ob_end_clean();
+				}
+			}
 			@set_time_limit( 300 );
+			nocache_headers();
+			header( 'Content-Description: File Transfer' );
+			header( 'Content-Type: ' . BackWPup_Job::get_mime_type( (string) $response->displayName ) );
+			header( 'Content-Disposition: attachment; filename="' . (string) $response->displayName . '"' );
+			header( 'Content-Transfer-Encoding: binary' );
+			header( 'Content-Length: ' . (int) $response->size );
 			echo $sugarsync->download( urldecode( $get_file ) );
 			die();
 		}
@@ -218,10 +220,10 @@ class BackWPup_Destination_SugarSync extends BackWPup_Destinations {
 	}
 
 	/**
-	 * @param $job_object
+	 * @param $job_object BackWPup_Job
 	 * @return bool
 	 */
-	public function job_run_archive( &$job_object ) {
+	public function job_run_archive( BackWPup_Job $job_object ) {
 
 		$job_object->substeps_todo = 2 + $job_object->backup_filesize;
 		$job_object->log( sprintf( __( '%d. Try to send backup to SugarSync&#160;&hellip;', 'backwpup' ), $job_object->steps_data[ $job_object->step_working ][ 'STEP_TRY' ] ), E_USER_NOTICE );
@@ -299,10 +301,10 @@ class BackWPup_Destination_SugarSync extends BackWPup_Destinations {
 						$job_object->log( sprintf( _n( 'One file deleted on SugarSync folder', '%d files deleted on SugarSync folder', $numdeltefiles, 'backwpup' ), $numdeltefiles ), E_USER_NOTICE );
 				}
 			}
-			set_site_transient( 'BackWPup_' .  $job_object->job[ 'jobid' ] . '_SUGARSYNC', $files, 60 * 60 * 24 * 7 );
+			set_site_transient( 'BackWPup_' .  $job_object->job[ 'jobid' ] . '_SUGARSYNC', $files, YEAR_IN_SECONDS );
 		}
 		catch ( Exception $e ) {
-			$job_object->log( E_USER_ERROR, sprintf( __( 'SugarSync API: %s', 'backwpup' ), htmlentities( $e->getMessage() ) ), $e->getFile(), $e->getLine() );
+			$job_object->log( E_USER_ERROR, sprintf( __( 'SugarSync API: %s', 'backwpup' ), $e->getMessage() ), $e->getFile(), $e->getLine() );
 
 			return FALSE;
 		}
@@ -312,15 +314,15 @@ class BackWPup_Destination_SugarSync extends BackWPup_Destinations {
 	}
 
 	/**
-	 * @param $job_object
+	 * @param $job_settings array
 	 * @return bool
 	 */
-	public function can_run( $job_object ) {
+	public function can_run( array $job_settings ) {
 
-		if ( empty( $job_object->job[ 'sugarrefreshtoken' ] ) )
+		if ( empty( $job_settings[ 'sugarrefreshtoken' ] ) )
 			return FALSE;
 
-		if ( empty( $job_object->job[ 'sugarroot' ] ) )
+		if ( empty( $job_settings[ 'sugarroot' ] ) )
 			return FALSE;
 
 		return TRUE;
@@ -398,7 +400,7 @@ class BackWPup_Destination_SugarSync_API {
 		$method = (string)$method;
 
 		// validate method
-		if ( ! in_array( $method, $allowedMethods ) )
+		if ( ! in_array( $method, $allowedMethods, true ) )
 			throw new BackWPup_Destination_SugarSync_API_Exception( 'Unknown method (' . $method . '). Allowed methods are: ' . implode( ', ', $allowedMethods ) );
 
 		// check auth token
@@ -416,7 +418,7 @@ class BackWPup_Destination_SugarSync_API {
 		if ( ini_get( 'open_basedir' ) == '' ) curl_setopt( $curl, CURLOPT_FOLLOWLOCATION, TRUE );
 		curl_setopt( $curl, CURLOPT_RETURNTRANSFER, TRUE );
 		if ( BackWPup::get_plugin_data( 'cacert' ) ) {
-			curl_setopt( $curl, CURLOPT_SSLVERSION, 3 );
+			curl_setopt( $curl, CURLOPT_SSLVERSION, 1 );
 			curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, TRUE );
 			curl_setopt( $curl, CURLOPT_CAINFO, BackWPup::get_plugin_data( 'cacert' ) );
 			curl_setopt( $curl, CURLOPT_CAPATH, dirname( BackWPup::get_plugin_data( 'cacert' ) ) );
@@ -433,7 +435,7 @@ class BackWPup_Destination_SugarSync_API {
 		elseif ( $method == 'PUT' ) {
 			if ( is_readable( $data ) ) {
 				$headers[ ] = 'Content-Length: ' . filesize( $data );
-				$datafilefd = fopen( $data, 'r' );
+				$datafilefd = fopen( $data, 'rb' );
 				curl_setopt( $curl, CURLOPT_PUT, TRUE );
 				curl_setopt( $curl, CURLOPT_INFILE, $datafilefd );
 				curl_setopt( $curl, CURLOPT_INFILESIZE, filesize( $data ) );
@@ -503,7 +505,7 @@ class BackWPup_Destination_SugarSync_API {
 		if ( ini_get( 'open_basedir' ) == ''  ) curl_setopt( $curl, CURLOPT_FOLLOWLOCATION, TRUE );
 		curl_setopt( $curl, CURLOPT_RETURNTRANSFER, TRUE );
 		if ( BackWPup::get_plugin_data( 'cacert' ) ) {
-			curl_setopt( $curl, CURLOPT_SSLVERSION, 3 );
+			curl_setopt( $curl, CURLOPT_SSLVERSION, 1 );
 			curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, TRUE );
 			curl_setopt( $curl, CURLOPT_CAINFO, BackWPup::get_plugin_data( 'cacert' ) );
 			curl_setopt( $curl, CURLOPT_CAPATH, dirname( BackWPup::get_plugin_data( 'cacert' ) ) );
@@ -565,7 +567,7 @@ class BackWPup_Destination_SugarSync_API {
 		if ( ini_get( 'open_basedir' ) == '' ) curl_setopt( $curl, CURLOPT_FOLLOWLOCATION, TRUE );
 		curl_setopt( $curl, CURLOPT_RETURNTRANSFER, TRUE );
 		if ( BackWPup::get_plugin_data( 'cacert' ) ) {
-			curl_setopt( $curl, CURLOPT_SSLVERSION, 3 );
+			curl_setopt( $curl, CURLOPT_SSLVERSION, 1 );
 			curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, TRUE );
 			curl_setopt( $curl, CURLOPT_CAINFO, BackWPup::get_plugin_data( 'cacert' ) );
 			curl_setopt( $curl, CURLOPT_CAPATH, dirname( BackWPup::get_plugin_data( 'cacert' ) ) );
@@ -625,13 +627,13 @@ class BackWPup_Destination_SugarSync_API {
 		if ( ini_get( 'open_basedir' ) == '' ) curl_setopt( $curl, CURLOPT_FOLLOWLOCATION, TRUE );
 		curl_setopt( $curl, CURLOPT_RETURNTRANSFER, TRUE );
 		if ( BackWPup::get_plugin_data( 'cacert' ) ) {
-			curl_setopt( $curl, CURLOPT_SSLVERSION, 3 );
+			curl_setopt( $curl, CURLOPT_SSLVERSION, 1 );
 			curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, TRUE );
 			curl_setopt( $curl, CURLOPT_CAINFO, BackWPup::get_plugin_data( 'cacert' ) );
 			curl_setopt( $curl, CURLOPT_CAPATH, dirname( BackWPup::get_plugin_data( 'cacert' ) ) );
 		} else {
 			curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, FALSE );
-		}	curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, FALSE );
+		}
 		curl_setopt( $curl, CURLOPT_HEADER, TRUE );
 		curl_setopt( $curl, CURLOPT_HTTPHEADER, array( 'Content-Type: application/xml; charset=UTF-8', 'Content-Length: ' . strlen( $auth ) ) );
 		curl_setopt( $curl, CURLOPT_POSTFIELDS, $auth );
@@ -842,19 +844,16 @@ class BackWPup_Destination_SugarSync_API {
 	 */
 	public function upload( $file, $name = '' ) {
 
-		if ( empty( $name ) )
+		if ( empty( $name ) ) {
 			$name = basename( $file );
+		}
+
+		$content_type = BackWPup_Job::get_mime_type( $file );
 
 		$xmlrequest = '<?xml version="1.0" encoding="UTF-8"?>';
 		$xmlrequest .= '<file>';
 		$xmlrequest .= '<displayName>' . mb_convert_encoding( $name, 'UTF-8', $this->encoding ) . '</displayName>';
-
-		if ( ! is_readable( $file ) ) {
-			$finfo = fopen( $file, 'r' );
-			$xmlrequest .= '<mediaType>' . mime_content_type( $finfo ) . '</mediaType>';
-			fclose( $finfo );
-		}
-
+		$xmlrequest .= '<mediaType>' . $content_type . '</mediaType>';
 		$xmlrequest .= '</file>';
 
 		$this->doCall( $this->folder, $xmlrequest, 'POST' );

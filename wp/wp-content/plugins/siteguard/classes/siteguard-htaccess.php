@@ -1,8 +1,9 @@
 <?php
 
 class SiteGuard_Htaccess extends SiteGuard_Base {
-	public static $htaccess_mark_start = '#SITEGUARD_PLUGIN_SETTINGS_START';
-	public static $htaccess_mark_end   = '#SITEGUARD_PLUGIN_SETTINGS_END';
+	const HTACCESS_PERMISSION = 0604;
+	const HTACCESS_MARK_START = '#SITEGUARD_PLUGIN_SETTINGS_START';
+	const HTACCESS_MARK_END   = '#SITEGUARD_PLUGIN_SETTINGS_END';
 
 	function __construct( ) {
 	}
@@ -38,8 +39,8 @@ class SiteGuard_Htaccess extends SiteGuard_Base {
 	static function is_exists_setting( $mark ) {
 		$result = false;
 		if ( '' == $mark ) {
-			$mark_start = SiteGuard_Htaccess::$htaccess_mark_start;
-			$mark_end   = SiteGuard_Htaccess::$htaccess_mark_end;
+			$mark_start = self::HTACCESS_MARK_START;
+			$mark_end   = self::HTACCESS_MARK_END;
 		} else {
 			$mark_start = $mark . '_START';
 			$mark_end   = $mark . '_END';
@@ -73,31 +74,70 @@ class SiteGuard_Htaccess extends SiteGuard_Base {
 
 		return $result;
 	}
+	static function check_permission( $flag_create = true ) {
+		$file = SiteGuard_Htaccess::get_htaccess_file( );
+		if ( true === $flag_create ) {
+			self::get_apply_permission( $file );
+		}
+		if ( ! is_readable( $file ) ) {
+			siteguard_error_log( "file not readable: $file" );
+			return false;
+		}
+		if ( ! is_writable( $file ) ) {
+			siteguard_error_log( "file not writable: $file" );
+			return false;
+		}
+		$path = pathinfo( $file, PATHINFO_DIRNAME );
+		if ( ! is_writable( $path ) ) {
+			siteguard_error_log( 'directory not writable: ' . path );
+			return false;
+		}
+		return true;
+	}
+	static function get_apply_permission_itr( $file ) {
+		clearstatcache( );
+		$perm = intval( substr( sprintf( '%o', fileperms( $file ) ), -4 ), 8 );
+		if ( 0604 === $perm || 0644 === $perm ) {
+			return $perm;
+		} else {
+			return self::HTACCESS_PERMISSION;
+		}
+	}
+	static function get_apply_permission( $file ) {
+		$perm = self::HTACCESS_PERMISSION;
+		if ( file_exists( $file ) ) {
+			$perm = self::get_apply_permission_itr( $file );
+		} else {
+			@touch( $file );
+		}
+		@chmod( $file, $perm );
+		return $perm;
+	}
 	static function clear_settings( $mark ) {
 		if ( ! SiteGuard_Htaccess::make_tmp_dir( ) ) {
 			return false;
 		}
 		if ( '' == $mark ) {
-			$mark_start = SiteGuard_Htaccess::$htaccess_mark_start;
-			$mark_end   = SiteGuard_Htaccess::$htaccess_mark_end;
+			$mark_start = self::HTACCESS_MARK_START;
+			$mark_end   = self::HTACCESS_MARK_END;
 		} else {
 			$mark_start = $mark . '_START';
 			$mark_end   = $mark . '_END';
 		}
 		$flag_settings = false;
 		$current_file = SiteGuard_Htaccess::get_htaccess_file( );
-		if ( ! file_exists( $current_file ) ) {
-			@touch( $current_file );
-			@chmod( $current_file, 0604 );
+		$perm = self::get_apply_permission( $current_file );
+		if ( ! self::check_permission( false ) ) {
+			return false;
 		}
 		$fr = @fopen( $current_file, 'r' );
-		if ( null == $fr ) {
+		if ( null === $fr ) {
 			siteguard_error_log( "fopen failed: $current_file" );
 			return false;
 		}
 		$new_file = SiteGuard_Htaccess::get_htaccess_new_file( );
 		$fw = @fopen( $new_file, 'w' );
-		if ( null == $fw ) {
+		if ( null === $fw ) {
 			siteguard_error_log( "fopen failed: $new_file" );
 			return false;
 		}
@@ -106,7 +146,7 @@ class SiteGuard_Htaccess extends SiteGuard_Base {
 			if ( false !== strpos( $line, $mark_start ) ) {
 				$flag_settings = true;
 			}
-			if ( false == $flag_settings ) {
+			if ( false === $flag_settings ) {
 				fputs( $fw, $line, 4096 );
 			}
 			if ( true == $flag_settings && false !== strpos( $line, $mark_end ) ) {
@@ -115,7 +155,7 @@ class SiteGuard_Htaccess extends SiteGuard_Base {
 		}
 		fclose( $fr );
 		fclose( $fw );
-		@chmod( $new_file, 0604 );
+		@chmod( $new_file, $perm );
 		if ( ! rename( $new_file, $current_file ) ) {
 			siteguard_error_log( "rename failed: $new_file $current_file" );
 			return false;
@@ -136,16 +176,12 @@ class SiteGuard_Htaccess extends SiteGuard_Base {
 		$mark_wp_start = '# BEGIN WordPress';
 		$mark_wp_end   = '# END WordPress';
 		$current_file  = SiteGuard_Htaccess::get_htaccess_file( );
-		if ( ! file_exists( $current_file ) ) {
-			@touch( $current_file );
-			@chmod( $current_file, 0604 );
-		}
-		if ( ! is_readable( $current_file ) ) {
-			siteguard_error_log( "file not readable: $current_file" );
+		$perm          = self::get_apply_permission( $current_file );
+		if ( ! self::check_permission( false ) ) {
 			return false;
 		}
 		$fr = @fopen( $current_file, 'r' );
-		if ( null == $fr ) {
+		if ( null === $fr ) {
 			siteguard_error_log( "fopen failed: $current_file" );
 			return false;
 		}
@@ -155,7 +191,7 @@ class SiteGuard_Htaccess extends SiteGuard_Base {
 			return false;
 		}
 		$fw = @fopen( $new_file, 'w' );
-		if ( null == $fw ) {
+		if ( null === $fw ) {
 			siteguard_error_log( "fopen failed: $new_file" );
 			return false;
 		}
@@ -164,7 +200,7 @@ class SiteGuard_Htaccess extends SiteGuard_Base {
 
 			// Save WordPress settings.
 			// WordPress settings has to be written after SiteGuard settings.
-			if ( false == $flag_write && false == $flag_wp_set && false !== strpos( $line, $mark_wp_start ) ) {
+			if ( false === $flag_write && false == $flag_wp_set && false !== strpos( $line, $mark_wp_start ) ) {
 				$flag_wp     = true;
 				$flag_wp_set = true;
 			}
@@ -183,34 +219,34 @@ class SiteGuard_Htaccess extends SiteGuard_Base {
 				$flag_through  = false;
 				continue;
 			}
-			if ( false == $flag_write && false !== strpos( $line, SiteGuard_Htaccess::$htaccess_mark_end ) ) {
+			if ( false === $flag_write && false !== strpos( $line, self::HTACCESS_MARK_END ) ) {
 				fwrite( $fw, $mark_start . "\n", strlen( $mark_start ) + 1 );
 				fwrite( $fw, $data, strlen( $data ) );
 				fwrite( $fw, $mark_end . "\n", strlen( $mark_end ) + 1 );
 				$flag_write = true;
 			}
-			if ( false == $flag_through && false !== strpos( $line, $mark_end ) ) {
+			if ( false === $flag_through && false !== strpos( $line, $mark_end ) ) {
 				$flag_through = true;
 			}
 			if ( $flag_through ) {
 				fwrite( $fw, $line, strlen( $line ) );
-				if ( false == $flag_wp && false !== strpos( $line, $mark_wp_start ) ) {
+				if ( false === $flag_wp && false !== strpos( $line, $mark_wp_start ) ) {
 					$flag_wp = true;
 				}
 			}
 		}
-		if ( false == $flag_write ) {
-			fwrite( $fw, "\n" . SiteGuard_Htaccess::$htaccess_mark_start . "\n", strlen( SiteGuard_Htaccess::$htaccess_mark_start ) + 2 );
+		if ( false === $flag_write ) {
+			fwrite( $fw, "\n" . self::HTACCESS_MARK_START . "\n", strlen( self::HTACCESS_MARK_START ) + 2 );
 			fwrite( $fw, $mark_start . "\n", strlen( $mark_start ) + 1 );
 			fwrite( $fw, $data, strlen( $data ) );
 			fwrite( $fw, $mark_end . "\n", strlen( $mark_end ) + 1 );
-			fwrite( $fw, SiteGuard_Htaccess::$htaccess_mark_end . "\n", strlen( SiteGuard_Htaccess::$htaccess_mark_end ) + 1 );
+			fwrite( $fw, self::HTACCESS_MARK_END . "\n", strlen( self::HTACCESS_MARK_END ) + 1 );
 		}
 		if ( '' != $wp_settings ) {       // Write saved WordPress Settings
 			fwrite( $fw, "\n", 1 );
 			fwrite( $fw, $wp_settings, strlen( $wp_settings ) );
 			fwrite( $fw, "\n", 1 );
-		} else if ( false == $flag_wp ) { // Write empty WordPress Settings
+		} else if ( false === $flag_wp ) { // Write empty WordPress Settings
 			fwrite( $fw, "\n", 1 );
 			fwrite( $fw, $mark_wp_start . "\n", strlen( $mark_wp_start ) + 1 );
 			fwrite( $fw, $mark_wp_end   . "\n", strlen( $mark_wp_end ) + 1 );
@@ -218,7 +254,7 @@ class SiteGuard_Htaccess extends SiteGuard_Base {
 		}
 		fclose( $fr );
 		fclose( $fw );
-		@chmod( $new_file, 0604 );
+		@chmod( $new_file, $perm );
 		if ( ! rename( $new_file, $current_file ) ) {
 			siteguard_error_log( "rename failed: $new_file $current_file" );
 			return false;
@@ -226,5 +262,3 @@ class SiteGuard_Htaccess extends SiteGuard_Base {
 		return true;
 	}
 }
-
-?>

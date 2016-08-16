@@ -2,22 +2,22 @@
 
 class SiteGuard_LoginAlert extends SiteGuard_Base {
 	function __construct( ) {
-		global $config;
-		if ( '1' == $config->get( 'loginalert_enable' ) ) {
+		global $siteguard_config;
+		if ( '1' == $siteguard_config->get( 'loginalert_enable' ) ) {
 			add_action( 'wp_login', array( $this, 'handler_wp_login' ), 10, 2 );
 		}
 	}
 	function init( ) {
-		global $config;
-		if ( true === check_multisite( ) ) {
-			$config->set( 'loginalert_enable',  '1' );
+		global $siteguard_config;
+		if ( true === siteguard_check_multisite( ) ) {
+			$siteguard_config->set( 'loginalert_enable',  '1' );
 		} else {
-			$config->set( 'loginalert_enable',  '0' );
+			$siteguard_config->set( 'loginalert_enable',  '0' );
 		}
-		$config->set( 'loginalert_admin_only',  '1' );
-		$config->set( 'loginalert_subject', __( 'New login at %SITENAME%', 'siteguard' ) );
-		$config->set( 'loginalert_body',    __( "%USERNAME% logged in at %DATE% %TIME%\n\n== Login information ==\nIP Address: %IPADDRESS%\nReferer: %REFERER%\nUser-Agent: %USERAGENT%\n\n--\nSiteGuard WP Plugin", 'siteguard' ) );
-		$config->update( );
+		$siteguard_config->set( 'loginalert_admin_only',  '1' );
+		$siteguard_config->set( 'loginalert_subject', __( 'New login at %SITENAME%', 'siteguard' ) );
+		$siteguard_config->set( 'loginalert_body',    __( "%USERNAME% logged in at %DATE% %TIME%\n\n== Login information ==\nIP Address: %IPADDRESS%\nReferer: %REFERER%\nUser-Agent: %USERAGENT%\n\n--\nSiteGuard WP Plugin", 'siteguard' ) );
+		$siteguard_config->update( );
 	}
 	function replace_valuable( $string, $username ) {
 		$search  = array( '%SITENAME%', '%USERNAME%', '%DATE%', '%TIME%', '%IPADDRESS%', '%USERAGENT%', '%REFERER%' );
@@ -33,24 +33,24 @@ class SiteGuard_LoginAlert extends SiteGuard_Base {
 		return str_replace( $search, $replace, $string );
 	}
 	function handler_wp_login( $username, $user ) {
-		global $config;
+		global $siteguard_config;
 
-		if ( ( '1' == $config->get( 'loginalert_admin_only' ) ) && ( ! $user->has_cap( 'administrator' ) ) ) {
+		if ( ( '1' == $siteguard_config->get( 'loginalert_admin_only' ) ) && ( ! $user->has_cap( 'administrator' ) ) ) {
 			return;
 		}
 
 		$user_email = $user->get( 'user_email' );
 
-		$subject = $config->get( 'loginalert_subject' );
-		$body    = $config->get( 'loginalert_body' );
+		$subject = $siteguard_config->get( 'loginalert_subject' );
+		$body    = $siteguard_config->get( 'loginalert_body' );
 
 		$subject = $this->replace_valuable( $subject, $username );
 		$body    = $this->replace_valuable( $body, $username );
 
-		@wp_mail( $user_email, esc_html( $subject ), esc_html( $body ) );
+		if ( true !== @wp_mail( $user_email, esc_html( $subject ), esc_html( $body ) ) ) {
+			siteguard_error_log( 'Failed send mail. To:' . $user_email . ' Subject:' . $esc_html( $subject ) );
+		}
 
 		return;
 	}
 }
-
-?>
