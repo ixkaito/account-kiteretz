@@ -5,17 +5,18 @@
 	<?php
 
 		$html = '';
+		$lang = get_field( 'language' );
 
 		if ( get_status() === 'quotation' ) {
-			$doctype      = '御見積書';
+			$doctype      = $lang === 'en' ? 'ESTIMATE' : '御見積書';
 			$statement    = '下記の通りお見積り申し上げます。';
 			$special_note = get_field( 'special-note' ) ? get_field( 'special-note' ) : '';
 		} elseif ( get_status() === 'bill' ) {
-			$doctype      = '御請求書';
-			$statement    = '下記の通りご請求申し上げます。';
+			$doctype      = $lang === 'en' ? 'INVOICE' : '御請求書';
+			$statement    = $lang === 'en' ? 'Please be advised that your payment to be made as follows.' : '下記の通りご請求申し上げます。';
 			$special_note = get_field( 'bank' ) ? get_field( 'bank' ) : '';
 		} elseif ( get_status() === 'receipt' ) {
-			$doctype      = '領収書';
+			$doctype      = $lang === 'en' ? 'RECEIPT' : '領収書';
 			$statement    = '';
 			$special_note = '上記正に領収いたしました';
 		}
@@ -69,7 +70,7 @@
 				<td></td>
 				<td></td>
 				<td></td>
-				<td class="label">小計</td>
+				<td class="label">' . ( $lang === 'en' ? 'Subtotal' : '小計' ) . '</td>
 				<td class="price">' . number_format( get_subtotal() ) . '</td>
 				<td></td>
 			</tr>
@@ -78,7 +79,7 @@
 				<td></td>
 				<td></td>
 				<td></td>
-				<td class="label">消費税</td>
+				<td class="label">' . ( $lang === 'en' ? 'Tax' : '消費税' ) . '</td>
 				<td class="price">' . number_format( get_tax() ) . '</td>
 				<td></td>
 			</tr>';
@@ -90,7 +91,7 @@
 			<td></td>
 			<td></td>
 			<td></td>
-			<td class="label">合計（税込）</td>
+			<td class="label">' . ( $lang === 'en' ? 'Total' : '合計 (税込)' ) . '</td>
 			<td class="price">' . number_format( get_total() ) . '</td>
 			<td></td>
 		</tr>';
@@ -113,12 +114,18 @@
 
 		<h1 class="doctype <?php the_status(); ?>"><?php echo $doctype; ?></h1>
 
-		<h2 class="client"><span class="clientName"><?php the_field('client'); ?></span>　<span><?php the_honorific(); ?></span></h2>
+		<h2 class="client"><span class="clientName"><?php the_field('client'); ?></span><?php if ( $lang === 'ja' ) : ?><span>　<?php the_honorific(); ?></span><?php endif; ?></h2>
 		<p><?php echo $statement; ?></p>
 
-		<h3 class="title">件名　<?php the_title(); ?></h3>
+		<h3 class="title"><?php echo $lang === 'en' ? 'Title: ' : '件名　'; ?><?php the_title(); ?></h3>
 
-		<p class="total"><b>合計（税込）　&yen;<?php echo number_format( get_total() ); ?></b></p>
+		<p class="total">
+			<b>
+				<?php echo $lang === 'en' ? 'Total (tax included)' : '合計 (税込)' ?>
+				　&yen;<?php echo number_format( get_total() ); ?>
+				<?php echo $lang === 'en' ? '<span style="float:right;">JPY</span>' : ''; ?>
+			</b>
+		</p>
 
 		<p class="specialNote"><?php echo $special_note; ?></p>
 
@@ -128,12 +135,12 @@
 
 		<tr class="thead">
 			<th class="check"></th>
-			<th class="item">項目</th>
-			<th class="number">数量</th>
-			<th class="unit">単位</th>
-			<th class="price">単価</th>
-			<th class="price">金額</th>
-			<th class="note">備考</th>
+			<th class="item"><?php echo $lang === 'en' ? 'Description' : '項目'; ?></th>
+			<th class="number"><?php echo $lang === 'en' ? 'Amount' : '数量'; ?></th>
+			<th class="unit"><?php echo $lang === 'en' ? 'Unit' : '単位'; ?></th>
+			<th class="price"><?php echo $lang === 'en' ? 'Unit Price' : '単価'; ?></th>
+			<th class="price"><?php echo $lang === 'en' ? 'Price (JPY)' : '金額'; ?></th>
+			<th class="note"><?php echo $lang === 'en' ? 'Notes' : '備考'; ?></th>
 		</tr>
 
 		<?php echo $html; ?>
