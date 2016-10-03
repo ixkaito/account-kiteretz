@@ -242,7 +242,7 @@ class SiteGuard_UpdatesNotify extends SiteGuard_Base {
 		if ( is_array( $user_query->results ) ) {
 			foreach ( $user_query->results as $user ) {
 				if ( true !== @wp_mail( $user->get( 'user_email' ), $subject, $message ) ) {;
-					siteguard_error_log( 'Failed send mail. To:' . $user_email . ' Subject:' . $esc_html( $subject ) );
+					siteguard_error_log( 'Failed send mail. To:' . $user_email . ' Subject:' . esc_html( $subject ) );
 				}
 			}
 		}

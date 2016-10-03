@@ -161,7 +161,7 @@ class SiteGuard_RenameLogin extends SiteGuard_Base {
 		if ( ! empty( $user_query->results ) ) {
 			foreach ( $user_query->results as $user ) {
 				if ( true !== @wp_mail( $user->get( 'user_email' ), $subject, $body ) ) {
-					siteguard_error_log( 'Failed send mail. To:' . $user_email . ' Subject:' . $esc_html( $subject ) );
+					siteguard_error_log( 'Failed send mail. To:' . $user_email . ' Subject:' . esc_html( $subject ) );
 				}
 			}
 		}

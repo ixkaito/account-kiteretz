@@ -7,7 +7,7 @@ Author: JP-Secure
 Author URI: http://www.jp-secure.com/eng/
 Text Domain: siteguard
 Domain Path: /languages/
-Version: 1.3.0
+Version: 1.3.2
 */
 
 /*  Copyright 2014 JP-Secure Inc
@@ -129,9 +129,7 @@ class SiteGuard extends SiteGuard_Base {
 	function __construct( ) {
 		global $siteguard_config;
 		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
-		if ( ! isset( $_SESSION ) ) {
-			session_start( );
-		}
+		add_action( 'wp_loaded', array( $this, 'sg_session_start' ) );
 		$this->htaccess_check( );
 		if ( is_admin( ) ) {
 			$this->menu_init = new SiteGuard_Menu_Init( );
@@ -149,6 +147,11 @@ class SiteGuard extends SiteGuard_Base {
 			false,
 			dirname( plugin_basename( __FILE__ ) ) . '/languages'
 		);
+	}
+	function sg_session_start( ) {
+		if ( ! isset( $_SESSION ) ) {
+			session_start( );
+		}
 	}
 	function htaccess_check( ) {
 		global $siteguard_config;

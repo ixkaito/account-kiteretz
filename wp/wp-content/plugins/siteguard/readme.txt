@@ -4,7 +4,7 @@ Donate link: -
 Tags: security, waf, brute force, password list, login lock, login alert, captcha, pingback, fail once
 Requires at least: 3.9
 Tested up to: 4.6
-Stable tag: 1.3.0
+Stable tag: 1.3.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -102,6 +102,10 @@ If you have created your own language pack, or have an update of an existing one
 [Japanese Page](http://www.jp-secure.com/cont/products/siteguard_wp_plugin/faq.html)
 
 == Changelog ==
+= 1.3.2 =
+* Fix bug that fatal error occurs when fails to send mail
+= 1.3.1 =
+* Fix conflicts with other plugins in a session related
 = 1.3.0 =
 * Add the "Disable XMLRPC" feature
 * In the Login History, add display the login type that indicates whether via login page or xmlrpc 

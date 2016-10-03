@@ -48,7 +48,7 @@ class SiteGuard_LoginAlert extends SiteGuard_Base {
 		$body    = $this->replace_valuable( $body, $username );
 
 		if ( true !== @wp_mail( $user_email, esc_html( $subject ), esc_html( $body ) ) ) {
-			siteguard_error_log( 'Failed send mail. To:' . $user_email . ' Subject:' . $esc_html( $subject ) );
+			siteguard_error_log( 'Failed send mail. To:' . $user_email . ' Subject:' . esc_html( $subject ) );
 		}
 
 		return;
