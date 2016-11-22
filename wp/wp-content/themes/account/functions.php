@@ -149,6 +149,23 @@ function acf_style() {
 		.acf-th-unit.field_key-field_5385c0fb8b51d {
 			width: 100px;
 		}
+
+		#acf-instalment .label {
+			display: none;
+		}
+
+		#acf-instalment .true_false {
+			font-weight: bold;
+		}
+
+		.acf-th-current.field_key-field_5833c7d70da25 {
+			text-align: center;
+			width: 45px;
+		}
+
+		.sub_field.field_type-true_false.field_key-field_5833c7d70da25 {
+			text-align: center;
+		}
 	</style>
 <?php
 }
