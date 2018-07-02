@@ -33,8 +33,8 @@
 					<td class="item">' . $row['item'] . '</td>
 					<td class="number">' . $row['number'] . '</td>
 					<td class="unit">' . $row['unit'] . '</td>
-					<td class="price">' . number_format( $row['price'] ) . '</td>
-					<td class="price">' . number_format( $sum ) . '</td>
+					<td class="price">' . number_format( $row['price'] ) . ( $row['yen-per'] === 'per' ? '%' : '' ) . '</td>
+					<td class="price">' . number_format( $sum ) . ( $row['yen-per'] === 'per' ? '%' : '' ) . '</td>
 					<td class="note">' . $row['note'] . '</td>
 				</tr>'."\n";
 			}
@@ -122,7 +122,7 @@
 		<p class="total">
 			<b>
 				<?php echo $lang === 'en' ? 'Total (tax included)' : '合計 (税込)' ?>
-				　&yen;<?php echo number_format( get_total() ); ?>
+				　&yen; <?php echo number_format( get_total() ); ?>
 				<?php echo $lang === 'en' ? '<span style="float:right;">JPY</span>' : ''; ?>
 			</b>
 		</p>
