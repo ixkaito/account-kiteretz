@@ -21,6 +21,10 @@
 			$doctype      = $lang === 'en' ? 'RECEIPT' : '領収書';
 			$statement    = '';
 			$special_note = '上記正に領収いたしました。';
+		} elseif ( get_status() === 'statement' ) {
+			$doctype      = $lang === 'en' ? 'STATEMENT OF DELIVERY' : '納品書';
+			$statement    = '下記の通り納品いたしました。';
+			$special_note = '';
 		} elseif ( get_status() === 'payment') {
 			$doctype      = $lang === 'en' ? 'PAYMENT' : '御支払明細';
 			$statement    = '下記の通りお支払いいたしました。';
