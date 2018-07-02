@@ -51,7 +51,7 @@
 			}
 		}
 
-		while( $i < 24 ){
+		while( $i < get_field( 'row-number' ) ){
 			$html .= '<tr>
 				<td></td>
 				<td></td>
