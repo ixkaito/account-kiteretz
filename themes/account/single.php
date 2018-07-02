@@ -6,6 +6,8 @@
 
 		$html = '';
 		$lang = get_field( 'language' );
+		$tax_rate = get_field( 'tax-rate' ) * 0.01;
+		$exc_tax  = get_field( 'tax' ) === 'excluding' ? 1 : 1 + $tax_rate;
 
 		if ( get_status() === 'quotation' ) {
 			$doctype      = $lang === 'en' ? 'ESTIMATE' : '御見積書';
@@ -18,7 +20,11 @@
 		} elseif ( get_status() === 'receipt' ) {
 			$doctype      = $lang === 'en' ? 'RECEIPT' : '領収書';
 			$statement    = '';
-			$special_note = '上記正に領収いたしました';
+			$special_note = '上記正に領収いたしました。';
+		} elseif ( get_status() === 'payment') {
+			$doctype      = $lang === 'en' ? 'PAYMENT' : '御支払明細';
+			$statement    = '';
+			$special_note = '下記の通りお支払いいたしました。';
 		}
 
 		$i    = 0;
@@ -27,13 +33,14 @@
 		if ( $rows ) {
 			foreach ( $rows as $key => $row ) {
 				$i++;
-				$sum = $row['number'] * $row['price'];
+				$price = round( $row['price'] / $exc_tax );
+				$sum = round( $row['number'] * $price );
 				$html .= '<tr>
 					<td></td>
 					<td class="item">' . $row['item'] . '</td>
 					<td class="number">' . $row['number'] . '</td>
 					<td class="unit">' . $row['unit'] . '</td>
-					<td class="price">' . number_format( $row['price'] ) . ( $row['yen-per'] === 'per' ? '%' : '' ) . '</td>
+					<td class="price">' . number_format( $price ) . ( $row['yen-per'] === 'per' ? '%' : '' ) . '</td>
 					<td class="price">' . number_format( $sum ) . ( $row['yen-per'] === 'per' ? '%' : '' ) . '</td>
 					<td class="note">' . $row['note'] . '</td>
 				</tr>'."\n";
@@ -63,28 +70,24 @@
 			<td></td>
 		</tr>';
 
-		if( get_field( 'tax' ) ){
-
-			$html .= '<tr class="subtotal">
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td class="label">' . ( $lang === 'en' ? 'Subtotal' : '小計' ) . '</td>
-				<td class="price">' . number_format( get_subtotal() ) . '</td>
-				<td></td>
-			</tr>
-			<tr class="tax">
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td class="label">' . ( $lang === 'en' ? 'Tax' : '消費税' ) . '</td>
-				<td class="price">' . number_format( get_tax() ) . '</td>
-				<td></td>
-			</tr>';
-
-		}
+		$html .= '<tr class="subtotal">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="label">' . ( $lang === 'en' ? 'Subtotal' : '小計' ) . '</td>
+			<td class="price">' . number_format( get_subtotal() ) . '</td>
+			<td></td>
+		</tr>
+		<tr class="tax">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td class="label">' . ( $lang === 'en' ? 'Tax' : '消費税' ) . '</td>
+			<td class="price">' . number_format( get_tax() ) . '</td>
+			<td></td>
+		</tr>';
 
 		$html .= '<tr class="total">
 			<td></td>

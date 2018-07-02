@@ -45,10 +45,12 @@ function get_subtotal() {
 
 	$subtotal = 0;
 	$rows     = get_field( 'table' );
+	$tax_rate = get_field( 'tax-rate' ) * 0.01;
+	$exc_tax  = get_field( 'tax' ) === 'excluding' ? 1 : 1 + $tax_rate;
 
 	if ( $rows ) {
 		foreach ( $rows as $key => $row ) {
-			$sum = $row['number'] * $row['price'];
+			$sum = round( $row['number'] * ( $row['price'] / $exc_tax ) );
 			if ( $row['yen-per'] === 'per' ) {
 				$sum = $sum * 0.01 * $subtotal;
 			}
@@ -65,14 +67,9 @@ function get_subtotal() {
  * Tax
  */
 function get_tax() {
-	$tax      = 0;
-	if ( get_field( 'tax' ) ) {
-		$tax_rate = get_field( 'tax' ) * 0.01;
-		$tax      = round( get_subtotal() * $tax_rate );
-		return $tax;
-	} else {
-		return 0;
-	}
+	$tax_rate = get_field( 'tax-rate' ) * 0.01;
+	$tax      = round( get_subtotal() * $tax_rate );
+	return $tax;
 }
 
 /**
