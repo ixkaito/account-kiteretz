@@ -103,7 +103,7 @@ function the_honorific() {
  */
 function get_signature() {
 	$signature = get_field('signature');
-	$html = '<img src="' . get_stylesheet_directory_uri() .'/_assets/images/signature-' . $signature . '.png" />';
+	$html = '<img src="' . get_stylesheet_directory_uri() .'/assets/images/signature-' . $signature . '.png" />';
 
 	if ( $signature && $signature !== 'none' ) {
 		return $html;

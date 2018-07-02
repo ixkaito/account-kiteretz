@@ -1,5 +1,4 @@
 @charset "UTF-8";
-@import "compass";
 @import "reset";
 @import "mixin";
 @import "color";
@@ -98,6 +97,13 @@ a{
 
 			h1 {
 				color: $magenta;
+			}
+		}
+
+		&.payment {
+
+			h1 {
+				color: $green;
 			}
 		}
 
