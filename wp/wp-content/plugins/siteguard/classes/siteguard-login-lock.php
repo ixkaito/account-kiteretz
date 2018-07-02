@@ -34,7 +34,7 @@ class SiteGuard_LoginLock extends SiteGuard_Base {
 		global $wpdb, $siteguard_config, $siteguard_login_history;
 		$table_name = $wpdb->prefix . SITEGUARD_TABLE_LOGIN;
 
-		$ip_address = $_SERVER['REMOTE_ADDR'];
+		$ip_address = $this->get_ip( );
 
 		$wpdb->query( 'START TRANSACTION' );
 		$wpdb->query( $wpdb->prepare( "DELETE FROM $table_name WHERE status <> %d AND last_login_time < SYSDATE() - INTERVAL 1 HOUR;", SITEGUARD_LOGIN_SUCCESS ) );
@@ -47,7 +47,7 @@ class SiteGuard_LoginLock extends SiteGuard_Base {
 		);
 		$now_str = current_time( 'mysql' );
 		$now_bin = strtotime( $now_str );
-		if ( null == $result ) {
+		if ( null === $result ) {
 			$data['last_login_time'] = $now_str;
 			$wpdb->insert( $table_name, $data );
 		} else {
@@ -88,7 +88,7 @@ class SiteGuard_LoginLock extends SiteGuard_Base {
 		$now_bin = strtotime( current_time( 'mysql' ) );
 		$table_name = $wpdb->prefix . SITEGUARD_TABLE_LOGIN;
 		$result = $wpdb->get_row( $wpdb->prepare( "SELECT status, last_login_time from $table_name WHERE ip_address = %s", $ip_address ) );
-		if ( null != $result ) {
+		if ( null !== $result ) {
 			if ( SITEGUARD_LOGIN_LOCKED == $result->status && $now_bin <= strtotime( $result->last_login_time ) + intval( $siteguard_config->get( 'loginlock_locksec' ) ) ) {
 				return true;
 			}
@@ -96,7 +96,7 @@ class SiteGuard_LoginLock extends SiteGuard_Base {
 		return false;
 	}
 	function handler_authenticate( $user, $username, $password ) {
-		if ( $this->is_locked( $_SERVER['REMOTE_ADDR'] ) ) {
+		if ( $this->is_locked( $this->get_ip( ) ) ) {
 				$new_errors = new WP_Error( );
 				$new_errors->add( 'siteguard-error', esc_html__( 'ERROR: LOGIN LOCKED', 'siteguard' ) );
 				$this->status = SITEGUARD_LOGIN_LOCKED;

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Admin Post Navigation
- * Version:     2.0
+ * Version:     2.1
  * Plugin URI:  http://coffee2code.com/wp-plugins/admin-post-navigation/
  * Author:      Scott Reilly
  * Author URI:  http://coffee2code.com/
@@ -10,7 +10,7 @@
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  * Description: Adds links to navigate to the next and previous posts when editing a post in the WordPress admin.
  *
- * Compatible with WordPress 3.0 through 4.4+.
+ * Compatible with WordPress 4.7 through 4.9+.
  *
  * =>> Read the accompanying readme.txt file for instructions and documentation.
  * =>> Also, visit the plugin's homepage for additional information and updates.
@@ -18,21 +18,24 @@
  *
  * @package Admin_Post_Navigation
  * @author  Scott Reilly
- * @version 2.0
+ * @version 2.1
  */
 
 /*
  * TODO:
  * - Add ability for navigation to save current post before navigating away.
- * - Hide screen option checkbox for metabox if metabox is being hidden
  * - Add screen option allowing user selection of post navigation order
  * - Add more unit tests
  * - Add dropdown to post nav links to allow selecting different types of things
  *   to navigate to (e.g. next draft (if looking at a draft), next in category X)
+ * - When navigating via menu_order, respect hierarchy and navigate siblings.
+ * - Add filter to allow customizing the list of orderby options in screen options?
+ * - Add post status as series of checkboxes in Screen Options
+ * - Add support for secondary orderby
  */
 
 /*
-	Copyright (c) 2008-2016 by Scott Reilly (aka coffee2code)
+	Copyright (c) 2008-2018 by Scott Reilly (aka coffee2code)
 
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
@@ -74,6 +77,19 @@ class c2c_AdminPostNavigation {
 	private static $next_text = '';
 
 	/**
+	 * Post fields available as orderby options.
+	 *
+	 * Note: not meant to be an exhaustive list, just the ones available to users
+	 * via dropdown in Screen Options panel.
+	 *
+	 * @access private
+	 * @since 2.1
+	 *
+	 * @var array
+	 */
+	private static $orderby_fields = array( 'ID', 'menu_order', 'post_date', 'post_modified', 'post_name', 'post_title' );
+
+	/**
 	 * Default post statuses for navigation.
 	 *
 	 * Filterable later.
@@ -82,16 +98,7 @@ class c2c_AdminPostNavigation {
 	 *
 	 * @var array
 	 */
-	private static $post_statuses = array( 'draft', 'future', 'pending', 'private', 'publish', 'inherit' );
-
-	/**
-	 * Post status query fragment.
-	 *
-	 * @access private
-	 *
-	 * @var string
-	 */
-	private static $post_statuses_sql = '';
+	private static $post_statuses = array( 'draft', 'future', 'pending', 'private', 'publish' );
 
 	/**
 	 * Returns version of the plugin.
@@ -99,14 +106,15 @@ class c2c_AdminPostNavigation {
 	 * @since 1.7
 	 */
 	public static function version() {
-		return '2.0';
+		return '2.1';
 	}
 
 	/**
 	 * Class constructor: initializes class variables and adds actions and filters.
 	 */
 	public static function init() {
-		add_action( 'load-post.php', array( __CLASS__, 'register_post_page_hooks' ) );
+		add_filter( 'set-screen-option', array( __CLASS__, 'save_screen_settings' ), 10, 3 );
+		add_action( 'load-post.php',     array( __CLASS__, 'register_post_page_hooks' ) );
 	}
 
 	/**
@@ -115,7 +123,6 @@ class c2c_AdminPostNavigation {
 	 * @since 1.7
 	 */
 	public static function register_post_page_hooks() {
-
 		// Load textdomain.
 		load_plugin_textdomain( 'admin-post-navigation' );
 
@@ -126,6 +133,9 @@ class c2c_AdminPostNavigation {
 		// Register hooks.
 		add_action( 'admin_enqueue_scripts',      array( __CLASS__, 'admin_enqueue_scripts_and_styles' ) );
 		add_action( 'do_meta_boxes',              array( __CLASS__, 'do_meta_box' ), 10, 3 );
+
+		// Screen options.
+		add_filter( 'screen_settings',            array( __CLASS__, 'screen_settings' ), 10, 2 );
 	}
 
 	/**
@@ -138,11 +148,59 @@ class c2c_AdminPostNavigation {
 		wp_enqueue_style( 'admin-post-navigation-admin' );
 
 		wp_register_script( 'admin-post-navigation-admin', plugins_url( 'assets/admin-post-navigation.js', __FILE__ ), array( 'jquery' ), self::version(), true );
-		// Localize script.
-		wp_localize_script( 'admin-post-navigation-admin', 'c2c_apn', array(
-			'tag' => version_compare( $GLOBALS['wp_version'], '4.3', '>=' ) ? 'h1' : 'h2',
-		) );
 		wp_enqueue_script( 'admin-post-navigation-admin' );
+	}
+
+	/**
+	 * Outputs screen settings.
+	 *
+	 * @since 2.1
+	 *
+	 * @param string    $screen_settings Screen settings markup.
+	 * @param WP_Screen $screen          WP_Screen object.
+	 * @return string
+	 */
+	public static function screen_settings( $screen_settings, $screen ) {
+		if ( empty( $screen->post_type ) || ! self::is_post_type_navigable( $screen->post_type ) ) {
+			return $screen_settings;
+		}
+
+		$option = self::get_setting_name( $screen->post_type );
+		$value  = self::get_post_type_orderby( $screen->post_type, get_current_user_id() );
+
+		$screen_settings .= '<fieldset class="">'
+			. '<legend>' . __( 'Admin Post Navigation', 'admin-post-navigation' ) . '</legend>'
+			. '<input type="hidden" name="wp_screen_options[option]" value="' . $option . '" />' . "\n"
+			. '<label for="' . $option . '">'
+			. sprintf( __( 'Navigation order for this post type (%s)', 'admin-post-navigation' ), $screen->post_type )
+			. ' <select name="wp_screen_options[value]">';
+		foreach ( self::$orderby_fields as $orderby ) {
+			$screen_settings .= '<option value="' . $orderby . '" ' . selected( $value, $orderby, false ) . '>' . $orderby . '</option>';
+		}
+		$screen_settings .= '</select>'
+			. '</label>' . "\n"
+			. get_submit_button( __( 'Apply', 'admin-post-navigation' ), 'button', 'screen-options-apply', false )
+			. '</fieldset>';
+
+		return $screen_settings;
+	}
+
+	/**
+	 * Saves screen option values.
+	 *
+	 * @since 2.1
+	 *
+	 * @param bool|int $status Screen option value. Default false to skip.
+	 * @param string   $option The option name.
+	 * @param int      $value  The number of rows to use.
+	 * @return bool|string
+	 */
+	public static function save_screen_settings( $status, $option, $value ) {
+		if ( 'c2c_apn_' == substr( $option, 0, 8 ) ) {
+			$status = $value;
+		}
+
+		return $status;
 	}
 
 	/**
@@ -156,16 +214,11 @@ class c2c_AdminPostNavigation {
 	 * @param WP_Post $post      The post.
 	 */
 	public static function do_meta_box( $post_type, $type, $post ) {
-		$post_types = apply_filters( 'c2c_admin_post_navigation_post_types', get_post_types() );
-		if ( ! in_array( $post_type, $post_types ) ) {
+		if ( ! self::is_post_type_navigable( $post_type ) ) {
 			return;
 		}
 
-		$post_statuses = (array) apply_filters( 'c2c_admin_post_navigation_post_statuses', self::$post_statuses, $post_type, $post );
-		if ( $post_statuses ) {
-			foreach( $post_statuses as $i => $v ) { $GLOBALS['wpdb']->escape_by_ref( $v ); $post_statuses[ $i ] = $v; }
-			self::$post_statuses_sql = "'" . implode( "', '", $post_statuses ) . "'";
-		}
+		$post_statuses = self::get_post_statuses( $post_type );
 
 		if ( in_array( $post->post_status, $post_statuses ) ) {
 			add_meta_box(
@@ -192,10 +245,13 @@ class c2c_AdminPostNavigation {
 
 		$prev = self::previous_post();
 		if ( $prev ) {
-			$post_title = the_title_attribute( array( 'echo' => false, 'post' => $prev->ID ) );
-			$display .= '<a href="' . get_edit_post_link( $prev->ID ) . '" id="admin-post-nav-prev" title="' .
-				esc_attr( sprintf( __( 'Previous %1$s: %2$s', 'admin-post-navigation' ), $context, $post_title ) ) .
-				'" class="admin-post-nav-prev add-new-h2">' . self::$prev_text . '</a>';
+			$post_title = strip_tags( get_the_title( $prev ) );
+			$display .= sprintf(
+				'<a href="%s" id="admin-post-nav-prev" title="%s" class="admin-post-nav-prev add-new-h2">%s</a>',
+				get_edit_post_link( $prev->ID ),
+				esc_attr( sprintf( __( 'Previous %1$s: %2$s', 'admin-post-navigation' ), $context, $post_title ) ),
+				self::$prev_text
+			);
 		}
 
 		$next = self::next_post();
@@ -203,11 +259,13 @@ class c2c_AdminPostNavigation {
 			if ( $display ) {
 				$display .= ' ';
 			}
-			$post_title = the_title_attribute( array( 'echo' => false, 'post' => $next->ID ) );
-			$display .= '<a href="' . get_edit_post_link( $next->ID ) .
-				'" id="admin-post-nav-next" title="' .
-				esc_attr( sprintf( __( 'Next %1$s: %2$s', 'admin-post-navigation' ), $context, $post_title ) ).
-				'" class="admin-post-nav-next add-new-h2">' . self::$next_text . '</a>';
+			$post_title = strip_tags( get_the_title( $next ) );
+			$display .= sprintf(
+				'<a href="%s" id="admin-post-nav-next" title="%s" class="admin-post-nav-next add-new-h2">%s</a>',
+				get_edit_post_link( $next->ID ),
+				esc_attr( sprintf( __( 'Next %1$s: %2$s', 'admin-post-navigation' ), $context, $post_title ) ),
+				self::$next_text
+			);
 		}
 
 		$display = '<span id="admin-post-nav">' . $display . '</span>';
@@ -231,6 +289,110 @@ class c2c_AdminPostNavigation {
 		}
 
 		return strtolower( $label );
+	}
+
+	/**
+	 * Returns the name of the screen option setting for the orderby setting for
+	 * the given post type.
+	 *
+	 * @since 2.1
+	 *
+	 * @param string $post_type The post type.
+	 * @return string
+	 */
+	public static function get_setting_name( $post_type ) {
+		return 'c2c_apn_' . $post_type . '_orderby';
+	}
+
+	/**
+	 * Determines if a post type has admin navigation enabled.
+	 *
+	 * By default, the navigation is enabled for all post types. Filter
+	 * 'c2c_admin_post_navigation_post_types' to limit its use.
+	 *
+	 * @since 2.1
+	 *
+	 * @param string $post_type The post type.
+	 * @return bool  True if post type has admin navigation enabled, else false.
+	 */
+	public static function is_post_type_navigable( $post_type ) {
+		$post_types = (array) apply_filters( 'c2c_admin_post_navigation_post_types', get_post_types() );
+
+		return in_array( $post_type, $post_types );
+	}
+
+	/**
+	 * Determines if a given orderby field value is valid.
+	 *
+	 * Only post table fields are valid.
+	 *
+	 * @since 2.1
+	 *
+	 * @param string $orderby The orderby.
+	 * @return bool. True if valid, false if not.
+	 */
+	public static function is_valid_orderby( $orderby ) {
+		// By default, restrict orderby to actual post fields.
+		$valid = array(
+			'comment_count', 'ID', 'menu_order', 'post_author', 'post_content', 'post_content_filtered',
+			'post_date', 'post_excerpt', 'post_date_gmt', 'post_mime_type', 'post_modified',
+			'post_modified_gmt', 'post_name', 'post_parent', 'post_status', 'post_title', 'post_type',
+		);
+
+		// Filter the value.
+		//$valid = (array) apply_filters( 'c2c_admin_post_navigation_valid_orderbys', $valid );
+
+		return in_array( $orderby, $valid );
+	}
+
+	/**
+	 * Determines the orderby value to use for a given post type's navigation.
+	 *
+	 * @since 2.1
+	 *
+	 * @param string $post_type The post type.
+	 * @param int    $user_id   Optional. User ID of user, to account for the
+	 *                          value the set via screen options.
+	 * @return string
+	 */
+	public static function get_post_type_orderby( $post_type, $user_id = false ) {
+		if ( ! $user_id ) {
+			$user_id = get_current_user_id();
+		}
+
+		if ( is_post_type_hierarchical( $post_type ) ) {
+			$orderby = 'post_title';
+		} else {
+			$orderby = 'post_date';
+		}
+
+		// Get user-selected order for this post type.
+		if ( $user_id ) {
+			$user_orderby = get_user_meta( $user_id, self::get_setting_name( $post_type ), true );
+			if ( $user_orderby && self::is_valid_orderby( $user_orderby ) ) {
+				$orderby = $user_orderby;
+			}
+		}
+
+		// Filter orderby value.
+		$filter_orderby = apply_filters( 'c2c_admin_post_navigation_orderby', $orderby, $post_type, $user_id );
+		if ( $filter_orderby && self::is_valid_orderby( $filter_orderby ) ) {
+			$orderby = $filter_orderby;
+		}
+
+		return $orderby;
+	}
+
+	/**
+	 * Returns the post statuses valid for navigation of the post type.
+	 *
+	 * @since 2.1
+	 *
+	 * @param string $post_type The post type.
+	 * @return array
+	 */
+	public static function get_post_statuses( $post_type ) {
+		return (array) apply_filters( 'c2c_admin_post_navigation_post_statuses', self::$post_statuses, $post_type );
 	}
 
 	/**
@@ -259,28 +421,24 @@ class c2c_AdminPostNavigation {
 
 		$post = get_post( $post_ID );
 
-		if ( ! $post || ! self::$post_statuses_sql ) {
+		$post_type = esc_sql( get_post_type( $post->ID ) );
+
+		$post_statuses = self::get_post_statuses( $post_type );
+
+		if ( ! $post || ! $post_statuses ) {
 			return false;
 		}
 
-		$post_type = esc_sql( get_post_type( $post_ID ) );
+		foreach( $post_statuses as $i => $v ) { $GLOBALS['wpdb']->escape_by_ref( $v ); $post_statuses[ $i ] = $v; }
+		$post_statuses_sql = "'" . implode( "', '", $post_statuses ) . "'";
 
-		$sql = "SELECT ID, post_title FROM $wpdb->posts WHERE post_type = '$post_type' AND post_status IN (" . self::$post_statuses_sql . ') ';
+		$sql = "SELECT ID, post_title FROM $wpdb->posts WHERE post_type = '$post_type' AND post_status IN (" . $post_statuses_sql . ') ';
 
 		// Determine order.
-		if ( is_post_type_hierarchical( $post_type ) ) {
-			$orderby = 'post_title';
-		} else {
-			$orderby = 'post_date';
-		}
-		$default_orderby = $orderby;
-		// Restrict orderby to actual post fields.
-		$orderby = esc_sql( apply_filters( 'c2c_admin_post_navigation_orderby', $orderby, $post_type ) );
-		if ( ! in_array( $orderby, array( 'comment_count', 'ID', 'menu_order', 'post_author', 'post_content', 'post_content_filtered', 'post_date', 'post_excerpt', 'post_date_gmt', 'post_mime_type', 'post_modified', 'post_modified_gmt', 'post_name', 'post_parent', 'post_status', 'post_title', 'post_type' ) ) ) {
-			$orderby = $default_orderby;
-		}
+		$orderby = self::get_post_type_orderby( $post_type );
 
-		$sql .= "AND {$orderby} {$type} '{$post->$orderby}' ";
+		$datatype = in_array( $orderby, array( 'comment_count', 'ID', 'menu_order', 'post_parent' ) ) ? '%d' : '%s';
+		$sql .= $wpdb->prepare( "AND {$orderby} {$type} {$datatype} ", $post->$orderby );
 
 		$sort = $type == '<' ? 'DESC' : 'ASC';
 		$sql .= "ORDER BY {$orderby} {$sort} LIMIT {$offset}, {$limit}";

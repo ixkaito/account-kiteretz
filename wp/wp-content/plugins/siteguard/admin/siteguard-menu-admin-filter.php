@@ -50,6 +50,12 @@ class SiteGuard_Menu_Admin_Filter extends SiteGuard_Base {
 				echo '</strong></p></div>';
 				$error = true;
 			}
+			if ( false === $error && '1' === $_POST[ self::OPT_NAME_FEATURE ] && false === SiteGuard_Htaccess::test_htaccess( ) ) {
+				echo '<div class="error settings-error"><p><strong>';
+				esc_html_e( 'mod_rewrite of .htaccess can not be used', 'siteguard' );
+				echo '</strong></p></div>';
+				$error = true;
+			}
 			if ( false === $error ) {
 				$old_opt_val_feature = $opt_val_feature;
 				$old_opt_val_exclude = $opt_val_exclude;
@@ -62,7 +68,7 @@ class SiteGuard_Menu_Admin_Filter extends SiteGuard_Base {
 				if ( '0' === $opt_val_feature ) {
 					$result = $siteguard_admin_filter->feature_off( );
 				} else {
-					$result = $siteguard_admin_filter->feature_on( $_SERVER['REMOTE_ADDR'] );
+					$result = $siteguard_admin_filter->feature_on( $this->get_ip( ) );
 				}
 				if ( true === $result ) {
 					$opt_val_exclude = $this->cvt_camma2ret( $opt_val_exclude );
@@ -87,7 +93,7 @@ class SiteGuard_Menu_Admin_Filter extends SiteGuard_Base {
 		echo '<h2>' . esc_html__( 'Admin Page IP Filter', 'siteguard' ) . '</h2>';
 		echo '<div class="siteguard-description">'
 		. esc_html__( 'You can find docs about this function on ', 'siteguard' )
-		. '<a href="' . esc_url( __( 'http://www.jp-secure.com/cont/products/siteguard_wp_plugin/admin_filter_en.html', 'siteguard' ) )
+		. '<a href="' . esc_url( __( 'https://www.jp-secure.com/siteguard_wp_plugin_en/howto/admin_filter/', 'siteguard' ) )
 		. '" target="_blank">'
 		. esc_html__( 'here', 'siteguard' )
 		. '</a>'

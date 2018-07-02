@@ -56,7 +56,7 @@ class SiteGuard_Menu_Login_Alert extends SiteGuard_Base {
 		echo '<h2>' . esc_html__( 'Login Alert', 'siteguard' ) . '</h2>';
 		echo '<div class="siteguard-description">'
 		. esc_html__( 'You can find docs about this function on ', 'siteguard' )
-		. '<a href="' . esc_url( __( 'http://www.jp-secure.com/cont/products/siteguard_wp_plugin/login_alert_en.html', 'siteguard' ) )
+		. '<a href="' . esc_url( __( 'https://www.jp-secure.com/siteguard_wp_plugin_en/howto/login_alert/', 'siteguard' ) )
 		. '" target="_blank">'
 		. esc_html__( 'here', 'siteguard' )
 		. '</a>'
@@ -98,7 +98,7 @@ class SiteGuard_Menu_Login_Alert extends SiteGuard_Base {
 		</tr><tr>
 		<th scope="row"><?php esc_html_e( 'Recipients', 'siteguard' ) ?></th>
         <td>
-            <input type="checkbox" name="<?php echo self::OPT_NAME_ADMIN ?>" id="<?php echo self::OPT_NAME_ADMIN ?>" value="1" <?php echo ( '1' == $opt_val_admin ? 'checked' : '' ) ?> >
+            <input type="checkbox" name="<?php echo self::OPT_NAME_ADMIN ?>" id="<?php echo self::OPT_NAME_ADMIN ?>" value="1" <?php checked( $opt_val_admin, '1' ) ?> >
             <label for="<?php echo self::OPT_NAME_ADMIN ?>"><?php esc_html_e( 'Admin only', 'siteguard' ) ?></label>
         </td>
 		</tr>

@@ -77,7 +77,7 @@ class SiteGuard_Menu_Updates_Notify extends SiteGuard_Base {
 		echo '<h2>' . esc_html__( 'Updates Notify', 'siteguard' ) . '</h2>';
 		echo '<div class="siteguard-description">'
 		. esc_html__( 'You can find docs about this function on ', 'siteguard' )
-		. '<a href="' . esc_url( __( 'http://www.jp-secure.com/cont/products/siteguard_wp_plugin/updates_notify_en.html', 'siteguard' ) )
+		. '<a href="' . esc_url( __( 'https://www.jp-secure.com/siteguard_wp_plugin_en/howto/updates_notify/', 'siteguard' ) )
 		. '" target="_blank">'
 		. esc_html__( 'here', 'siteguard' )
 		. '</a>'

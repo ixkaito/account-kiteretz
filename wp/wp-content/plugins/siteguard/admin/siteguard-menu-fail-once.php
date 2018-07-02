@@ -48,7 +48,7 @@ class SiteGuard_Menu_Fail_Once extends SiteGuard_Base {
 		echo '<h2>' . esc_html__( 'Fail once', 'siteguard' ) . '</h2>';
 		echo '<div class="siteguard-description">'
 		. esc_html__( 'You can find docs about this function on ', 'siteguard' )
-		. '<a href="' . esc_url( __( 'http://www.jp-secure.com/cont/products/siteguard_wp_plugin/fail_once_en.html', 'siteguard' ) )
+		. '<a href="' . esc_url( __( 'https://www.jp-secure.com/siteguard_wp_plugin_en/howto/fail_once/', 'siteguard' ) )
 		. '" target="_blank">'
 		. esc_html__( 'here', 'siteguard' )
 		. '</a>'
@@ -81,7 +81,7 @@ class SiteGuard_Menu_Fail_Once extends SiteGuard_Base {
 		</tr><tr>
 		<th scope="row"><?php esc_html_e( 'Target user', 'siteguard' ) ?></th>
 		<td>
-			<input type="checkbox" name="<?php echo self::OPT_NAME_ADMIN_ONLY ?>" id="<?php echo self::OPT_NAME_ADMIN_ONLY ?>" value="1" <?php echo ( '1' == $opt_val_admin_only ? 'checked' : '' ) ?> >
+			<input type="checkbox" name="<?php echo self::OPT_NAME_ADMIN_ONLY ?>" id="<?php echo self::OPT_NAME_ADMIN_ONLY ?>" value="1" <?php checked( $opt_val_admin_only, '1' ) ?> >
 			<label for="<?php echo self::OPT_NAME_ADMIN_ONLY ?>"><?php esc_html_e( 'Admin only', 'siteguard' ) ?></label>
 		</td>
 		</tr>

@@ -9,7 +9,7 @@ class Admin_Post_Navigation_Test extends WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		c2c_AdminPostNavigation::register_post_page_hooks();
+		do_action( 'load-post.php' );
 	}
 
 	public function tearDown() {
@@ -20,6 +20,7 @@ class Admin_Post_Navigation_Test extends WP_UnitTestCase {
 
 		remove_filter( 'c2c_admin_post_navigation_post_statuses', array( $this, 'c2c_admin_post_navigation_post_statuses' ), 10, 3 );
 		remove_filter( 'c2c_admin_post_navigation_orderby',       array( $this, 'c2c_admin_post_navigation_orderby' ), 10, 2 );
+		remove_filter( 'c2c_admin_post_navigation_orderby',       array( $this, 'c2c_admin_post_navigation_orderby_title' ), 10, 2 );
 		remove_filter( 'c2c_admin_post_navigation_orderby',       array( $this, 'c2c_admin_post_navigation_orderby_bad_value' ), 10, 2 );
 	}
 
@@ -30,6 +31,36 @@ class Admin_Post_Navigation_Test extends WP_UnitTestCase {
 	//
 	//
 
+
+	public function valid_orderbys() {
+		return array(
+			array( 'comment_count' ),
+			array( 'ID' ),
+			array( 'menu_order' ),
+			array( 'post_author' ),
+			array( 'post_content' ),
+			array( 'post_content_filtered' ),
+			array( 'post_date' ),
+			array( 'post_excerpt' ),
+			array( 'post_date_gmt' ),
+			array( 'post_mime_type' ),
+			array( 'post_modified' ),
+			array( 'post_modified_gmt' ),
+			array( 'post_name' ),
+			array( 'post_parent' ),
+			array( 'post_status' ),
+			array( 'post_title' ),
+			array( 'post_type' ),
+		);
+	}
+
+	public function invalid_orderbys() {
+		return array(
+			array( 'title' ),
+			array( 'id' ),
+			array( 'gibberish' ),
+		);
+	}
 
 
 	//
@@ -74,27 +105,33 @@ class Admin_Post_Navigation_Test extends WP_UnitTestCase {
 		return $posts;
 	}
 
-	public function c2c_admin_post_navigation_post_statuses( $post_statuses, $post_type, $post ) {
+	public function c2c_admin_post_navigation_post_statuses( $post_statuses, $post_type ) {
 		$this->assertTrue( is_array( $post_statuses ) );
-		$this->assertEquals( 'post', $post_type );
-		$this->assertTrue( is_a( $post, 'WP_Post' ) );
+		$this->assertTrue( is_string( $post_type ) );
 
 		// Add a post status.
 		$post_statuses[] = 'trash';
 
 		// Remove post status.
 		$post_statuses_to_remove = array( 'draft' );
+		if ( 'page' === $post_type ) {
+			$post_statuses_to_remove[] = 'pending';
+		}
 		foreach ( $post_statuses_to_remove as $remove ) {
 			if ( false !== $index = array_search( $remove, $post_statuses ) ) {
 				unset( $post_statuses[ $index ] );
 			}
 		}
 
-		return $post_statuses;
+		return array_values( $post_statuses );
 	}
 
 	public function c2c_admin_post_navigation_orderby( $orderby, $post_type ) {
 		return 'post_date';
+	}
+
+	public function c2c_admin_post_navigation_orderby_title( $orderby, $post_type ) {
+		return 'post_title';
 	}
 
 	public function c2c_admin_post_navigation_orderby_bad_value( $orderby, $post_type ) {
@@ -114,7 +151,7 @@ class Admin_Post_Navigation_Test extends WP_UnitTestCase {
 	}
 
 	public function test_version() {
-		$this->assertEquals( '2.0', c2c_AdminPostNavigation::version() );
+		$this->assertEquals( '2.1', c2c_AdminPostNavigation::version() );
 	}
 
 	/*
@@ -207,6 +244,92 @@ class Admin_Post_Navigation_Test extends WP_UnitTestCase {
 		$this->assertEmpty( $previous_post );
 	}
 
+	public function test_navigate_by_post_title_on_posts_with_quotes_in_title() {
+		add_filter( 'c2c_admin_post_navigation_orderby', array( $this, 'c2c_admin_post_navigation_orderby_title' ), 10, 2 );
+
+		$posts = $this->create_posts();
+
+		// Change post titles so post ordering by title is 3, 0, 2, 4, 1
+		$new_post_titles = array(
+			"Don't wake the dragon",
+			'A very good post',
+			"Can you 'dig' it?",
+			'Everything must come to an end',
+			'Be a good person',
+		);
+		foreach ( $new_post_titles as $i => $title ) {
+			$post = get_post( $posts[ $i ] );
+			$post->post_title = $title;
+			wp_update_post( $post );
+		}
+
+		$next_post = c2c_AdminPostNavigation::next_post();
+
+		$this->assertEquals( get_post( $posts[0] )->post_title, get_post( $next_post->ID )->post_title );
+
+		$previous_post = c2c_AdminPostNavigation::previous_post();
+
+		$this->assertEquals( get_post( $posts[4] )->post_title, get_post( $previous_post->ID )->post_title );
+	}
+
+
+	/*
+	 * c2c_AdminPostNavigation::is_valid_orderby()
+	 */
+
+	/**
+	 * @dataProvider valid_orderbys
+	 */
+	public function test_is_valid_orderby_with_valid( $orderby ) {
+		$this->assertTrue( c2c_AdminPostNavigation::is_valid_orderby( $orderby ) );
+	}
+
+	/**
+	 * @dataProvider invalid_orderbys
+	 */
+	public function test_is_valid_orderby_with_invalid( $orderby ) {
+		$this->assertFalse( c2c_AdminPostNavigation::is_valid_orderby( $orderby ) );
+	}
+
+
+	/*
+	 * c2c_AdminPostNavigation::get_post_type_orderby()
+	 */
+
+
+	public function test_get_post_type_orderby() {
+		$this->assertEquals( 'post_title', c2c_AdminPostNavigation::get_post_type_orderby( 'page' ) );
+		$this->assertEquals( 'post_date', c2c_AdminPostNavigation::get_post_type_orderby( 'post' ) );
+	}
+
+	public function test_get_post_type_orderby_for_user_with_no_saved_screen_option() {
+		$user_id = $this->create_user( 'administrator' );
+
+		$this->assertEquals( 'post_title', c2c_AdminPostNavigation::get_post_type_orderby( 'page', $user_id ) );
+		$this->assertEquals( 'post_date', c2c_AdminPostNavigation::get_post_type_orderby( 'post', $user_id ) );
+	}
+
+	public function test_get_post_type_orderby_for_user_with_saved_screen_option() {
+		$user_id = $this->create_user( 'administrator' );
+		add_user_meta( $user_id, c2c_AdminPostNavigation::get_setting_name( 'page' ), 'ID', true );
+
+		$this->assertEquals( 'ID', c2c_AdminPostNavigation::get_post_type_orderby( 'page', $user_id ) );
+		// Ensure it doesn't affect value for other post types.
+		$this->assertEquals( 'post_date', c2c_AdminPostNavigation::get_post_type_orderby( 'post', $user_id ) );
+	}
+
+
+	/*
+	 * c2c_AdminPostNavigation::get_setting_name()
+	 */
+
+
+	public function test_get_setting_name() {
+		$this->assertEquals( 'c2c_apn_page_orderby', c2c_AdminPostNavigation::get_setting_name( 'page' ) );
+		$this->assertEquals( 'c2c_apn_post_orderby', c2c_AdminPostNavigation::get_setting_name( 'post' ) );
+		$this->assertEquals( 'c2c_apn_book_orderby', c2c_AdminPostNavigation::get_setting_name( 'book' ) );
+	}
+
 
 	/*
 	 * Filters.
@@ -226,13 +349,13 @@ class Admin_Post_Navigation_Test extends WP_UnitTestCase {
 	}
 
 	public function test_filter_c2c_admin_post_navigation_post_statuses_when_adding_post_status() {
-		add_filter( 'c2c_admin_post_navigation_post_statuses', array( $this, 'c2c_admin_post_navigation_post_statuses' ), 10, 3 );
-
 		$posts = $this->create_posts();
 
+		add_filter( 'c2c_admin_post_navigation_post_statuses', array( $this, 'c2c_admin_post_navigation_post_statuses' ), 10, 2 );
+
 		$post = get_post( $posts[3] );
-		$post->post_status = 'trash';
-		wp_update_post( $post );
+		wp_trash_post( $post->ID );
+		$post = get_post( $posts[2] );
 
 		$next_post = c2c_AdminPostNavigation::next_post();
 
@@ -240,9 +363,9 @@ class Admin_Post_Navigation_Test extends WP_UnitTestCase {
 	}
 
 	public function test_filter_c2c_admin_post_navigation_post_statuses_when_removing_post_status() {
-		add_filter( 'c2c_admin_post_navigation_post_statuses', array( $this, 'c2c_admin_post_navigation_post_statuses' ), 10, 3 );
-
 		$posts = $this->create_posts();
+
+		add_filter( 'c2c_admin_post_navigation_post_statuses', array( $this, 'c2c_admin_post_navigation_post_statuses' ), 10, 3 );
 
 		$post = get_post( $posts[3] );
 		$post->post_status = 'draft';

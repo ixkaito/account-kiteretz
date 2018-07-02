@@ -77,9 +77,6 @@ class SiteGuard_Menu_WAF_Tuning_Support extends SiteGuard_Base {
 							if ( ! isset( $_POST['sig'] ) ) {
 								siteguard_error_log( 'post value sig not set: ' . __FILENAME__ );
 							}
-							if ( ! isset( $_POST['comment'] ) ) {
-								siteguard_error_log( 'post value comment not set: ' . __FILENAME__ );
-							}
 						} else {
 							$filename  = $this->set_filename( stripslashes( $_POST['filename'] ) );
 							$sig       = stripslashes( $_POST['sig'] );
@@ -229,7 +226,7 @@ class SiteGuard_Menu_WAF_Tuning_Support extends SiteGuard_Base {
 				echo '<h2>' . esc_html__( 'WAF Tuning Support', 'siteguard' ) . ' <a href="?page=siteguard_waf_tuning_support&action=add" class="add-new-h2">' . esc_html__( 'Add New', 'siteguard' ) . '</a></h2>';
 				echo '<div class="siteguard-description">'
 				. esc_html__( 'You can find docs about this function on ', 'siteguard' )
-				. '<a href="' . esc_url( __( 'http://www.jp-secure.com/cont/products/siteguard_wp_plugin/waf_tuning_support_en.html', 'siteguard' ) )
+				. '<a href="' . esc_url( __( 'https://www.jp-secure.com/siteguard_wp_plugin_en/howto/waf_tuning_support/', 'siteguard' ) )
 				. '" target="_blank">'
 				. esc_html__( 'here', 'siteguard' )
 				. '</a>'

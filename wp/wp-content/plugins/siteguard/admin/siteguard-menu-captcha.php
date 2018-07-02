@@ -34,7 +34,7 @@ class SiteGuard_Menu_CAPTCHA extends SiteGuard_Base {
 				echo '</strong></p></div>';
 				$error = true;
 			}
-			if ( false == $error && '1' == $_POST[ self::OPT_NAME_ENABLE ] ) {
+			if ( false === $error && '1' == $_POST[ self::OPT_NAME_ENABLE ] ) {
 				$ret = $siteguard_captcha->check_requirements( );
 				if ( is_wp_error( $ret ) ) {
 					echo '<div class="error settings-error"><p><strong>' . $ret->get_error_message( ) . '</strong></p></div>';
@@ -77,7 +77,7 @@ class SiteGuard_Menu_CAPTCHA extends SiteGuard_Base {
 		echo '<h2>' . esc_html__( 'CAPTCHA', 'siteguard' ) . '</h2>';
 		echo '<div class="siteguard-description">'
 		. esc_html__( 'You can find docs about this function on ', 'siteguard' )
-		. '<a href="' . esc_url( __( 'http://www.jp-secure.com/cont/products/siteguard_wp_plugin/captcha_en.html', 'siteguard' ) )
+		. '<a href="' . esc_url( __( 'https://www.jp-secure.com/siteguard_wp_plugin_en/howto/captcha/', 'siteguard' ) )
 		. '" target="_blank">'
 		. esc_html__( 'here', 'siteguard' )
 		. '</a>'

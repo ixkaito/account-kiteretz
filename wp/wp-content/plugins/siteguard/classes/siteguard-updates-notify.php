@@ -69,7 +69,7 @@ class SiteGuard_UpdatesNotify extends SiteGuard_Base {
 		wp_schedule_event( time(), 'daily', self::CRON_NAME );
 	}
 
-	public function feature_off() {
+	static public function feature_off() {
 		wp_clear_scheduled_hook( self::CRON_NAME ); // clear cron
 	}
 
@@ -241,7 +241,8 @@ class SiteGuard_UpdatesNotify extends SiteGuard_Base {
 		$user_query = new WP_User_Query( array( 'role' => 'Administrator' ) );
 		if ( is_array( $user_query->results ) ) {
 			foreach ( $user_query->results as $user ) {
-				if ( true !== @wp_mail( $user->get( 'user_email' ), $subject, $message ) ) {;
+				$user_email = $user->get( 'user_email' );
+				if ( true !== @wp_mail( $user_email, $subject, $message ) ) {;
 					siteguard_error_log( 'Failed send mail. To:' . $user_email . ' Subject:' . esc_html( $subject ) );
 				}
 			}

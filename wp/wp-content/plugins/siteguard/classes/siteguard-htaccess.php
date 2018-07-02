@@ -13,6 +13,14 @@ class SiteGuard_Htaccess extends SiteGuard_Base {
 	static function get_tmp_dir( ) {
 		return SITEGUARD_PATH . 'tmp/';
 	}
+	static function test_htaccess( ) {
+		return true;
+#		$result = wp_remote_get( SITEGUARD_URL_PATH . 'test/siteguard-test.php' );
+#		if ( ! is_wp_error( $result ) && 200 === $result['response']['code'] ) {
+#				return true;
+#		}
+#		return false;
+	}
 	static function get_htaccess_new_file( ) {
 		return tempnam( SiteGuard_Htaccess::get_tmp_dir( ), 'htaccess_' );
 	}
@@ -38,7 +46,7 @@ class SiteGuard_Htaccess extends SiteGuard_Base {
 	}
 	static function is_exists_setting( $mark ) {
 		$result = false;
-		if ( '' == $mark ) {
+		if ( '' === $mark ) {
 			$mark_start = self::HTACCESS_MARK_START;
 			$mark_end   = self::HTACCESS_MARK_END;
 		} else {
@@ -50,7 +58,7 @@ class SiteGuard_Htaccess extends SiteGuard_Base {
 			return $result;
 		}
 		$fr = @fopen( $current_file, 'r' );
-		if ( null == $fr ) {
+		if ( null === $fr ) {
 			return $result;
 		}
 		$line_num = 0;
@@ -97,11 +105,7 @@ class SiteGuard_Htaccess extends SiteGuard_Base {
 	static function get_apply_permission_itr( $file ) {
 		clearstatcache( );
 		$perm = intval( substr( sprintf( '%o', fileperms( $file ) ), -4 ), 8 );
-		if ( 0604 === $perm || 0644 === $perm ) {
-			return $perm;
-		} else {
-			return self::HTACCESS_PERMISSION;
-		}
+		return $perm;
 	}
 	static function get_apply_permission( $file ) {
 		$perm = self::HTACCESS_PERMISSION;
@@ -117,7 +121,7 @@ class SiteGuard_Htaccess extends SiteGuard_Base {
 		if ( ! SiteGuard_Htaccess::make_tmp_dir( ) ) {
 			return false;
 		}
-		if ( '' == $mark ) {
+		if ( '' === $mark ) {
 			$mark_start = self::HTACCESS_MARK_START;
 			$mark_end   = self::HTACCESS_MARK_END;
 		} else {

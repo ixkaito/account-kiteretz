@@ -22,12 +22,12 @@ class SiteGuard_LoginHistory_Table extends WP_List_Table {
 		) );
 		$referer = wp_get_referer( );
 		if ( false === strpos( $referer, 'siteguard_login_history' ) ) {
-			unset( $_SESSION['filter_operation'] );
-			unset( $_SESSION['filter_type'] );
-			unset( $_SESSION['filter_login_name'] );
-			unset( $_SESSION['filter_ip_address'] );
-			unset( $_SESSION['filter_login_name_not'] );
-			unset( $_SESSION['filter_ip_address_not'] );
+			unset( $_COOKIE['siteguard_log_filter_operation'] );
+			unset( $_COOKIE['siteguard_log_filter_type'] );
+			unset( $_COOKIE['siteguard_log_filter_login_name'] );
+			unset( $_COOKIE['siteguard_log_filter_ip_address'] );
+			unset( $_COOKIE['siteguard_log_filter_login_name_not'] );
+			unset( $_COOKIE['siteguard_log_filter_ip_address_not'] );
 		}
 		if ( isset( $_POST['filter_reset'] ) ) {
 			$this->filter_operation      = SITEGUARD_LOGIN_NOSELECT;
@@ -50,12 +50,6 @@ class SiteGuard_LoginHistory_Table extends WP_List_Table {
 		if ( '' === $this->filter_ip_address ) {
 			$this->filter_ip_address_not = false;
 		}
-		$_SESSION['filter_operation']      = $this->filter_operation;
-		$_SESSION['filter_type']           = $this->filter_type;
-		$_SESSION['filter_login_name']     = $this->filter_login_name;
-		$_SESSION['filter_ip_address']     = $this->filter_ip_address;
-		$_SESSION['filter_login_name_not'] = $this->filter_login_name_not;
-		$_SESSION['filter_ip_address_not'] = $this->filter_ip_address_not;
 	}
 
 	function column_default( $item, $column_name ) {
@@ -123,27 +117,35 @@ class SiteGuard_LoginHistory_Table extends WP_List_Table {
 	}
 	function get_filter_param_normal( $name, $default ) {
 		$result = $default;
-		if ( isset( $_POST[ $name ] ) ) {
-			$result =  $_POST[ $name ];
-		} else if ( isset( $_SESSION[ $name ] ) ) {
-			$result =  $_SESSION[ $name ];
+		if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
+			if ( isset( $_POST[ $name ] ) ) {
+				$result =  $_POST[ $name ];
+			}
+		} else {
+			$cookie_name = 'siteguard_log_' . $name;
+			if ( isset( $_COOKIE[ $cookie_name ] ) ) {
+				$result = $_COOKIE[ $cookie_name ];
+			}
 		}
 		return $result;
 	}
 	function get_filter_param_checkbox( $name, $default ) {
 		$result = $default;
-		if ( isset( $_POST['filter_action'] ) ) {
-			if ( isset( $_POST[ $name ] ) ) {
+		if ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
+			if ( isset( $_POST['filter_action'] ) ) {
+				if ( isset( $_POST[ $name ] ) ) {
+					$result = true;
+				} else {
+					$result = false;
+				}
+			}
+		} else {
+			$cookie_name = 'siteguard_log_' . $name;
+			if ( isset( $_COOKIE[ $cookie_name ] ) ) {
 				$result = true;
 			} else {
 				$result = false;
 			}
-			return $result;
-		}
-		if ( isset( $_SESSION[ $name ] ) ) {
-			$result = $_SESSION[ $name ];
-		} else {
-			$result = $default;
 		}
 		return $result;
 	}
@@ -220,18 +222,18 @@ class SiteGuard_LoginHistory_Table extends WP_List_Table {
 		<td><label for="filter-operation"><?php echo esc_html__( 'Operation', 'siteguard') . ':'; ?></label></td>
 		<td><?php $this->operation_dropdown( ); ?></td>
 		<td width="30px"></td>
-		<td><label for="filter-login-name" ><?php echo __( 'Login Name', 'siteguard' ) . ':'; ?></label></td>
+		<td><label for="filter-login-name" ><?php echo esc_html__( 'Login Name', 'siteguard' ) . ':'; ?></label></td>
 		<td><?php $this->login_name_input( ); ?></td>
 		</tr><tr>
 		<td><label for="filter-type" ><?php echo esc_html__( 'Type', 'siteguard') . ':'; ?></label></td>
 		<td><?php $this->type_dropdown( ); ?></td>
 		<td></td>
-		<td><label for="filter-ip-address" ><?php echo __( 'IP Address', 'siteguard' ) . ':'; ?></label></td>
+		<td><label for="filter-ip-address" ><?php echo esc_html__( 'IP Address', 'siteguard' ) . ':'; ?></label></td>
 		<td><?php $this->ip_address_input( ); ?></td>
 		</tr>
 		</table>
-		<input type="submit" name="filter_action" id="post-query-submit" class="button" value="<?php echo __( 'Filter' ); ?>">
-		<input type="submit" name="filter_reset"  id="post-query-reset"  class="button" value="<?php echo __( 'All' ); ?>">
+		<input type="submit" name="filter_action" id="post-query-submit" class="button" value="<?php echo esc_attr__( 'Filter' ); ?>">
+		<input type="submit" name="filter_reset"  id="post-query-reset"  class="button" value="<?php echo esc_attr__( 'All' ); ?>">
 		</div>
 		<?php
 	}

@@ -26,7 +26,7 @@ class SiteGuard_LoginAlert extends SiteGuard_Base {
 				$username,
 				date( 'Y-m-d', current_time( 'timestamp' ) ),
 				date( 'H:i:s', current_time( 'timestamp' ) ),
-				isset( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : '-',
+				$this->get_ip( ),
 				isset( $_SERVER['HTTP_USER_AGENT'] ) ? $_SERVER['HTTP_USER_AGENT'] : '-',
 				isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : '-',
 			);

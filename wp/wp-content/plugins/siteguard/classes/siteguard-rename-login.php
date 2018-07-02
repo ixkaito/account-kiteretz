@@ -1,8 +1,11 @@
 <?php
 
+require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+
 class SiteGuard_RenameLogin extends SiteGuard_Base {
 	protected static $incompatible_plugins = array(
 		'WordPress HTTPS (SSL)' => 'wordpress-https/wordpress-https.php',
+		'qTranslate X' => 'qtranslate-x/qtranslate.php',
 	 );
 	public static $htaccess_mark = '#==== SITEGUARD_RENAME_LOGIN_SETTINGS';
 
@@ -25,7 +28,11 @@ class SiteGuard_RenameLogin extends SiteGuard_Base {
 		global $siteguard_config;
 		$siteguard_config->set( 'renamelogin_path', 'login_' . sprintf( '%05d', mt_rand( 1, 99999 ) ) );
 		$siteguard_config->update();
-		if ( $this->check_module( 'rewrite' ) && null === $this->get_active_incompatible_plugins( ) && true === siteguard_check_multisite( ) ) {
+		if ( $this->check_module( 'rewrite' ) &&
+			null === $this->get_active_incompatible_plugins( ) &&
+			true === siteguard_check_multisite( ) &&
+			SiteGuard_Htaccess::test_htaccess( )
+		) {
 			$siteguard_config->set( 'renamelogin_enable', '1' );
 			$siteguard_config->update( );
 			if ( false === $this->feature_on( ) ) {
@@ -40,7 +47,7 @@ class SiteGuard_RenameLogin extends SiteGuard_Base {
 	function get_active_incompatible_plugins( ) {
 		$result = array();
 		foreach ( self::$incompatible_plugins as $name => $path ) {
-			if ( $this->is_active_plugin( $path ) ) {
+			if ( is_plugin_active( $path ) ) {
 				array_push( $result, $name );
 			}
 		}
@@ -95,7 +102,13 @@ class SiteGuard_RenameLogin extends SiteGuard_Base {
 		return $result;
 	}
 	function handler_wp_redirect( $link, $status_code ) {
-		$result = $this->convert_url( $link );
+		if ( ( ( strlen( $link ) <= 5 || 'http:' !== strtolower( substr( $link, 0, 5 ) ) ) && ( strlen( $link ) <= 6 || 'https:' !== strtolower( substr( $link, 0, 6 ) ) ) )
+		|| ( isset( $_SERVER['HTTPS'] ) && strtolower( $_SERVER['HTTPS'] ) !== 'off' && 'https' === strtolower( substr( $link, 0, strpos( $link, '://') ) ) )
+		|| ( ( ! isset( $_SERVER['HTTPS'] ) || strtolower( $_SERVER['HTTPS'] ) === 'off' ) && 'http' === strtolower( substr( $link, 0, strpos( $link, '://') ) ) ) ) {
+			$result = $this->convert_url( $link );
+		} else {
+			$result = $link;
+		}
 		return $result;
 	}
 	function insert_rewrite_rules( $rules ) {
@@ -109,7 +122,7 @@ class SiteGuard_RenameLogin extends SiteGuard_Base {
 		global $siteguard_config;
 		$custom_login_url = $siteguard_config->get( 'renamelogin_path' );
 		$parse_url = parse_url( site_url( ) );
-		if ( false == $parse_url ) {
+		if ( false === $parse_url ) {
 			$base = '/';
 		} else {
 			if ( isset( $parse_url['path'] ) ) {
@@ -160,7 +173,8 @@ class SiteGuard_RenameLogin extends SiteGuard_Base {
 		$user_query = new WP_User_Query( array( 'role' => 'Administrator' ) );
 		if ( ! empty( $user_query->results ) ) {
 			foreach ( $user_query->results as $user ) {
-				if ( true !== @wp_mail( $user->get( 'user_email' ), $subject, $body ) ) {
+				$user_email = $user->get( 'user_email' );
+				if ( true !== @wp_mail( $user_email, $subject, $body ) ) {
 					siteguard_error_log( 'Failed send mail. To:' . $user_email . ' Subject:' . esc_html( $subject ) );
 				}
 			}

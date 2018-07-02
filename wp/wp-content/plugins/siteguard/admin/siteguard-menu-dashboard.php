@@ -1,12 +1,7 @@
 <?php
 
-require_once( 'siteguard-login-history-table.php' );
-
 class SiteGuard_Menu_Dashboard extends SiteGuard_Base {
-	protected $wp_list_table;
 	function __construct( ) {
-		$this->wp_list_table = new SiteGuard_LoginHistory_Table( );
-		$this->wp_list_table->prepare_items( );
 		$this->render_page( );
 	}
 	function render_page( ) {
@@ -28,7 +23,7 @@ class SiteGuard_Menu_Dashboard extends SiteGuard_Base {
 		echo '<h2>' . esc_html__( 'Dashboard', 'siteguard' ) . "</h2>\n";
 		echo '<div class="siteguard-description">'
 		. esc_html__( 'You can find docs, FAQ and more detailed information about SiteGuard WP Plugin on ', 'siteguard' )
-		. '<a href="' . esc_url( __( 'http://www.jp-secure.com/cont/products/siteguard_wp_plugin/index_en.html', 'siteguard' ) ) . '" target="_blank">' . esc_html__( 'SiteGuard WP Plugin Page', 'siteguard' ) . '</a>' . esc_html__( '.', 'siteguard' ) . '</div>';
+		. '<a href="' . esc_url( __( 'https://www.jp-secure.com/siteguard_wp_plugin_en/', 'siteguard' ) ) . '" target="_blank">' . esc_html__( 'SiteGuard WP Plugin Page', 'siteguard' ) . '</a>' . esc_html__( '.', 'siteguard' ) . '</div>';
 		echo '<h3>' . esc_html__( 'Setting status', 'siteguard' ) . "</h3>\n";
 		$error = siteguard_check_multisite( );
 		if ( is_wp_error( $error ) ) {
@@ -88,10 +83,17 @@ class SiteGuard_Menu_Dashboard extends SiteGuard_Base {
 		<img src=<?php echo '"' . $img_path . ( '1' == $waf_exclude_rule_enable ? 'yes.png" alt="yes"' : 'yes_glay.png" alt="no"' ) ?>>
 		<a href="?page=siteguard_waf_tuning_support"><?php esc_html_e( 'WAF Tuning Support', 'siteguard' ) ?></a></th>
 		<td><?php esc_html_e( 'The exclude rule for WAF (SiteGuard Lite) is created.', 'siteguard' ) ?></td>
+		</tr><tr>
+		<th scope="row">
+		<a href="?page=siteguard_advanced_setting"><?php esc_html_e( 'Advanced Setting', 'siteguard' ) ?></a></th>
+		<td><?php esc_html_e( 'Set the method for acquiring the IP address.', 'siteguard' ) ?></td>
+		</tr><tr>
+		<th scope="row">
+		<a href="?page=siteguard_login_history"><?php echo esc_html__( 'Login history', 'siteguard' ) ?></a>
+		<td><?php esc_html_e( 'Login history can be referenced.', 'siteguard' ) ?></td>
 		</tr>
 		</table>
 		<hr />
-		<a href="?page=siteguard_login_history"><?php echo esc_html__( 'Login history', 'siteguard' ) ?></a>
 		</div>
 		<?php
 	}

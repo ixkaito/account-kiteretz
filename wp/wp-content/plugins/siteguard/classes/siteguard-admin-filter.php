@@ -23,7 +23,7 @@ class SiteGuard_AdminFilter extends SiteGuard_Base {
 		CHARACTER SET 'utf8';";
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta( $sql );
-		$siteguard_config->set( 'admin_filter_exclude_path', 'css,images,admin-ajax.php' );
+		$siteguard_config->set( 'admin_filter_exclude_path', 'css,images,admin-ajax.php,load-styles.php' );
 		$siteguard_config->set( 'admin_filter_enable', '0' );
 		$siteguard_config->update( );
 	}
@@ -34,7 +34,7 @@ class SiteGuard_AdminFilter extends SiteGuard_Base {
 			return;
 		}
 		if ( 1 == $siteguard_config->get( 'admin_filter_enable' ) ) {
-			$this->feature_on( $_SERVER['REMOTE_ADDR'] );
+			$this->feature_on( $this->get_ip( ) );
 		}
 	}
 	function cvt_exclude( $exclude ) {
@@ -44,6 +44,48 @@ class SiteGuard_AdminFilter extends SiteGuard_Base {
 		global $wpdb;
 		$table_name = $wpdb->prefix . SITEGUARD_TABLE_LOGIN;
 		$wpdb->update( $table_name, array( 'status' => 0 ), array( 'ip_address' => $ip_address ) );
+	}
+	function get_ip_mode( ) {
+		global $siteguard_config;
+		if ( ! is_object( $siteguard_config ) ) {
+			$siteguard_config = new SiteGuard_Config( );
+		}
+		$ip_mode = $siteguard_config->get( 'ip_mode' );
+		if ( ! in_array( $ip_mode, SiteGuard_Base::$ip_mode_items ) ) {
+			$ip_mode = '0';
+		}
+		$ip_mode_num = intval( $ip_mode );
+
+		return $ip_mode_num;
+	}
+	function get_rewrite_postfix( $ip_mode ) {
+		$postfix = '';
+		switch ( $ip_mode ) {
+			case 2:
+				$postfix = '\s*,\s*[^,]+';
+				break;
+			case 3:
+				$postfix = '(\s*,\s*[^,]+){2}';
+				break;
+			default:
+				$postfix = '';
+		}
+		return $postfix;
+	}
+	function get_rewrite_pre_cond( $ip_mode ) {
+		if ( 0 === $ip_mode ) {
+			return '';
+		}
+		$postfix = $this->get_rewrite_postfix( $ip_mode );
+		$result = '    RewriteCond %{HTTP:X-Forwarded-For} [^,]+' . $postfix . "$\n";
+		return $result;
+	}
+	function get_rewrite_cond( $ip, $ip_mode ) {
+		if ( 0 === $ip_mode ) {
+			return '    RewriteCond %{REMOTE_ADDR} !^' . str_replace( '.', '\.', $ip ) . "$\n";
+		}
+		$postfix = $this->get_rewrite_postfix( $ip_mode );
+		return '    RewriteCond %{HTTP:X-Forwarded-For} !' . str_replace( '.', '\.', $ip ) . $postfix . "$\n";
 	}
 	function update_settings( $ip_address ) {
 		global $wpdb, $siteguard_config;
@@ -69,7 +111,7 @@ class SiteGuard_AdminFilter extends SiteGuard_Base {
 			$wpdb->update( $table_name, $data, array( 'ip_address' => $ip_address ) );
 		}
 		$parse_url = parse_url( site_url( ) );
-		if ( false == $parse_url ) {
+		if ( false === $parse_url ) {
 			$base = '/';
 		} else {
 			if ( isset( $parse_url['path'] ) ) {
@@ -83,13 +125,14 @@ class SiteGuard_AdminFilter extends SiteGuard_Base {
 		$htaccess_str .= "    RewriteBase $base\n";
 		$htaccess_str .= "    RewriteRule ^404-siteguard - [L]\n";
 		foreach ( $exclude_paths as $path ) {
-			$htaccess_str .= '    RewriteRule ^wp-admin/' . trim( $path ) . " - [L]\n";
+			$htaccess_str .= '    RewriteRule ^wp-admin/' . trim( str_replace( '.', '\.', $path ) ) . " - [L]\n";
 		}
-		$htaccess_str .= '    RewriteCond %{REMOTE_ADDR} !^(127\.0\.0\.1|'. str_replace( '.', '\.', $_SERVER['SERVER_ADDR'] ) . ")$\n";
+		$ip_mode = $this->get_ip_mode( );
+		$htaccess_str .= $this->get_rewrite_pre_cond( $ip_mode );
 		$results = $wpdb->get_col( $wpdb->prepare( "SELECT ip_address FROM $table_name WHERE status = %d;", SITEGUARD_LOGIN_SUCCESS ) );
 		if ( $results ) {
 			foreach ( $results as $ip ) {
-				$htaccess_str .= '    RewriteCond %{REMOTE_ADDR} !^' . str_replace( '.', '\.', $ip ) . "$\n";
+				$htaccess_str .= $this->get_rewrite_cond( $ip, $ip_mode );
 			}
 		}
 		$htaccess_str .= "    RewriteRule ^wp-admin 404-siteguard [L]\n";

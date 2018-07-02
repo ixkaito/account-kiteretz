@@ -49,6 +49,9 @@ msgstr "XMLRPC防御"
 msgid "Disable XMLRPC"
 msgstr "XMLRPC無効化"
 
+msgid "Login history can be referenced."
+msgstr "ログインの履歴が参照できます。"
+
 msgid "Login history can be referenced. Let's see if there are any suspicious history. History, registered 10,000 maximum, will be removed from those old and more than 10,000."
 msgstr "ログインの履歴が参照できます。怪しい履歴がないか確認しましょう。履歴は、最大10,000件記錄され、10,000件を超えると古いものから削除されます。"
 
@@ -568,10 +571,24 @@ msgstr ""
 "　"
 
 msgid ""
-"In order to enable this function, it is necessary to specify Limit to AllowOverride in httpd.conf."
+"The image file access failed."
 msgstr ""
-"この機能を使用するには、httpd.confのAllowOverrideにLimitを指定する必要があります。"
+"画像ファイルのアクセスに失敗しました。"
 
+msgid ""
+"The image file write failed."
+msgstr ""
+"画像ファイルの書き込みに失敗しました。"
+
+msgid ""
+"In order to enable this function, php must be compiled with FreeType support enabled."
+msgstr ""
+"この機能を使用するには、phpがFreeTypeサポートを有効にしてコンパイルされている必要があります。"
+
+msgid ""
+"mod_rewrite of .htaccess can not be used"
+msgstr ""
+".htaccessのmod_rewriteが使用できません。"
 
 #: admin/siteguard-sg-whitelist-table.php:61
 msgid "Directive"
@@ -761,6 +778,42 @@ msgstr "WordPress: 更新通知 @ %s"
 msgid "WordPress updates"
 msgstr "WordPressの更新"
 
+msgid "Advanced Setting"
+msgstr "詳細設定"
+
+msgid "IP Address Mode"
+msgstr "IPアドレス取得方法"
+
+msgid "REMOTE_ADDR"
+msgstr "リモートアドレス"
+
+msgid "X-Forwarded-For Level:1"
+msgstr "X-Forwarded-For レベル:1"
+
+msgid "X-Forwarded-For Level:2"
+msgstr "X-Forwarded-For レベル:2"
+
+msgid "X-Forwarded-For Level:3"
+msgstr "X-Forwarded-For レベル:3"
+
+msgid ""
+"Set the method for acquiring the IP address."
+
+msgstr ""
+"IPアドレスの取得方法を設定します。"
+
+msgid ""
+"Set the method for acquiring the IP address. Normally you should select a remote address. "
+"If there is a proxy or load balancer in front of the web server and you can not obtain the client's IP address with remote address, "
+"you can obtain the IP address from X-Forwarded-For. "
+"Level represents the number from the right end of the value of X-Forwarded-For."
+
+msgstr ""
+"IPアドレスの取得方法を設定します。通常はリモートアドレスを選択してください。"
+"Webサーバーの前段にプロキシーサーバーや、ロードバランサーが存在して、リモートアドレスでクライアントのIPアドレスが取得できない場合は、"
+"X-Forwarded-ForからIPアドレスを取得できます。"
+"レベルは、X-Forwarded-Forの値の右端から何番目かを表します。"
+
 msgid ""
 "DISABLE_WP_CRON is defined true. This function can't be used."
 msgstr ""
@@ -778,41 +831,44 @@ msgstr ""
 
 #. Plugin URI of the plugin/theme
 #: admin/siteguard-menu-dashboard.php
-msgid "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/index_en.html"
-msgstr "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/index.html"
+msgid "https://www.jp-secure.com/siteguard_wp_plugin_en/"
+msgstr "https://www.jp-secure.com/siteguard_wp_plugin/"
 
-msgid "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/login_history_en.html"
-msgstr "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/login_history.html"
+msgid "https://www.jp-secure.com/siteguard_wp_plugin_en/howto/login_history/"
+msgstr "https://www.jp-secure.com/siteguard_wp_plugin/howto/login_history/"
 
-msgid "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/admin_filter_en.html"
-msgstr "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/admin_filter.html"
+msgid "https://www.jp-secure.com/siteguard_wp_plugin_en/howto/admin_filter/"
+msgstr "https://www.jp-secure.com/siteguard_wp_plugin/howto/admin_filter/"
 
-msgid "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/rename_login_en.html"
-msgstr "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/rename_login.html"
+msgid "https://www.jp-secure.com/siteguard_wp_plugin_en/howto/rename_login/"
+msgstr "https://www.jp-secure.com/siteguard_wp_plugin/howto/rename_login/"
 
-msgid "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/captcha_en.html"
-msgstr "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/captcha.html"
+msgid "https://www.jp-secure.com/siteguard_wp_plugin_en/howto/captcha/"
+msgstr "https://www.jp-secure.com/siteguard_wp_plugin/howto/captcha/"
 
-msgid "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/same_error_en.html"
-msgstr "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/same_error.html"
+msgid "https://www.jp-secure.com/siteguard_wp_plugin_en/howto/same_error/"
+msgstr "https://www.jp-secure.com/siteguard_wp_plugin/howto/same_error/"
 
-msgid "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/login_lock_en.html"
-msgstr "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/login_lock.html"
+msgid "https://www.jp-secure.com/siteguard_wp_plugin_en/howto/login_lock/"
+msgstr "https://www.jp-secure.com/siteguard_wp_plugin/howto/login_lock/"
 
-msgid "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/login_alert_en.html"
-msgstr "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/login_alert.html"
+msgid "https://www.jp-secure.com/siteguard_wp_plugin_en/howto/login_alert/"
+msgstr "https://www.jp-secure.com/siteguard_wp_plugin/howto/login_alert/"
 
-msgid "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/fail_once_en.html"
-msgstr "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/fail_once.html"
+msgid "https://www.jp-secure.com/siteguard_wp_plugin_en/howto/fail_once/"
+msgstr "https://www.jp-secure.com/siteguard_wp_plugin/howto/fail_once/"
 
-msgid "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/xmlrpc_en.html"
-msgstr "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/xmlrpc.html"
+msgid "https://www.jp-secure.com/siteguard_wp_plugin_en/howto/xmlrpc/"
+msgstr "https://www.jp-secure.com/siteguard_wp_plugin/howto/xmlrpc/"
 
-msgid "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/updates_notify_en.html"
-msgstr "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/updates_notify.html"
+msgid "https://www.jp-secure.com/siteguard_wp_plugin_en/howto/updates_notify/"
+msgstr "https://www.jp-secure.com/siteguard_wp_plugin/howto/updates_notify/"
 
-msgid "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/waf_tuning_support_en.html"
-msgstr "http://www.jp-secure.com/cont/products/siteguard_wp_plugin/waf_tuning_support.html"
+msgid "https://www.jp-secure.com/siteguard_wp_plugin_en/howto/waf_tuning_support/"
+msgstr "https://www.jp-secure.com/siteguard_wp_plugin/howto/waf_tuning_support/"
+
+msgid "https://www.jp-secure.com/siteguard_wp_plugin_en/howto/advanced_setting/"
+msgstr "https://www.jp-secure.com/siteguard_wp_plugin/howto/advanced_setting/"
 
 #. Description of the plugin/theme
 msgid ""

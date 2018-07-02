@@ -15,10 +15,6 @@ class SiteGuard_Menu_INIT extends SiteGuard_Base {
 		esc_html__( 'Dashboard', 'siteguard' ) , 'manage_options', 'siteguard', array( $this, 'menu_dashboard' ) );
 		add_action( 'admin_print_styles-' . $page, array( $this, 'menu_styles' ) );
 
-		$page = add_submenu_page( 'siteguard', esc_html__( 'Login history', 'siteguard' ),
-		esc_html__( 'Login history', 'siteguard' ), 'manage_options', 'siteguard_login_history', array( $this, 'menu_login_history' ) );
-		add_action( 'admin_print_styles-' . $page, array( $this, 'menu_styles' ) );
-
 		$page = add_submenu_page( 'siteguard', esc_html__( 'Admin Page IP Filter', 'siteguard' ),
 		esc_html__( 'Admin Page IP Filter', 'siteguard' ), 'manage_options', 'siteguard_admin_filter', array( $this, 'menu_admin_filter' ) );
 		add_action( 'admin_print_styles-' . $page, array( $this, 'menu_styles' ) );
@@ -58,6 +54,14 @@ class SiteGuard_Menu_INIT extends SiteGuard_Base {
 		$page = add_submenu_page( 'siteguard', esc_html__( 'WAF Tuning Support', 'siteguard' ),
 		esc_html__( 'WAF Tuning Support', 'siteguard' ), 'manage_options', 'siteguard_waf_tuning_support', array( $this, 'menu_waf_tuning_support' ) );
 		add_action( 'admin_print_styles-' . $page, array( $this, 'menu_styles' ) );
+
+		$page = add_submenu_page( 'siteguard', esc_html__( 'Advanced Setting', 'siteguard' ),
+		esc_html__( 'Advanced Setting', 'siteguard' ), 'manage_options', 'siteguard_advanced_setting', array( $this, 'menu_advanced_setting' ) );
+		add_action( 'admin_print_styles-' . $page, array( $this, 'menu_styles' ) );
+
+		$page = add_submenu_page( 'siteguard', esc_html__( 'Login history', 'siteguard' ),
+		esc_html__( 'Login history', 'siteguard' ), 'manage_options', 'siteguard_login_history', array( $this, 'menu_login_history' ) );
+		add_action( 'admin_print_styles-' . $page, array( $this, 'menu_styles' ) );
 	}
 
 	function menu_dashboard( ) {
@@ -65,7 +69,7 @@ class SiteGuard_Menu_INIT extends SiteGuard_Base {
 		$dashboard_menu = new SiteGuard_Menu_Dashboard( );
 	}
 	function menu_login_history( ) {
-		include( 'siteguard-menu-login-history.php' );
+		// include( 'siteguard-menu-login-history.php' );   -- already included SiteGuard::__construct --
 		$login_history_menu = new SiteGuard_Menu_Login_History( );
 	}
 	function menu_admin_filter( ) {
@@ -107,5 +111,9 @@ class SiteGuard_Menu_INIT extends SiteGuard_Base {
 	function menu_waf_tuning_support( ) {
 		include( 'siteguard-menu-waf-tuning-support.php' );
 		$waf_tuning_support_menu = new SiteGuard_Menu_WAF_Tuning_Support( );
+	}
+	function menu_advanced_setting( ) {
+		include( 'siteguard-menu-advanced-setting.php' );
+		$advanced_setting = new SiteGuard_Menu_Advanced_Setting( );
 	}
 }

@@ -79,7 +79,7 @@ class SiteGuard_LoginHistory extends SiteGuard_Base {
 		}
 
 		$table_name = $wpdb->prefix . SITEGUARD_TABLE_HISTORY;
-		$ip_address = $_SERVER['REMOTE_ADDR'];
+		$ip_address = $this->get_ip( );
 		$now = current_time( 'mysql' );
 		$id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $table_name WHERE ip_address = %s AND login_name = %s AND operation = %d AND time BETWEEN %s - INTERVAL %d SECOND AND %s - INTERVAL %d SECOND; ", $ip_address, $user, $operation, $now, $less_sec, $now, $after_sec ) );
 		if ( null == $id ) {
@@ -105,7 +105,7 @@ class SiteGuard_LoginHistory extends SiteGuard_Base {
 		if ( null != $id ) {
 			$wpdb->query( $wpdb->prepare( "DELETE FROM $table_name WHERE id <= %d;", $id ) );
 		}
-		$ip_address = $_SERVER['REMOTE_ADDR'];
+		$ip_address = $this->get_ip( );
 		$data = array(
 			'operation'  => $operation,
 			'login_name' => $user,

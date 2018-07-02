@@ -7,7 +7,7 @@ Author: JP-Secure
 Author URI: http://www.jp-secure.com/eng/
 Text Domain: siteguard
 Domain Path: /languages/
-Version: 1.3.2
+Version: 1.4.3
 */
 
 /*  Copyright 2014 JP-Secure Inc
@@ -129,10 +129,11 @@ class SiteGuard extends SiteGuard_Base {
 	function __construct( ) {
 		global $siteguard_config;
 		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
-		add_action( 'wp_loaded', array( $this, 'sg_session_start' ) );
 		$this->htaccess_check( );
 		if ( is_admin( ) ) {
+			include ( 'admin/siteguard-menu-login-history.php' );
 			$this->menu_init = new SiteGuard_Menu_Init( );
+			add_action( 'init', array( $this, 'set_cookie' ) );
 			add_action( 'admin_init', array( $this, 'upgrade' ) );
 			if ( '0' === $siteguard_config->get( 'show_admin_notices' ) && '1' === $siteguard_config->get( 'renamelogin_enable' ) ) {
 				add_action( 'admin_notices', array( $this, 'admin_notices' ) );
@@ -141,6 +142,9 @@ class SiteGuard extends SiteGuard_Base {
 			}
 		}
 	}
+	function set_cookie( ) {
+		SiteGuard_Menu_Login_History::set_cookie( );
+	}
 	function plugins_loaded( ) {
 		load_plugin_textdomain(
 			'siteguard',
@@ -148,34 +152,40 @@ class SiteGuard extends SiteGuard_Base {
 			dirname( plugin_basename( __FILE__ ) ) . '/languages'
 		);
 	}
-	function sg_session_start( ) {
-		if ( ! isset( $_SESSION ) ) {
-			session_start( );
-		}
-	}
 	function htaccess_check( ) {
 		global $siteguard_config;
+		
+		$can_use_htaccess = true;
+		if ( false === SiteGuard_Htaccess::test_htaccess( ) ) {
+			$can_use_htaccess = false;
+		}
 		if ( '1' === $siteguard_config->get( 'admin_filter_enable' ) ) {
-			if ( ! SiteGuard_Htaccess::is_exists_setting( SiteGuard_AdminFilter::get_mark( ) ) ) {
+			if ( false === $can_use_htaccess || ! SiteGuard_Htaccess::is_exists_setting( SiteGuard_AdminFilter::get_mark( ) ) ) {
 				$siteguard_config->set( 'admin_filter_enable', '0' );
 				$siteguard_config->update( );
 			}
 		}
 		if ( '1' === $siteguard_config->get( 'renamelogin_enable' ) ) {
-			if ( ! SiteGuard_Htaccess::is_exists_setting( SiteGuard_RenameLogin::get_mark( ) ) ) {
+			if ( false === $can_use_htaccess || ! SiteGuard_Htaccess::is_exists_setting( SiteGuard_RenameLogin::get_mark( ) ) ) {
 				$siteguard_config->set( 'renamelogin_enable', '0' );
 				$siteguard_config->update( );
 			}
 		}
 		if ( '1' === $siteguard_config->get( 'disable_xmlrpc_enable' ) ) {
-			if ( ! SiteGuard_Htaccess::is_exists_setting( SiteGuard_Disable_XMLRPC::get_mark( ) ) ) {
+			if ( false === $can_use_htaccess || ! SiteGuard_Htaccess::is_exists_setting( SiteGuard_Disable_XMLRPC::get_mark( ) ) ) {
 				$siteguard_config->set( 'disable_xmlrpc_enable', '0' );
 				$siteguard_config->update( );
 			}
 		}
 		if ( '1' === $siteguard_config->get( 'waf_exclude_rule_enable' ) ) {
-			if ( ! SiteGuard_Htaccess::is_exists_setting( SiteGuard_WAF_Exclude_Rule::get_mark( ) ) ) {
+			if ( false === $can_use_htaccess || ! SiteGuard_Htaccess::is_exists_setting( SiteGuard_WAF_Exclude_Rule::get_mark( ) ) ) {
 				$siteguard_config->set( 'waf_exclude_rule_enable', '0' );
+				$siteguard_config->update( );
+			}
+		}
+		if ( '1' === $siteguard_config->get( 'captcha_enable' ) ) {
+			if ( false === $can_use_htaccess) {
+				$siteguard_config->set( 'captcha_enable', '0' );
 				$siteguard_config->update( );
 			}
 		}
@@ -201,7 +211,7 @@ class SiteGuard extends SiteGuard_Base {
 		}
 		if ( version_compare( $old_version, '1.0.6' ) < 0 ) {
 			if ( '1' === $siteguard_config->get( 'admin_filter_enable' ) ) {
-				if ( true !== $siteguard_admin_filter->feature_on( $_SERVER['REMOTE_ADDR'] ) ) {
+				if ( true !== $siteguard_admin_filter->feature_on( $this->get_ip( ) ) ) {
 					siteguard_error_log( 'Failed to update at admin_filter from ' . $old_version . ' to ' . SITEGUARD_VERSION . '.' );
 					$upgrade_ok = false;
 				}
@@ -215,7 +225,7 @@ class SiteGuard extends SiteGuard_Base {
 		}
 		if ( version_compare( $old_version, '1.2.5' ) < 0 ) {
 			if ( '1' === $siteguard_config->get( 'admin_filter_enable' ) ) {
-				$siteguard_admin_filter->cvt_status_for_1_2_5( $_SERVER['REMOTE_ADDR'] );
+				$siteguard_admin_filter->cvt_status_for_1_2_5( $this->get_ip( ) );
 			}
 			if ( '1' === $siteguard_config->get( 'renamelogin_enable' ) ) {
 				if ( true !== $siteguard_rename_login->feature_on( ) ) {

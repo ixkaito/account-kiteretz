@@ -3,8 +3,8 @@ Contributors: jp-secure
 Donate link: -
 Tags: security, waf, brute force, password list, login lock, login alert, captcha, pingback, fail once
 Requires at least: 3.9
-Tested up to: 4.6
-Stable tag: 1.3.2
+Tested up to: 4.9
+Stable tag: 1.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ SiteGurad WP Plugin is the plugin specialized for the protection against the att
 
 == Description ==
 
-You can find docs, FAQ and more detailed information on [English Page](http://www.jp-secure.com/cont/products/siteguard_wp_plugin/index_en.html) [Japanese Page](http://www.jp-secure.com/cont/products/siteguard_wp_plugin/index.html).
+You can find docs, FAQ and more detailed information on [English Page](https://www.jp-secure.com/siteguard_wp_plugin_en/) [Japanese Page](https://www.jp-secure.com/siteguard_wp_plugin/).
 
 Simply install the SiteGuard WP Plugin, WordPress security is improved.
 This plugin is a security plugin that specializes in the login attack of brute force, such as protection and management capabilities.
@@ -98,10 +98,26 @@ If you have created your own language pack, or have an update of an existing one
 
 == Frequently Asked Questions ==
 
-[English Page](http://www.jp-secure.com/cont/products/siteguard_wp_plugin/faq_en.html)
-[Japanese Page](http://www.jp-secure.com/cont/products/siteguard_wp_plugin/faq.html)
+[English Page](https://www.jp-secure.com/siteguard_wp_plugin_en/faq/)
+[Japanese Page](https://www.jp-secure.com/siteguard_wp_plugin/faq/)
 
 == Changelog ==
+= 1.4.3 =
+* * Fix bug in 1.4.2  "Notice：Use of undefined constant HTTPS"
+= 1.4.2 =
+* * In the Rename Login function, correct the problem that is redirected to the https renamed login page from the http /wp-login.php
+= 1.4.1 =
+* Fix bug that some functions are disabled
+= 1.4.0 =
+* Enabled to get client IP address from X-Forwarded-For header
+* Strict operation check of each function
+* Change not to use session
+= 1.3.4 =
+* Fix an issue where CAPTCHA might fail in 1.3.3
+= 1.3.3 =
+* Fix bug that fatal error occurs when fails to send mail
+* Inprove the security of the CAPTCHA function
+* Disabling the Rename Login function when qTranslate X plugin is enabled in order to avoid conflicts
 = 1.3.2 =
 * Fix bug that fatal error occurs when fails to send mail
 = 1.3.1 =
