@@ -23,8 +23,8 @@
 			$special_note = '上記正に領収いたしました。';
 		} elseif ( get_status() === 'payment') {
 			$doctype      = $lang === 'en' ? 'PAYMENT' : '御支払明細';
-			$statement    = '';
-			$special_note = '下記の通りお支払いいたしました。';
+			$statement    = '下記の通りお支払いいたしました。';
+			$special_note = get_field( 'bank' ) ? get_field( 'bank' ) : '';
 		}
 
 		$i    = 0;
