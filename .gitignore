@@ -12,6 +12,7 @@ sftp-config.json
 # WordPress
 wp-config.php
 *.sql
+languages
 
 # Ruby on Rails
 /.bundle
