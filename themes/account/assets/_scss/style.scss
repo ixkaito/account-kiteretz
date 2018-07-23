@@ -302,22 +302,9 @@ a{
 			}
 		}
 
-		&.subtotal{
-			background: none;
-			td{
-				border: 0;
-
-				&.label{
-					border-bottom: 1px solid $gray_30;
-				}
-
-				&.price{
-					border-bottom: 1px solid $gray_30;
-				}
-			}
-		}
-
-		&.tax{
+		&.subtotal,
+		&.tax,
+		&.withholding {
 			background: none;
 			td{
 				border: 0;

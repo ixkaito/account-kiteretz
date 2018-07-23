@@ -7,7 +7,7 @@
 		$html = '';
 		$lang = get_field( 'language' );
 		$tax_rate = get_field( 'tax-rate' ) * 0.01;
-		$exc_tax  = get_field( 'tax' ) === 'excluding' ? 1 : 1 + $tax_rate;
+		$exc_tax  = ( get_field( 'tax' ) === 'excluding' || get_field( 'tax' ) === 'none' ) ? 1 : 1 + $tax_rate;
 
 		if ( get_status() === 'quotation' ) {
 			$doctype      = $lang === 'en' ? 'ESTIMATE' : '御見積書';
@@ -74,24 +74,38 @@
 			<td></td>
 		</tr>';
 
-		$html .= '<tr class="subtotal">
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td class="label">' . ( $lang === 'en' ? 'Subtotal' : '小計' ) . '</td>
-			<td class="price">' . number_format( get_subtotal() ) . '</td>
-			<td></td>
-		</tr>
-		<tr class="tax">
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td class="label">' . ( $lang === 'en' ? 'Tax' : '消費税' ) . '</td>
-			<td class="price">' . number_format( get_tax() ) . '</td>
-			<td></td>
-		</tr>';
+		if ( get_field( 'tax' ) !== 'none' ) {
+			$html .= '<tr class="subtotal">
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td class="label">' . ( $lang === 'en' ? 'Subtotal' : '小計' ) . '</td>
+				<td class="price">' . number_format( get_subtotal() ) . '</td>
+				<td></td>
+			</tr>
+			<tr class="tax">
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td class="label">' . ( $lang === 'en' ? 'Tax' : '消費税' ) . '</td>
+				<td class="price">' . number_format( get_tax() ) . '</td>
+				<td></td>
+			</tr>';
+		}
+
+		if ( get_withholding() ) {
+			$html .= '<tr class="withholding">
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td class="label">' . ( $lang === 'en' ? 'Withholding' : '源泉徴収' ) . '</td>
+				<td class="price">- ' . number_format( get_withholding() ) . '</td>
+				<td></td>
+			</tr>';
+		}
 
 		$html .= '<tr class="total">
 			<td></td>

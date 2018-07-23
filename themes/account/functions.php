@@ -39,6 +39,32 @@ function the_status() {
 }
 
 /**
+ * Withholding
+ */
+function get_withholding() {
+	$withholding_rate = 0.1021;
+
+	$subtotal = 0;
+	$rows     = get_field( 'table' );
+	$tax_rate = get_field( 'tax-rate' ) * 0.01;
+	$exc_tax  = ( get_field( 'tax' ) === 'excluding' || get_field( 'tax' ) === 'none' ) ? 1 : 1 + $tax_rate;
+
+	if ( $rows ) {
+		foreach ( $rows as $key => $row ) {
+			if ( ! $row['withholding'] ) continue;
+			if ( $row['yen-per'] === 'per' ) {
+				$sum = $sum * 0.01 * $subtotal;
+			} else {
+				$price = round( $row['price'] / $exc_tax );
+				$sum = round( $row['number'] * $price );
+			}
+			$subtotal += $sum;
+		}
+	}
+	return round( $subtotal * $withholding_rate );
+}
+
+/**
  * Subtotal
  */
 function get_subtotal() {
@@ -46,22 +72,20 @@ function get_subtotal() {
 	$subtotal = 0;
 	$rows     = get_field( 'table' );
 	$tax_rate = get_field( 'tax-rate' ) * 0.01;
-	$exc_tax  = get_field( 'tax' ) === 'excluding' ? 1 : 1 + $tax_rate;
+	$exc_tax  = ( get_field( 'tax' ) === 'excluding' || get_field( 'tax' ) === 'none' ) ? 1 : 1 + $tax_rate;
 
 	if ( $rows ) {
 		foreach ( $rows as $key => $row ) {
-			$price = round( $row['price'] / $exc_tax );
-			$sum = round( $row['number'] * $price );
 			if ( $row['yen-per'] === 'per' ) {
 				$sum = $sum * 0.01 * $subtotal;
+			} else {
+				$price = round( $row['price'] / $exc_tax );
+				$sum = round( $row['number'] * $price );
 			}
 			$subtotal += $sum;
 		}
-		return $subtotal;
-	} else {
-		return false;
 	}
-
+	return $subtotal;
 }
 
 /**
@@ -69,7 +93,7 @@ function get_subtotal() {
  */
 function get_tax() {
 	$tax_rate = get_field( 'tax-rate' ) * 0.01;
-	$tax      = round( get_subtotal() * $tax_rate );
+	$tax      = get_field( 'tax' ) === 'none' ? 0 : round( get_subtotal() * $tax_rate );
 	return $tax;
 }
 
@@ -77,7 +101,7 @@ function get_tax() {
  * Total
  */
 function get_total() {
-	return get_subtotal() + get_tax();
+	return get_subtotal() + get_tax() - get_withholding();
 }
 
 /**
