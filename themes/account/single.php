@@ -35,17 +35,27 @@
 		$rows = get_field( 'table' );
 
 		if ( $rows ) {
+			$subtotal = 0;
 			foreach ( $rows as $key => $row ) {
 				$i++;
-				$price = round( $row['price'] / $exc_tax );
-				$sum = round( $row['number'] * $price );
+				$price = 0;
+				$sum = 0;
+				if ( $row['yen-per'] === 'per' ) {
+					$price = $row['price'];
+					$sum = $subtotal * $row['price'] * 0.01 * $row['number'];
+				} else {
+					$price = round( $row['price'] / $exc_tax );
+					$sum = round( $row['number'] * $price );
+				}
+				$subtotal += $sum;
+
 				$html .= '<tr>
 					<td></td>
 					<td class="item">' . $row['item'] . '</td>
 					<td class="number">' . $row['number'] . '</td>
 					<td class="unit">' . $row['unit'] . '</td>
 					<td class="price">' . number_format( $price ) . ( $row['yen-per'] === 'per' ? '%' : '' ) . '</td>
-					<td class="price">' . number_format( $sum ) . ( $row['yen-per'] === 'per' ? '%' : '' ) . '</td>
+					<td class="price">' . number_format( $sum ) . '</td>
 					<td class="note">' . $row['note'] . '</td>
 				</tr>'."\n";
 			}

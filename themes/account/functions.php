@@ -76,8 +76,10 @@ function get_subtotal() {
 
 	if ( $rows ) {
 		foreach ( $rows as $key => $row ) {
+			$price = 0;
+			$sum = 0;
 			if ( $row['yen-per'] === 'per' ) {
-				$sum = $sum * 0.01 * $subtotal;
+				$sum = $subtotal * $row['price'] * 0.01 * $row['number'];
 			} else {
 				$price = round( $row['price'] / $exc_tax );
 				$sum = round( $row['number'] * $price );
