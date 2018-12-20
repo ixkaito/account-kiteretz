@@ -95,7 +95,7 @@ function get_subtotal() {
  */
 function get_tax() {
 	$tax_rate = get_field( 'tax-rate' ) * 0.01;
-	$tax      = get_field( 'tax' ) === 'none' ? 0 : round( get_subtotal() * $tax_rate );
+	$tax      = get_field( 'tax' ) === 'none' ? 0 : floor( get_subtotal() * $tax_rate );
 	return $tax;
 }
 
