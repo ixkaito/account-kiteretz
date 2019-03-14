@@ -1,5 +1,45 @@
 <?php
 /**
+ * Set up theme defaults and registers support for various WordPress feaures.
+ */
+function bathe_setup() {
+	add_theme_support( 'title-tag' );
+	add_theme_support( 'html5', array(
+		'search-form',
+		'comment-form',
+		'comment-list',
+		'gallery',
+		'caption',
+	) );
+	// add_theme_support( 'post-formats', array(
+	// 	'aside',
+	// 	'image',
+	// 	'video',
+	// 	'quote',
+	// 	'link',
+	// ) );
+	// add_theme_support( 'custom-background', apply_filters( 'bathe_custom_background_args', array(
+	// 	'default-color' => 'ffffff',
+	// 	'default-image' => '',
+	// ) ) );
+	// register_nav_menus( array(
+	// 	'primary' => esc_html__( 'Primary Menu', 'bathe' ),
+	// ) );
+}
+
+/**
+ * Enqueue scripts and styles.
+ */
+function account_register_scripts() {
+	wp_enqueue_style( 'account-style', get_theme_file_uri( 'assets/css/style.css' ) );
+	wp_enqueue_script( 'account-script', get_theme_file_uri( 'assets/js/script.js' ), array( 'jquery' ), '', true );
+	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
+		wp_enqueue_script( 'comment-reply' );
+	}
+}
+add_action( 'wp_enqueue_scripts', 'account_register_scripts' );
+
+/**
  * Head Title
  */
 function get_head_title() {
@@ -194,3 +234,13 @@ function acf_style() {
 <?php
 }
 add_action( 'acf/input/admin_head', 'acf_style' );
+
+/**
+ * Display future posts
+ */
+function display_future_posts( $query ) {
+	if ( $query->is_main_query() ) {
+		$query->set( 'post_status', array( 'publish', 'future' ) );
+	}
+}
+add_action( 'pre_get_posts', 'display_future_posts' );
