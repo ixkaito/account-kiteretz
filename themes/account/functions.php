@@ -2,8 +2,8 @@
 /**
  * Set up theme defaults and registers support for various WordPress feaures.
  */
-function bathe_setup() {
-	add_theme_support( 'title-tag' );
+function account_setup() {
+	// add_theme_support( 'title-tag' );
 	add_theme_support( 'html5', array(
 		'search-form',
 		'comment-form',
@@ -26,6 +26,7 @@ function bathe_setup() {
 	// 	'primary' => esc_html__( 'Primary Menu', 'bathe' ),
 	// ) );
 }
+add_action( 'after_setup_theme', 'account_setup' );
 
 /**
  * Enqueue scripts and styles.
@@ -44,11 +45,13 @@ add_action( 'wp_enqueue_scripts', 'account_register_scripts' );
  */
 function get_head_title() {
 	$title = '';
-	if ( is_singular() ):
-		$title .= get_the_time('ymd');
-	else:
+	if ( is_singular() ) {
+		$date = DateTime::createFromFormat( 'Ymd', get_field( get_status() . '_date' ) );
+		$title .= $date ? $date->format( 'ymd' ) : get_the_time( 'ymd' );
+		$title .= '_' . get_status();
+	} else {
 		$title .= get_bloginfo( 'name' );
-	endif;
+	}
 	return $title;
 }
 
@@ -71,7 +74,7 @@ function the_account_ID() {
  * Status
  */
 function get_status() {
-	return get_field('status');
+	return get_field( 'status' );
 }
 
 function the_status() {
