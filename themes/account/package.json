@@ -11,9 +11,9 @@
   "author": "Kite",
   "license": "GPL-2.0+",
   "devDependencies": {
-    "node-sass": "^4.9.0"
+    "node-sass": "^4.11.0"
   },
   "dependencies": {
-    "npm": "^6.1.0"
+    "npm": "^6.9.0"
   }
 }
