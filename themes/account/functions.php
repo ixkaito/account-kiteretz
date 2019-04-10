@@ -242,7 +242,7 @@ add_action( 'acf/input/admin_head', 'acf_style' );
  * Display future posts
  */
 function display_future_posts( $query ) {
-	if ( $query->is_main_query() ) {
+	if ( ! is_admin() && $query->is_main_query() ) {
 		$query->set( 'post_status', array( 'publish', 'future' ) );
 	}
 }
