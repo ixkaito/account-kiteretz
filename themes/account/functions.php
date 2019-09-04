@@ -45,10 +45,11 @@ add_action( 'wp_enqueue_scripts', 'account_register_scripts' );
  */
 function get_head_title() {
 	$title = '';
+	$status = get_status() === 'bill' ? 'invoice' : get_status();
 	if ( is_singular() ) {
 		$date = DateTime::createFromFormat( 'Ymd', get_field( get_status() . '_date' ) );
 		$title .= $date ? $date->format( 'ymd' ) : get_the_time( 'ymd' );
-		$title .= '_' . get_status();
+		$title .= '_' . $status;
 	} else {
 		$title .= get_bloginfo( 'name' );
 	}
@@ -111,7 +112,6 @@ function get_withholding() {
  * Subtotal
  */
 function get_subtotal() {
-
 	$subtotal = 0;
 	$rows     = get_field( 'table' );
 	$tax_rate = get_field( 'tax-rate' ) * 0.01;
@@ -134,11 +134,19 @@ function get_subtotal() {
 }
 
 /**
+ * Installment
+ */
+function get_installment() {
+	return get_subtotal() * get_field( 'installment-percentage' ) * 0.01;
+}
+
+/**
  * Tax
  */
 function get_tax() {
-	$tax_rate = get_field( 'tax-rate' ) * 0.01;
-	$tax      = get_field( 'tax' ) === 'none' ? 0 : floor( get_subtotal() * $tax_rate );
+	$before_tax = get_field( 'installment' ) ? get_installment() : get_subtotal();
+	$tax_rate   = get_field( 'tax-rate' ) * 0.01;
+	$tax        = get_field( 'tax' ) === 'none' ? 0 : floor( $before_tax * $tax_rate );
 	return $tax;
 }
 
@@ -146,7 +154,8 @@ function get_tax() {
  * Total
  */
 function get_total() {
-	return get_subtotal() + get_tax() - get_withholding();
+	$before_tax = get_field( 'installment' ) ? get_installment() : get_subtotal();
+	return $before_tax + get_tax() - get_withholding();
 }
 
 /**

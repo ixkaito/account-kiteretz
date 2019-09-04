@@ -351,6 +351,7 @@ a{
 		}
 
 		&.subtotal,
+		&.installment,
 		&.tax,
 		&.withholding {
 			background: none;
@@ -359,6 +360,7 @@ a{
 
 				&.label{
 					border-bottom: 1px solid $gray_30;
+					white-space: nowrap;
 				}
 
 				&.price{

@@ -49,6 +49,9 @@
 				}
 				$subtotal += $sum;
 
+				$price = $price == 0 ? '' : $price;
+				$sum   = $sum == 0 ? '' : $sum;
+
 				$html .= '<tr>
 					<td></td>
 					<td class="item">' . $row['item'] . '</td>
@@ -61,7 +64,7 @@
 			}
 		}
 
-		while( $i < get_field( 'row-number' ) ){
+		while( $i < get_field( 'row-number' ) ) {
 			$html .= '<tr>
 				<td></td>
 				<td></td>
@@ -93,8 +96,21 @@
 				<td class="label">' . ( $lang === 'en' ? 'Subtotal' : '小計' ) . '</td>
 				<td class="price">' . number_format( get_subtotal() ) . '</td>
 				<td></td>
-			</tr>
-			<tr class="tax">
+			</tr>';
+
+			if ( get_field( 'installment' ) ) {
+				$html .= '<tr class="installment">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td class="label">' . get_field( 'installment-title' ) . '</td>
+					<td class="price">' . number_format( get_installment() ) . '</td>
+					<td></td>
+				</tr>';
+			}
+
+			$html .= '<tr class="tax">
 				<td></td>
 				<td></td>
 				<td></td>
