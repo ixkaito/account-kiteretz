@@ -148,7 +148,8 @@
 	<div class="docInfo">
 		<p class="id">No. <?php the_account_ID(); ?></p>
 		<p class="date"><?php
-			$date = DateTime::createFromFormat( 'Ymd', get_field( get_status() . '_date' ) );
+			$date_status = get_status() === 'statement' ? 'bill' : get_status();
+			$date = DateTime::createFromFormat( 'Ymd', get_field( $date_status . '_date' ) );
 			echo $date ? $date->format( 'Y/m/d' ) : get_the_time( 'Y/m/d' );
 		?></p>
 
