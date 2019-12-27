@@ -161,7 +161,7 @@
 
 		<h1 class="doctype <?php the_status(); ?>"><?php echo $doctype; ?></h1>
 
-		<h2 class="client"><span class="clientName"><?php the_field('client'); ?></span><?php if ( $lang === 'ja' ) : ?><span>　<?php the_honorific(); ?></span><?php endif; ?></h2>
+		<h2 class="client"><span class="clientName"><?php the_field( 'client' ); ?></span><?php if ( $lang === 'ja' ) : ?><span>　<?php the_honorific(); ?></span><?php endif; ?></h2>
 		<p><?php echo $statement; ?></p>
 
 		<h3 class="title"><?php echo $lang === 'en' ? 'Title: ' : '件名　'; ?><?php the_title(); ?></h3>
