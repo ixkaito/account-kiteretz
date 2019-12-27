@@ -83,6 +83,14 @@ function the_status() {
 }
 
 /**
+ * Date
+ */
+function account_date( $format = 'Y.m.d' ) {
+	$date = DateTime::createFromFormat( 'Ymd', get_field( get_status() . '_date' ) );
+	echo $date ? $date->format( $format ) : get_the_time( $format );
+}
+
+/**
  * Withholding
  */
 function get_withholding() {

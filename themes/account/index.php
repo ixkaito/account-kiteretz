@@ -26,7 +26,7 @@ else:
 
 						<a href="<?php the_permalink(); ?>">
 
-							<p>No.<?php the_account_ID(); ?>　｜　<?php the_time( 'Y.m.d' ); ?>　｜　<?php the_field( 'client' ); ?>　<?php the_honorific(); ?></p>
+							<p>No.<?php the_account_ID(); ?>　｜　<?php account_date(); ?>　｜　<?php the_field( 'client' ); ?>　<?php the_honorific(); ?></p>
 
 							<h1>
 								<?php the_title(); ?>
