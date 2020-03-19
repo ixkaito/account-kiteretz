@@ -115,7 +115,7 @@
 				<td></td>
 				<td></td>
 				<td></td>
-				<td class="label">' . ( $lang === 'en' ? 'Tax' : '消費税' ) . '</td>
+				<td class="label">' . ( $lang === 'en' ? 'Tax' : '消費税 (' . get_field( 'tax-rate' ) . '%)' ) . '</td>
 				<td class="price">' . number_format( get_tax() ) . '</td>
 				<td></td>
 			</tr>';
