@@ -24,7 +24,7 @@
 		} elseif ( get_status() === 'statement' ) {
 			$doctype      = $lang === 'en' ? 'STATEMENT OF DELIVERY' : '納品書';
 			$statement    = '下記の通り納品いたしました。';
-			$special_note = '';
+			$special_note = get_field( 'special-note' ) ? get_field( 'special-note' ) : '';
 		} elseif ( get_status() === 'payment') {
 			$doctype      = $lang === 'en' ? 'PAYMENT' : '御支払明細';
 			$statement    = '下記の通りお支払いいたしました。';
