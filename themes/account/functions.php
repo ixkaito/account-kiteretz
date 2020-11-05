@@ -46,8 +46,9 @@ add_action( 'wp_enqueue_scripts', 'account_register_scripts' );
 function get_head_title() {
 	$title = '';
 	$status = get_status() === 'bill' ? 'invoice' : get_status();
+	$date_status = get_status() === 'statement' ? 'bill' : get_status();
 	if ( is_singular() ) {
-		$date = DateTime::createFromFormat( 'Ymd', get_field( get_status() . '_date' ) );
+		$date = DateTime::createFromFormat( 'Ymd', get_field( $date_status . '_date' ) );
 		$title .= $date ? $date->format( 'ymd' ) : get_the_time( 'ymd' );
 		$title .= '_' . $status;
 	} else {

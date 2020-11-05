@@ -24,7 +24,7 @@
 		} elseif ( get_status() === 'statement' ) {
 			$doctype      = $lang === 'en' ? 'STATEMENT OF DELIVERY' : '納品書';
 			$statement    = '下記の通り納品いたしました。';
-			$special_note = '';
+			$special_note = get_field( 'special-note' ) ? get_field( 'special-note' ) : '';
 		} elseif ( get_status() === 'payment') {
 			$doctype      = $lang === 'en' ? 'PAYMENT' : '御支払明細';
 			$statement    = '下記の通りお支払いいたしました。';
@@ -115,7 +115,7 @@
 				<td></td>
 				<td></td>
 				<td></td>
-				<td class="label">' . ( $lang === 'en' ? 'Tax' : '消費税' ) . '</td>
+				<td class="label">' . ( $lang === 'en' ? 'Tax' : '消費税 (' . get_field( 'tax-rate' ) . '%)' ) . '</td>
 				<td class="price">' . number_format( get_tax() ) . '</td>
 				<td></td>
 			</tr>';
@@ -148,7 +148,8 @@
 	<div class="docInfo">
 		<p class="id">No. <?php the_account_ID(); ?></p>
 		<p class="date"><?php
-			$date = DateTime::createFromFormat( 'Ymd', get_field( get_status() . '_date' ) );
+			$date_status = get_status() === 'statement' ? 'bill' : get_status();
+			$date = DateTime::createFromFormat( 'Ymd', get_field( $date_status . '_date' ) );
 			echo $date ? $date->format( 'Y/m/d' ) : get_the_time( 'Y/m/d' );
 		?></p>
 
@@ -161,7 +162,7 @@
 
 		<h1 class="doctype <?php the_status(); ?>"><?php echo $doctype; ?></h1>
 
-		<h2 class="client"><span class="clientName"><?php the_field('client'); ?></span><?php if ( $lang === 'ja' ) : ?><span>　<?php the_honorific(); ?></span><?php endif; ?></h2>
+		<h2 class="client"><span class="clientName"><?php the_field( 'client' ); ?></span><?php if ( $lang === 'ja' ) : ?><span>　<?php the_honorific(); ?></span><?php endif; ?></h2>
 		<p><?php echo $statement; ?></p>
 
 		<h3 class="title"><?php echo $lang === 'en' ? 'Title: ' : '件名　'; ?><?php the_title(); ?></h3>
