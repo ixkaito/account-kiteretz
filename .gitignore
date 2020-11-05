@@ -1,27 +1,12 @@
+updraft
+
 # Apache
 .htaccess
 .htpasswd
 
-# Sass
-.sass-cache
-*.scssc
-
-# Sublime Text
-sftp-config.json
-
 # WordPress
 wp-config.php
 *.sql
-languages
-
-# Ruby on Rails
-/.bundle
-/db/*.sqlite3
-/db/*.sqlite3-journal
-/public/uploads
-
-# Jekyll
-_site
 
 # Node.js
 node_modules/
