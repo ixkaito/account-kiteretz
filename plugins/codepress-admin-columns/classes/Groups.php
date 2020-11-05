@@ -1,13 +1,11 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC;
 
 /**
  * Holds the groups to which columns can belong.
  */
-final class AC_Groups {
+final class Groups {
 
 	const SORT_PRIORITY = 1;
 
@@ -18,7 +16,7 @@ final class AC_Groups {
 	/**
 	 * @var array
 	 */
-	private $groups = array();
+	private $groups = [];
 
 	/**
 	 * @return array
@@ -53,7 +51,6 @@ final class AC_Groups {
 
 	/**
 	 * Sort the group by priority
-	 *
 	 * If there are more groups with the same priority it will those groups by label
 	 *
 	 * @param $groups
@@ -61,7 +58,7 @@ final class AC_Groups {
 	 * @return array
 	 */
 	private function sort_groups_by_priority( array $groups ) {
-		$aggregated = $sorted = array();
+		$aggregated = $sorted = [];
 
 		foreach ( $groups as $group ) {
 			$aggregated[ $group['priority'] ][] = $group;
@@ -69,8 +66,8 @@ final class AC_Groups {
 
 		ksort( $aggregated, SORT_NUMERIC );
 
-		foreach ( $aggregated as $priority => $groups ) {
-			$sorted = array_merge( $sorted, $this->sort_groups_by_string( $groups, 'label' ) );
+		foreach ( $aggregated as $priority => $_groups ) {
+			$sorted = array_merge( $sorted, $this->sort_groups_by_string( $_groups, 'label' ) );
 		}
 
 		return $sorted;
@@ -79,13 +76,13 @@ final class AC_Groups {
 	/**
 	 * Sort the group by label or slug
 	 *
-	 * @param array $groups
+	 * @param array  $groups
 	 * @param string $key
 	 *
 	 * @return array
 	 */
 	private function sort_groups_by_string( array $groups, $key ) {
-		$sorted = array();
+		$sorted = [];
 
 		foreach ( $groups as $k => $group ) {
 			$sorted[ $k ] = $group[ $key ];
@@ -133,7 +130,7 @@ final class AC_Groups {
 	 *
 	 * @param string $slug
 	 * @param string $label Should be translatable
-	 * @param int $priority
+	 * @param int    $priority
 	 *
 	 * @return bool
 	 */
@@ -142,11 +139,11 @@ final class AC_Groups {
 			return false;
 		}
 
-		$this->groups[ $slug ] = array(
+		$this->groups[ $slug ] = [
 			'slug'     => $slug,
 			'label'    => $label,
 			'priority' => $priority,
-		);
+		];
 
 		return true;
 	}

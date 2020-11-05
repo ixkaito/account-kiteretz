@@ -1,11 +1,12 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Settings\Column;
 
-class AC_Settings_Column_Width extends AC_Settings_Column
-	implements AC_Settings_HeaderInterface {
+use AC\Settings;
+use AC\View;
+
+class Width extends Settings\Column
+	implements Settings\Header {
 
 	/**
 	 * @var integer
@@ -18,17 +19,17 @@ class AC_Settings_Column_Width extends AC_Settings_Column
 	private $width_unit;
 
 	protected function define_options() {
-		return array(
+		return [
 			'width',
 			'width_unit' => '%',
-		);
+		];
 	}
 
 	private function get_valid_width_units() {
-		return array(
+		return [
 			'%'  => '%',
 			'px' => 'px',
-		);
+		];
 	}
 
 	private function is_valid_width_unit( $width_unit ) {
@@ -42,26 +43,26 @@ class AC_Settings_Column_Width extends AC_Settings_Column
 		$unit = $this->create_element( 'radio', 'width_unit' )
 		             ->set_options( $this->get_valid_width_units() );
 
-		$section = new AC_View( array(
+		$section = new View( [
 			'width' => $width,
 			'unit'  => $unit,
-		) );
+		] );
 		$section->set_template( 'settings/setting-width' );
 
-		$view = new AC_View( array(
+		$view = new View( [
 			'label'    => __( 'Width', 'codepress-admin-columns' ),
-			'sections' => array( $section ),
-		) );
+			'sections' => [ $section ],
+		] );
 
 		return $view;
 	}
 
 	public function create_header_view() {
 
-		$view = new AC_View( array(
+		$view = new View( [
 			'title'   => __( 'width', 'codepress-admin-columns' ),
 			'content' => $this->get_display_width(),
-		) );
+		] );
 
 		return $view;
 	}
@@ -74,7 +75,7 @@ class AC_Settings_Column_Width extends AC_Settings_Column
 	}
 
 	/**
-	 * @param int $width
+	 * @param $value
 	 *
 	 * @return bool
 	 */

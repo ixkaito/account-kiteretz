@@ -1,10 +1,12 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Helper;
 
-class AC_Helper_Date {
+use DateTime;
+use DateTimeZone;
+use Exception;
+
+class Date {
 
 	/**
 	 * @param string $date
@@ -12,7 +14,7 @@ class AC_Helper_Date {
 	 * @return int|false
 	 */
 	public function strtotime( $date ) {
-		if ( empty( $date ) || in_array( $date, array( '0000-00-00 00:00:00', '0000-00-00', '00:00:00' ) ) || ! is_scalar( $date ) ) {
+		if ( empty( $date ) || in_array( $date, [ '0000-00-00 00:00:00', '0000-00-00', '00:00:00' ] ) || ! is_scalar( $date ) ) {
 			return false;
 		}
 
@@ -30,7 +32,7 @@ class AC_Helper_Date {
 			}
 
 			// Date format: yyyymmdd ( often used by ACF ) must start with 19xx or 20xx and is 8 long
-			// @todo: in theory a numeric string of 8 can also be a unix timestamp; no conversion would be needed
+			// in theory a numeric string of 8 can also be a unix timestamp; no conversion would be needed
 			if ( 8 === $length && ( strpos( $date, '20' ) === 0 || strpos( $date, '19' ) === 0 ) ) {
 				$date = strtotime( $date );
 			}
@@ -57,43 +59,32 @@ class AC_Helper_Date {
 			return $date;
 		}
 
-		$timestamp = false;
+		$_date = DateTime::createFromFormat( $format, $date );
 
-		// since PHP 5.3.0
-		// Create timestamp from a specific date format
-		if ( function_exists( 'date_create_from_format' ) && $format ) {
-			if ( $date = date_create_from_format( $format, $date ) ) {
-				$timestamp = date_format( $date, 'U' );
-			}
-		} // before PHP 5.3.0
-		else {
-			$timestamp = $this->strtotime( $date );
-		}
-
-		return $timestamp;
+		return $_date
+			? $_date->format( 'U' )
+			: false;
 	}
 
 	/**
-	 * @since 1.3.1
-	 *
 	 * @param string $date           PHP Date format
 	 * @param string $display_format Date display format
 	 *
 	 * @return string Formatted date
+	 * @since 1.3.1
 	 */
 	public function date( $date, $display_format = '' ) {
-		$timestamp = ac_helper()->date->strtotime( $date );
+		$timestamp = $this->strtotime( $date );
 
 		return $this->date_by_timestamp( $timestamp, $display_format );
 	}
 
 	/**
-	 * @since 3.0
-	 *
-	 * @param string $date           PHP Date format
+	 * @param        $timestamp
 	 * @param string $display_format Date display format
 	 *
 	 * @return string Formatted date
+	 * @since 3.0
 	 */
 	public function date_by_timestamp( $timestamp, $display_format = '' ) {
 		if ( ! $timestamp ) {
@@ -122,15 +113,44 @@ class AC_Helper_Date {
 			$display_format = 'F j, Y';
 		}
 
-		return date_i18n( $display_format, $timestamp );
+		return $this->format_date( $display_format, $timestamp );
+	}
+
+	public function format_date( $format, $timestamp = null, DateTimeZone $timezone = null ) {
+		if ( ! function_exists( 'wp_date' ) ) {
+			return date_i18n( $format, $timestamp );
+		}
+
+		if ( null === $timezone ) {
+			$timezone = new DateTimeZone( date_default_timezone_get() );
+		}
+
+		// since WP 3.5
+		return wp_date( $format, $timestamp, $timezone );
 	}
 
 	/**
-	 * @since 1.3.1
-	 *
+	 * @return DateTimeZone|null
+	 */
+	public function timezone() {
+		if ( ! function_exists( 'wp_timezone' ) ) {
+			try {
+				return new DateTimeZone( get_option( 'timezone_string' ) );
+			} catch ( Exception $e ) {
+				return null;
+			}
+		}
+
+		// since WP 3.5
+		return wp_timezone();
+	}
+
+	/**
 	 * @param string $date
+	 * @param string $format
 	 *
 	 * @return string Formatted time
+	 * @since 1.3.1
 	 */
 	public function time( $date, $format = '' ) {
 		$timestamp = ac_helper()->date->strtotime( $date );
@@ -143,20 +163,19 @@ class AC_Helper_Date {
 			return false;
 		}
 
-		return date_i18n( $format, $timestamp );
+		return $this->format_date( $format, $timestamp );
 	}
 
 	/**
 	 * Translate a jQuery date format to the PHP date format
 	 *
-	 * @since 1.1
-	 *
 	 * @param string $format jQuery date format
 	 *
 	 * @return string PHP date format
+	 * @since 1.1
 	 */
 	public function parse_jquery_dateformat( $format ) {
-		$replace = array(
+		$replace = [
 			'^dd^d' => 'j',
 			'dd'    => 'd',
 			'DD'    => 'l',
@@ -165,10 +184,10 @@ class AC_Helper_Date {
 			'^mm^m' => 'n',
 			'mm'    => 'm',
 			'yy'    => 'Y',
-		);
+		];
 
-		$replace_from = array();
-		$replace_to = array();
+		$replace_from = [];
+		$replace_to = [];
 
 		foreach ( $replace as $from => $to ) {
 			$replace_from[] = '/' . $from . '/';

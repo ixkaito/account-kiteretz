@@ -58,7 +58,67 @@ class SiteGuard_Base {
 		#}
 		#return $default;
 	}
+	function is_private_ip( $ip ) {
+		$private_ips = array(
+			'10.0.0.0,10.255.255.255',
+			'172.16.0.0,172.31.255.255',
+			'192.168.0.0,192.168.255.255'
+		);
 
+		$long_ip = ip2long( $ip );
+		if ( -1 !== $long_ip && false !== $long_ip ) {
+			$long_ip = sprintf( '%u', $long_ip );
+			foreach( $private_ips as $private_ip ) {
+				list( $start, $end ) = explode( ',', $private_ip );
+				$long_start = ip2long( $start );
+				$long_start = sprintf( '%u', $long_start );
+				$long_end   = ip2long( $end );
+				$long_end   = sprintf( '%u', $long_end );
+				if ( $long_ip >= $long_start && $long_ip <= $long_end ) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	function get_server_ip( ) {
+		if ( isset( $_SERVER['SERVER_ADDR'] ) )	 {
+			$ip = $_SERVER['SERVER_ADDR'];
+			if ( false === $this->is_private_ip( $ip ) ) {
+				if ( preg_match( '/[0-9.:]+/', $ip ) ) {
+					return $ip;
+				}
+			}
+		}
+
+		$url = 'http://inet-ip.info/ip';
+		$options = array(
+			'http' => array(
+				'method'  => 'GET',
+				'timeout' => 2,
+			)
+		);
+		$ip = file_get_contents( $url, false, stream_context_create( $options ) );
+		if ( false !== $ip ) {
+			if ( preg_match( '/[0-9.:]+/', $ip ) ) {
+				return $ip;
+			}
+		}
+
+		$host = parse_url( home_url( ), PHP_URL_HOST );
+		if ( false !== $host && null !== $host ) {
+			putenv( 'RES_OPTIONS=retrans:1 retry:1 timeout:2 attempts:1' );
+			$ip = gethostbyname( $host );
+			if ( $ip !== $host ) {
+				if ( '127.0.0.1' !== $ip && '::1' !== $ip ) {
+					if ( preg_match( '/[0-9.:]+/', $ip ) ) {
+						return $ip;
+					}
+				}
+			}
+		}
+		return false;
+	}
 	function get_ip( ) {
 		global $siteguard_config;
 		$ip_mode = $siteguard_config->get( 'ip_mode' );

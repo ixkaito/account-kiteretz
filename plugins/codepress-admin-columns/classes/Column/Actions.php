@@ -1,15 +1,15 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Column;
+
+use AC\Column;
+use AC\Settings;
 
 /**
  * Base class for columns containing action links for items.
- *
  * @since 2.2.6
  */
-class AC_Column_Actions extends AC_Column {
+class Actions extends Column {
 
 	/**
 	 * @since 2.2.6
@@ -20,6 +20,9 @@ class AC_Column_Actions extends AC_Column {
 	}
 
 	/**
+	 * @param $id
+	 *
+	 * @return string
 	 * @since 2.2.6
 	 */
 	public function get_value( $id ) {
@@ -31,7 +34,7 @@ class AC_Column_Actions extends AC_Column {
 	}
 
 	public function register_settings() {
-		$this->add_setting( new AC_Settings_Column_ActionIcons( $this ) );
+		$this->add_setting( new Settings\Column\ActionIcons( $this ) );
 	}
 
 }

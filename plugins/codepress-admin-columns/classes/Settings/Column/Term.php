@@ -1,11 +1,14 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Settings\Column;
 
-class AC_Settings_Column_Term extends AC_Settings_Column
-	implements AC_Settings_FormatValueInterface {
+use AC\Settings;
+use AC\View;
+
+class Term extends Settings\Column
+	implements Settings\FormatValue {
+
+	const NAME = 'term';
 
 	/**
 	 * @var string
@@ -13,26 +16,26 @@ class AC_Settings_Column_Term extends AC_Settings_Column
 	private $term_property;
 
 	protected function set_name() {
-		$this->name = 'term';
+		$this->name = self::NAME;
 	}
 
 	protected function define_options() {
-		return array( 'term_property' );
+		return [ 'term_property' ];
 	}
 
 	public function create_view() {
 		$setting = $this
 			->create_element( 'select' )
-			->set_options( array(
+			->set_options( [
 				''     => __( 'Title' ),
 				'slug' => __( 'Slug' ),
 				'id'   => __( 'ID' ),
-			) );
+			] );
 
-		$view = new AC_View( array(
+		$view = new View( [
 			'label'   => __( 'Display', 'codepress-admin-columns' ),
 			'setting' => $setting,
-		) );
+		] );
 
 		return $view;
 	}
@@ -56,28 +59,24 @@ class AC_Settings_Column_Term extends AC_Settings_Column
 	}
 
 	public function format( $value, $original_value ) {
+		$term = $value;
 
-		// For ACP_Column_Taxonomy_Parent
-		$term_id = $value;
+		if ( is_numeric( $term ) ) {
+			$term = get_term( $term );
+		}
+
+		if ( ! $term || is_wp_error( $term ) ) {
+			return $value;
+		}
 
 		switch ( $this->get_term_property() ) {
 			case 'slug' :
-				$label = ac_helper()->taxonomy->get_term_field( 'slug', $term_id, $this->column->get_taxonomy() );
-
-				break;
+				return $term->slug;
 			case 'id' :
-				$label = $term_id;
-
-				break;
+				return $term->term_id;
 			default :
-				$label = ac_helper()->taxonomy->get_term_field( 'name', $term_id, $this->column->get_taxonomy() );
+				return $term->name;
 		}
-
-		if ( ! $label ) {
-			$label = false;
-		}
-
-		return ac_helper()->html->link( get_edit_term_link( $term_id, $this->column->get_taxonomy() ), $label );
 	}
 
 }

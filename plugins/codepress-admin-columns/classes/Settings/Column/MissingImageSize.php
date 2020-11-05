@@ -1,32 +1,33 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Settings\Column;
 
-class AC_Settings_Column_MissingImageSize extends AC_Settings_Column {
+use AC\Settings;
+use AC\View;
+
+class MissingImageSize extends Settings\Column {
 
 	private $include_missing_sizes;
 
 	protected function define_options() {
-		return array(
+		return [
 			'include_missing_sizes' => '',
-		);
+		];
 	}
 
 	public function create_view() {
 
 		$setting = $this->create_element( 'radio' )
-		                ->set_options( array(
+		                ->set_options( [
 			                '1' => __( 'Yes' ),
 			                ''  => __( 'No' ),
-		                ) );
+		                ] );
 
-		$view = new AC_View( array(
+		$view = new View( [
 			'label'   => __( 'Include missing sizes?', 'codepress-admin-columns' ),
 			'tooltip' => __( 'Include sizes that are missing an image file.', 'codepress-admin-columns' ),
 			'setting' => $setting,
-		) );
+		] );
 
 		return $view;
 	}

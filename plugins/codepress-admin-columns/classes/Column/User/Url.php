@@ -1,13 +1,13 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Column\User;
+
+use AC\Column;
 
 /**
  * @since 2.0
  */
-class AC_Column_User_Url extends AC_Column {
+class Url extends Column {
 
 	public function __construct() {
 		$this->set_type( 'column-user_url' );
@@ -15,13 +15,17 @@ class AC_Column_User_Url extends AC_Column {
 	}
 
 	public function get_value( $user_id ) {
-		return $this->get_raw_value( $user_id );
+		$url = $this->get_raw_value( $user_id );
+
+		if ( ! $url ) {
+			return $this->get_empty_char();
+		}
+
+		return sprintf( '<a target="_blank" href="%1$s">%1$s</a>', $url );
 	}
 
 	public function get_raw_value( $user_id ) {
-		$userdata = get_userdata( $user_id );
-
-		return $userdata->user_url;
+		return get_userdata( $user_id )->user_url;
 	}
 
 }

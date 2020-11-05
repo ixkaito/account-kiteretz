@@ -1,10 +1,8 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC;
 
-abstract class AC_Preferences {
+abstract class Preferences {
 
 	/**
 	 * @var int
@@ -13,28 +11,24 @@ abstract class AC_Preferences {
 
 	/**
 	 * The label for this set of preferences
-	 *
 	 * @var string
 	 */
 	private $label;
 
 	/**
 	 * Preferences of this user
-	 *
 	 * @var array
 	 */
-	protected $data = array();
+	protected $data = [];
 
 	/**
 	 * Retrieves data from DB
-	 *
 	 * return array|false
 	 */
 	abstract protected function load();
 
 	/**
 	 * Stores data to DB
-	 *
 	 * @return bool
 	 */
 	abstract public function save();
@@ -62,7 +56,6 @@ abstract class AC_Preferences {
 
 	/**
 	 * Return the key used to store and retrieve this preference
-	 *
 	 * @return string
 	 */
 	protected function get_key() {
@@ -79,11 +72,11 @@ abstract class AC_Preferences {
 	/**
 	 * @param string $key
 	 *
-	 * @return mixed
+	 * @return mixed|null
 	 */
 	public function get( $key ) {
 		if ( ! isset( $this->data[ $key ] ) ) {
-			return false;
+			return null;
 		}
 
 		return $this->data[ $key ];
@@ -113,7 +106,7 @@ abstract class AC_Preferences {
 	 * @return bool
 	 */
 	public function delete( $key, $save = true ) {
-		if ( ! $this->get( $key ) ) {
+		if ( null === $this->get( $key ) ) {
 			return false;
 		}
 

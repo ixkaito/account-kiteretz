@@ -1,34 +1,33 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Settings\Column;
 
-class AC_Settings_Column_ActionIcons extends AC_Settings_Column {
+use AC\Settings\Column;
+use AC\View;
+
+class ActionIcons extends Column {
 
 	private $use_icons;
 
 	protected function define_options() {
-		return array(
+		return [
 			'use_icons' => '',
-		);
+		];
 	}
 
 	public function create_view() {
 
 		$setting = $this->create_element( 'radio' )
-		                ->set_options( array(
+		                ->set_options( [
 			                '1' => __( 'Yes' ),
 			                ''  => __( 'No' ),
-		                ) );
+		                ] );
 
-		$view = new AC_View( array(
+		return new View( [
 			'label'   => __( 'Use icons?', 'codepress-admin-columns' ),
 			'tooltip' => __( 'Use icons instead of text for displaying the actions.', 'codepress-admin-columns' ),
 			'setting' => $setting,
-		) );
-
-		return $view;
+		] );
 	}
 
 	/**

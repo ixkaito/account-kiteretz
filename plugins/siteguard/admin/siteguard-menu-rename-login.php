@@ -2,6 +2,7 @@
 
 class SiteGuard_Menu_Rename_Login extends SiteGuard_Base {
 	const	OPT_NAME_FEATURE           = 'renamelogin_enable';
+    const	OPT_NAME_FEATURE_REDIRECT  = 'redirect_enable';
 	const	OPT_NAME_RENAME_LOGIN_PATH = 'renamelogin_path';
 
 	function __construct( ) {
@@ -11,6 +12,7 @@ class SiteGuard_Menu_Rename_Login extends SiteGuard_Base {
 		global $siteguard_rename_login, $siteguard_config;
 
 		$opt_val_feature           = $siteguard_config->get( self::OPT_NAME_FEATURE );
+		$opt_val_feature_redirect  = $siteguard_config->get( self::OPT_NAME_FEATURE_REDIRECT );
 		$opt_val_rename_login_path = $siteguard_config->get( self::OPT_NAME_RENAME_LOGIN_PATH );
 		if ( isset( $_POST['update'] ) && check_admin_referer( 'siteguard-menu-rename-login-submit' ) ) {
 			$error = false;
@@ -73,10 +75,13 @@ class SiteGuard_Menu_Rename_Login extends SiteGuard_Base {
 			}
 			if ( false === $error ) {
 				$old_opt_val_feature           = $opt_val_feature;
+				$old_opt_val_feature_redirect  = $opt_val_feature_redirect;
 				$old_opt_val_rename_login_path = $opt_val_rename_login_path;
 				$opt_val_feature           = $_POST[ self::OPT_NAME_FEATURE ];
+				$opt_val_feature_redirect  = $_POST[ self::OPT_NAME_FEATURE_REDIRECT ];
 				$opt_val_rename_login_path = $_POST[ self::OPT_NAME_RENAME_LOGIN_PATH ];
 				$siteguard_config->set( self::OPT_NAME_FEATURE,           $opt_val_feature );
+				$siteguard_config->set( self::OPT_NAME_FEATURE_REDIRECT,  $opt_val_feature_redirect );
 				$siteguard_config->set( self::OPT_NAME_RENAME_LOGIN_PATH, $opt_val_rename_login_path );
 				$siteguard_config->update( );
 				$result = true;
@@ -97,6 +102,7 @@ class SiteGuard_Menu_Rename_Login extends SiteGuard_Base {
 					$siteguard_config->set( self::OPT_NAME_RENAME_LOGIN_PATH, $old_opt_val_rename_login_path );
 					$siteguard_config->update( );
 					$opt_val_feature               = $old_opt_val_feature;
+					$opt_val_feature_redirect      = $old_opt_val_feature_redirect;
 					$opt_val_val_rename_login_path = $old_opt_val_rename_login_path;
 					echo '<div class="error settings-error"><p><strong>';
 					esc_html_e( 'ERROR: Failed to .htaccess update.', 'siteguard' );
@@ -151,6 +157,12 @@ class SiteGuard_Menu_Rename_Login extends SiteGuard_Base {
 			esc_html_e( 'An alphanumeric character, a hyphen, and an underbar can be used.', 'siteguard' );
 			echo '</p>';
 			?>
+		</td>
+		</tr><tr>
+		<th scope="row"><?php esc_html_e( 'Option', 'siteguard' ) ?></th>
+		<td>
+			<input type="checkbox" name="<?php echo self::OPT_NAME_FEATURE_REDIRECT ?>" id="<?php echo self::OPT_NAME_FEATURE_REDIRECT ?>" value="1" <?php checked( $opt_val_feature_redirect, '1' ) ?> >
+			<label for="<?php echo self::OPT_NAME_FEATURE_REDIRECT ?>"><?php esc_html_e( 'Do not redirect from admin page to login page. ', 'siteguard' ) ?></label>
 		</td>
 		</tr>
 		</table>

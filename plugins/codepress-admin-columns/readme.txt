@@ -2,9 +2,10 @@
 Contributors: codepress, tschutter, davidmosterd, engelen, dungengronovius
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZDZRSYLQ4Z76J
 Tags: plugins, wordpress, admin, column, columns, custom columns, custom fields, image, dashboard, sortable, filters, posts, media, users, pages, posttypes, manage columns, wp-admin
-Requires at least: 4.5
-Tested up to: 4.9.5
-Stable tag: 3.1.10
+Requires at least: 4.7
+Tested up to: 5.5.1
+Requires PHP: 5.6.20
+Stable tag: 4.2.2
 
 Customise columns on the administration screens for post(types), pages, media, comments, links and users with an easy to use drag-and-drop interface.
 
@@ -13,20 +14,18 @@ Customise columns on the administration screens for post(types), pages, media, c
 Manage and organize columns in the posts, users, comments and media lists in the WordPress admin panel. Transform the WordPress admin screens into beautiful, clear overviews.
 
 > #### Admin Columns Pro
-> The free version of Admin Columns does not support sorting, filtering and inline editing. [Admin Columns Pro](https://www.admincolumns.com/?utm_source=wordpressorg&utm_medium=readme&utm_content=blockquote&utm_campaign=cpac-pluginpage) does, and it also offers direct email support and integration with many third party plugins:
+> The Pro version of Admin Columns will allow columns to be sorted, filtered, directly edited and its content to be exported to CSV. [Admin Columns Pro](https://www.admincolumns.com/admin-columns-pro/?utm_source=wordpressorg&utm_medium=readme&utm_content=blockquote&utm_campaign=cpac-pluginpage) offers integration with many third party plugins:
 >
 > *	**Advanced Custom Fields**: add columns for all your custom fields
 > *	**WooCommerce**: display detailed product and order information
-> *	Toolset Types
-> *	Yoast SEO
-> *	bbPress
+> *	Toolset Types, Yoast SEO, and many more
 >
 > Find out about additional features of Admin Columns Pro [on our website](https://www.admincolumns.com/features/?utm_source=wordpressorg&utm_medium=readme&utm_content=blockquote&utm_campaign=cpac-pluginpage).
 
 [vimeo http://vimeo.com/96885841]
 
 = Enhanced list tables =
-By default, WordPress provides list tables, giving you an overview of your content in the admin panel. These list tables are quite limited, however. For posts and custom post types, for example, not much more than the date and title of the post is displayed. Admin Columns allows you to take control over these list tables, managing the columns dislpayed in these overviews. Supporting custom fields, featured images, custom taxonomies, EXIF data for media and much, much more (Admin Columns features over 90 columns), you can create overviews that are perfectly suited for your content.
+By default, WordPress provides list tables, giving you an overview of your content in the admin panel. These list tables are quite limited, however. For posts and custom post types, for example, not much more than the date and title of the post is displayed. Admin Columns allows you to take control over these list tables, managing the columns dislpayed in these overviews. Supporting custom fields, featured images, custom taxonomies, EXIF data for media and much, much more (Admin Columns features over 200 columns), you can create overviews that are perfectly suited for your content.
 
 = Features =
 Admin Columns greatly enhances your WordPress installation. Whether you're running a simple blog or a full-blown enterprise website, it will prove its worth within minutes. Thanks to our dedicated development and support team, you can rest assured that Admin Columns will persist to be an essential part of any WordPress installation.
@@ -39,33 +38,29 @@ All of the new columns support sorting on all screens, and many of them support 
 = Third party plugin integration =
 Admin Columns works perfectly with just about all external plugins with custom columns. Examples include Yoast SEO (SEO columns), WooCommerce, Advanced Custom Fields, Types and Pods. Not only can you reorganize the custom columns added by these plugins, you can also add custom columns provided by Admin Columns in the overview!
 
-The Developer license of [Admin Columns Pro](https://www.admincolumns.com/?utm_source=wordpressorg&utm_medium=readme&utm_content=thirdpartyplugins&utm_campaign=cpac-pluginpage) includes [Advanced Custom Fields](https://www.admincolumns.com/advanced-custom-fields-integration/?utm_source=wordpressorg&utm_medium=readme&utm_content=thirdpartyplugins&utm_campaign=cpac-pluginpage) and [WooCommerce](https://www.admincolumns.com/woocommerce-integration/?utm_source=wordpressorg&utm_medium=readme&utm_content=thirdpartyplugins&utm_campaign=cpac-pluginpage) add-ons for easy integration and inline editing of data from these plugins.
+The Developer license of [Admin Columns Pro](https://www.admincolumns.com/admin-columns-pro/?utm_source=wordpressorg&utm_medium=readme&utm_content=thirdpartyplugins) includes [Advanced Custom Fields](https://www.admincolumns.com/advanced-custom-fields/?utm_source=wordpressorg&utm_medium=readme&utm_content=thirdpartyplugins) and [WooCommerce](https://www.admincolumns.com/woocommerce-columns/?utm_source=wordpressorg&utm_medium=readme&utm_content=thirdpartyplugins) add-ons for easy integration and inline editing of data from these plugins.
 
 = Custom field column =
 Admin Columns allows you to display custom fields for posts (post meta) and users (user meta) for all custom fields you have. With many different custom field types supported, such as files, images, numbers and even post and user relations, you can create a beautiful overview of your custom content!
 
 To ensure proper formatting of your custom fields, Admin Columns provides a set of custom field types, which automatically format your meta data properly.
 
-* Raw value
-* Checkmark (for true/false values)
-* Color (color code)
-* Counter
-* Date (automatically formatted dates)
-* Excerpt (snippet for long texts)
-* Image
-* Media library
-* Multiple values (automatically parse comma-separated data)
-* Numeric
-* Post Title (post relationships based on post IDs)
-* Username (user relationships based on user IDs)
+* Color
+* Date
+* Images
+* Number
+* Text
+* URL
+* True/False
+* **[Pro]** Relational: Posts, Users and Media
 
 = Supported content types =
 Admin Columns can change your post (posts, pages and custom post types), user, comment, media and taxonomy (Admin Columns Pro only) lists! Below, you can find a list of supported column types for each content type.
 
 = Post types columns =
 
-* ACF Field (Admin Columns Pro only)
 * Actions
+* **[PRO]** Advanced Custom Field column
 * Attachment
 * Attachment count
 * Author
@@ -164,18 +159,18 @@ Admin Columns can change your post (posts, pages and custom post types), user, c
 = Docs & Support =
 Is this the first time you're using Admin Columns? Check out our Getting Started guide.
 
-We offer an extensive and up-to-date [documentation](https://www.admincolumns.com/documentation/?utm_source=wordpressorg&utm_medium=readme&utm_content=docs-support&utm_campaign=cpac-pluginpage), [FAQ](https://www.admincolumns.com/documentation/faq/?utm_source=wordpressorg&utm_medium=readme&utm_content=docs-support&utm_campaign=cpac-pluginpage), [how-tos](https://www.admincolumns.com/documentation/how-to/?utm_source=wordpressorg&utm_medium=readme&utm_content=docs-support&utm_campaign=cpac-pluginpage) and an advanced [Developer Documentation](https://www.admincolumns.com/documentation/developer-docs/?utm_source=wordpressorg&utm_medium=readme&utm_content=docs-support&utm_campaign=cpac-pluginpage). For one-on-one support, please check out the Admin Columns Forums.
+We offer an extensive and up-to-date [documentation](https://www.admincolumns.com/documentation/?utm_source=wordpressorg&utm_medium=readme&utm_content=docs-support), [FAQ](https://www.admincolumns.com/documentation/?utm_source=wordpressorg&utm_medium=readme&utm_content=docs-support#faq), [how-tos](https://www.admincolumns.com/documentation/?utm_source=wordpressorg&utm_medium=readme&utm_content=docs-support&utm_campaign=cpac-pluginpage#how-to) and an advanced [Developer Documentation](https://www.admincolumns.com/documentation/?utm_source=wordpressorg&utm_medium=readme&utm_content=docs-support#developer). For one-on-one support, please check out the Admin Columns Forums.
 
 = Translations =
 Thanks to the great community of translators surrounding Admin Columns, the plugin is available in many languages! To find your translation or to contribute to Admin Columns by translating it into your own language, please visit our [Transifex page](https://www.transifex.com/projects/p/admin-columns/).
 
 = Feedback & Feature Requests =
 
-You can leave any requests or feedback on [admincolumns.com](https://www.admincolumns.com/?utm_source=wordpressorg&utm_medium=readme&utm_content=feedback&utm_campaign=cpac-pluginpage).
+You can leave any requests or feedback on [admincolumns.com](https://www.admincolumns.com/support/?utm_source=wordpressorg&utm_medium=readme&utm_content=feedback).
 
 = Related Links =
 
-* [https://www.admincolumns.com](https://www.admincolumns.com/?utm_source=wordpressorg&utm_medium=readme&utm_content=relatedlinks&utm_campaign=cpac-pluginpage)
+* [https://www.admincolumns.com](https://www.admincolumns.com/admin-columns-pro/?utm_source=wordpressorg&utm_medium=readme&utm_content=relatedlinks)
 
 == Installation ==
 
@@ -187,23 +182,19 @@ You can leave any requests or feedback on [admincolumns.com](https://www.adminco
 
 = Is there documentation for Admin Columns? =
 
-Yes, you will find all the documentation you need on the [admincolumns.com documentation page](https://www.admincolumns.com/documentation/?utm_source=wordpressorg&utm_medium=readme&utm_content=faq&utm_campaign=cpac-pluginpage).
+Yes, you will find all the documentation you need on the [admincolumns.com documentation page](https://www.admincolumns.com/documentation/?utm_source=wordpressorg&utm_medium=readme&utm_content=faq).
 
 = I have an idea for a great way to improve this plugin =
 
-Great, we'd love to hear from you! Please leave your feature request in our [forums](https://www.admincolumns.com/forums/forum/feature-requests/?utm_source=wordpressorg&utm_medium=readme&utm_content=faq&utm_campaign=cpac-pluginpage)!
+Great, we'd love to hear from you! Please leave your feature request in our [forums](https://www.admincolumns.com/forums/forum/feature-requests/?utm_source=wordpressorg&utm_medium=readme&utm_content=faq)!
 
 = How can I change the thumbnail size of images? =
 
 You can select a custom size for your custom field option from the Column options.
 
-**my columns thumbnails still have the wrong size**
-
-If you want your already uploaded images to display the newly added size you will need to regenerate the thumbnail for them. You can use this plugin to generate the newly added sized thumbnails: http://wordpress.org/extend/plugins/regenerate-thumbnails/.
-
 = What filters and hooks can I use? =
 
-You can find a list of the available actions and filters (and examples on how to use them!) in the [Admin Columns documentation](https://www.admincolumns.com/documentation/?utm_source=wordpressorg&utm_medium=readme&utm_content=faq&utm_campaign=cpac-pluginpage).
+You can find a list of the available actions and filters (and examples on how to use them!) in the [Admin Columns documentation](https://www.admincolumns.com/documentation/?utm_source=wordpressorg&utm_medium=readme&utm_content=faq#filter-reference).
 
 == Screenshots ==
 
@@ -211,12 +202,237 @@ You can find a list of the available actions and filters (and examples on how to
 2. Posts Screen with the customized sortable columns.
 3. Settings page for the Media Library columns.
 4. Media Screen with the customized sortable columns.
-5. Settings page for Users columns.
+5. Settings page for Users columns../ch
 6. Users Screen with the customized sortable columns.
 7. Settings page showing the different displaying types for custom field.
 8. Posts Screen with custom fields.
 
 == Changelog ==
+
+= 4.2.2 =
+Release Date: September 9th, 2020
+
+* [Fixed] Slug column now applies `urldecode()`
+* [Fixed] Links to documentation pages are updated
+
+= 4.2.1 =
+Release Date: August 21st, 2020
+
+* [Fixed] JS error on table pages
+
+= 4.2 =
+Release Date: August 18th, 2020
+
+* [Added] New api function `ac_get_columns` to retrieve the available columns for Listscreen ID
+* [Added] New api function `ac_get_column` to retrieve a single column from a Listscreen based on its ID
+* [Added] Screen Option to show the Listscreen ID and Listscreen Name on the Column settings page
+* [Fixed] Fixed User helper that gave some PHP warnings when using in the Author column
+
+= 4.1.9 =
+Release Date: July 28th, 2020
+
+* [Updated] Column label translation support for WPML was updated for the latest version of WPML
+
+= 4.1.8 =
+Release Date: July 21st, 2020
+
+* [Added] New columns for the Users table: Fullname, Author Slug and Username / Login.
+* [Fixed] CSS conflict on overview pages where post type is 'Modal'
+
+= 4.1.7 =
+Release Date: June 9th, 2020
+
+* [Improved] Better Table overview recognition to prevent wrong loaded list screens
+* [Improved] The comments column on the users page will now link to the (filtered) comments table
+* [Improved] The post count column on the users page now has the option to select all post types
+* [Fixed] Renamed the user display option 'First and Last Name' to 'Full name'
+* [Fixed] The comment count column for the users page will now only count 'approved' and 'pending' comments when selecting 'All comments'
+
+= 4.1.6 =
+Release Date: April 22nd, 2020
+
+* [Improved] You can now display the column ID and Type by opening the screen options in top right
+* [Improved] The meta column will now display a zero (when available) instead of a dash
+* [Improved] Improved right-to-left (RTL) support
+* [Improved] First time loading columns is faster
+
+= 4.1.5 =
+Release Date: April 17th, 2020
+
+* [Fixed] Model auto close issue
+
+= 4.1.4 =
+Release Date: April 15th, 2020
+
+* [Added] Javascript Improvements
+
+= 4.1.3 =
+Release Date: April 10th, 2020
+
+* [Added] New media column: Download. For easy downloading of files.
+
+= 4.1.2 =
+Release Date: April 8th, 2020
+
+* [Fixed] PHP5.6 error when loading the settings page from the menu
+
+= 4.1.1 =
+Release Date: April 7th, 2020
+
+* [Added] Meta Box integration support
+
+= 4.1.0 =
+Release Date: March 30th, 2020
+
+* [Improved] The column type selector now uses select2
+* [Improved] The current `list screen ID` has been added to the URL when filtering a list table, making it easier to bookmark
+* [Improved] Our buttons on the list table now have the same style and colors as the default WordPress buttons.
+* [Added] Tooltips added to each feature of the custom field column
+* [Updated] The `Admin` class has been refactored
+* [Updated] The `ListScreenRepository` class has been refactored
+
+= 4.0.3 =
+Release Date: March 11th, 2020
+
+* [Updated] Saving column settings for the first time could result in extra database records.
+
+= 4.0.2 =
+Release Date: February 26th, 2020
+
+* [Updated] Fallback for wp_timezone when running WordPress < 5.3
+* [Updated] Languages for core version updated
+
+= 4.0.1 =
+Release Date: February 18th, 2020
+
+* [Fixed] Fatal error in Date helper that occurs in PHP 5.6
+* [Improved] Re-added the hook `ac/column/custom_field/use_text_input` to use a text field for the custom field column setting
+
+= 4.0.0 =
+Release Date: February 3rd, 2020
+
+* [Improved] Use wp_date for column value formatters instead of date_i18n
+* [Improved] Set link type for Taxonomy Columns
+* [Improved] It is not necessary anymore to load the overview page once in order to recognize the default columns
+
+= 3.4.8 =
+Release Date: November 19th, 2019
+
+* [Updated] The minimum version required to run Admin Columns is now PHP 5.6.20
+* [Improved] Adapted new WordPress interface styling
+* [Improved] Updated Select2 to 4.0.12 to prevent non closing drop-downs
+
+= 3.4.7 =
+Release Date: August 26th, 2019
+
+* [Added] Option to limit the amount of taxonomies that is shown in the column with show more button.
+* [Improved] Changed WordPress Date Format link
+* [Improved] Show more feature that is used in several columns
+* [Improved] Update Select2 version that fixes multiple selections bug
+
+= 3.4.6 =
+Release Date: August 21st, 2019
+
+* [Improved] Search the list of available custom fields in the drop down with Select2
+* [Improved] Change the label for Custom Field column Excerpt to Text
+* [Improved] Don't open column settings when column refreshes
+* [Improved] Setting for adding a link to related comments display
+
+= 3.4.5 =
+Release Date: July 16th, 2019
+
+* [Fixed] Javascript errors on admin pages for specific columns
+* [Fixed] Removed flickering for Pro modal
+* [Fixed] Styling issue on the WordPress Customize page
+* [Fixed] Re-init tooltips when a column is reloaded or added
+
+= 3.4.4 =
+Release Date: May 20th, 2019
+
+* [Fixed] Transient class fixed. Unchanged data did not update the timestamp resulting in invalidating the transient constantly
+
+= 3.4.3 =
+Release Date: May 10th, 2019
+
+* [Fixed] IE11 bug when adding new columns
+
+= 3.4.2 =
+Release Date: March 26th, 2019
+
+* [Improved] Prevent possible warning in User Registered column
+* [Improved] Give feedback on settings page when something went wrong
+* [Improved] Setting for link Media item to download or view
+
+= 3.4.1 =
+Release Date: February 18th, 2019
+
+* [Improved] Minor improvements in banners, missing links, etc
+
+= 3.4 =
+Release Date: January 23rd, 2019
+
+* [Fixed] Width setting Javascript errors
+* [Fixed] Show icons for Action column works again
+* [Improved] Show icon labels in the Screen Options menu when necessary
+
+= 3.3.1 =
+Release Date: November 7th, 2018
+
+* [Improved] Better external image support for Custom Field column
+
+= 3.3 =
+Release Date: October 31st, 2018
+
+* [Improved] Extra display for Path column to show the local path of a file
+
+= 3.2.7 =
+Release Date: September 25th, 2018
+
+* [Fixed] jQuery noConflict fixes for column settings page
+* [Improved] Post title column is now always available
+* [Improved] Disable autoloading for ACP options
+
+= 3.2.6 =
+Release Date: August 21th, 2018
+
+* [Improved] Set Admin Columns Capability on role instead of User
+
+= 3.2.5 =
+Release Date: August 15th, 2018
+
+* [Added] New JS API for column settings page. (Accessible through AC.Form)
+* [Improved] Exclude system files in Autoloader
+
+= 3.2.4 =
+
+Release Date: July 11th, 2018
+
+* [Fixed] Improved performance for ac_quickedit_events()
+
+= 3.2.3 =
+
+Release Date: June 26th, 2018
+
+* [Fixed] ThidParty classes are now using correct camelcasing
+
+= 3.2.2 =
+
+Release Date: June 26th, 2018
+
+* [Fixed] Fixed possible fatal error when running update.
+
+= 3.2.1 =
+
+Release Date: June 26th, 2018
+
+* [Fixed] Assets did not load correctly. Upgrade script fix.
+
+= 3.2 =
+
+Release Date: June 25th, 2018
+
+* [Removed] Support for PHP 5.2. The minimum version required to run Admin Columns is now PHP 5.3+.
+* [Removed] Deprecated functions (before 3.0) will be removed after 12 months.
 
 = 3.1.10 =
 

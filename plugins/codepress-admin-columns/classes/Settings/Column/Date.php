@@ -1,10 +1,10 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Settings\Column;
 
-class AC_Settings_Column_Date extends AC_Settings_Column_DateTimeFormat {
+use AC\Settings;
+
+class Date extends Settings\Column\DateTimeFormat {
 
 	private function get_diff_html_label() {
 		$description = __( 'The difference is returned in a human readable format.', 'codepress-admin-columns' ) . ' <br/>' .
@@ -18,17 +18,17 @@ class AC_Settings_Column_Date extends AC_Settings_Column_DateTimeFormat {
 	}
 
 	protected function get_custom_format_options() {
-		$options = array(
+		$options = [
 			'diff'       => $this->get_diff_html_label(),
 			'wp_default' => $this->get_default_html_label( __( 'WordPress Date Format', 'codepress-admin-columns' ) ),
-		);
+		];
 
-		$formats = array(
+		$formats = [
 			'j F Y',
 			'Y-m-d',
 			'm/d/Y',
 			'd/m/Y',
-		);
+		];
 
 		foreach ( $formats as $format ) {
 			$options[ $format ] = $this->get_html_label_from_date_format( $format );
@@ -43,6 +43,7 @@ class AC_Settings_Column_Date extends AC_Settings_Column_DateTimeFormat {
 
 	/**
 	 * @param string $date
+	 * @param        $original_value
 	 *
 	 * @return string
 	 */

@@ -1,36 +1,56 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Settings\Column;
 
-class AC_Settings_Column_PostType extends AC_Settings_Column {
+use AC;
+use AC\Settings;
+use AC\View;
+
+class PostType extends Settings\Column {
 
 	/**
 	 * @var string
 	 */
 	private $post_type;
 
+	/**
+	 * @var bool
+	 */
+	private $show_any;
+
+	public function __construct( AC\Column $column, $show_any = false ) {
+		parent::__construct( $column );
+
+		$this->show_any = $show_any;
+	}
+
 	protected function define_options() {
-		return array( 'post_type' );
+		return [ 'post_type' ];
 	}
 
 	public function create_view() {
+		$options = $this->get_post_type_labels();
+
+		if ( $this->show_any ) {
+			$options = [ 'any' => __( 'All Post Types', 'codepress-admin-columns' ) ] + $options;
+		}
+
 		$setting = $this->create_element( 'select' )
 		                ->set_attribute( 'data-label', 'update' )
-		                ->set_options( $this->get_post_type_labels() );
+		                ->set_options( $options );
 
-		$view = new AC_View( array(
+		$view = new View( [
 			'label'   => __( 'Post Type', 'codepress-admin-columns' ),
 			'setting' => $setting,
-		) );
+		] );
 
 		return $view;
 	}
 
 	private function get_post_type_labels() {
-		$options = array();
-		$post_types = AC()->get_post_types();
+		$options = [];
+
+		$post_types = get_post_types();
 
 		if ( ! is_array( $post_types ) ) {
 			return $options;

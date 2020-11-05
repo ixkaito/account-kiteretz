@@ -1,10 +1,14 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Settings\Column;
 
-class AC_Settings_Column_Type extends AC_Settings_Column {
+use AC;
+use AC\Groups;
+use AC\Integration;
+use AC\Settings\Column;
+use AC\View;
+
+class Type extends Column {
 
 	/**
 	 * @var string
@@ -12,9 +16,9 @@ class AC_Settings_Column_Type extends AC_Settings_Column {
 	private $type;
 
 	protected function define_options() {
-		return array(
+		return [
 			'type' => $this->column->get_type(),
-		);
+		];
 	}
 
 	public function create_view() {
@@ -26,18 +30,18 @@ class AC_Settings_Column_Type extends AC_Settings_Column {
 		$tooltip = __( 'Choose a column type.', 'codepress-admin-columns' );
 
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-			$tooltip .=  '<em>' . __( 'Type', 'codepress-admin-columns' ) . ': ' . $this->column->get_type() . '</em>';
+			$tooltip .= '<em>' . __( 'Type', 'codepress-admin-columns' ) . ': ' . $this->column->get_type() . '</em>';
 
 			if ( $this->column->get_name() ) {
 				$tooltip .= '<em>' . __( 'Name', 'codepress-admin-columns' ) . ': ' . $this->column->get_name() . '</em>';
 			}
 		}
 
-		$view = new AC_View( array(
+		$view = new View( [
 			'setting' => $type,
 			'label'   => __( 'Type', 'codepress-admin-columns' ),
 			'tooltip' => $tooltip,
-		) );
+		] );
 
 		return $view;
 	}
@@ -45,11 +49,11 @@ class AC_Settings_Column_Type extends AC_Settings_Column {
 	/**
 	 * Returns the type label as human readable: no tags, underscores and capitalized.
 	 *
-	 * @param AC_Column|null $column
+	 * @param AC\Column|null $column
 	 *
 	 * @return string
 	 */
-	private function get_clean_label( AC_Column $column ) {
+	private function get_clean_label( AC\Column $column ) {
 		$label = $column->get_label();
 
 		if ( 0 === strlen( strip_tags( $label ) ) ) {
@@ -60,19 +64,24 @@ class AC_Settings_Column_Type extends AC_Settings_Column {
 	}
 
 	/**
-	 * @param AC_ListScreen $list_screen
-	 *
+	 * @return Groups
+	 */
+	private function column_groups() {
+		return AC\ColumnGroups::get_groups();
+	}
+
+	/**
 	 * @return array
 	 */
 	private function get_grouped_columns() {
-		$columns = array();
+		$columns = [];
 
 		// get columns and sort them
 		foreach ( $this->column->get_list_screen()->get_column_types() as $column ) {
 
 			/**
 			 * @param string $group Group slug
-			 * @param AC_Column $column
+			 * @param Column $column
 			 */
 			$group = apply_filters( 'ac/column_group', $column->get_group(), $column );
 
@@ -84,10 +93,10 @@ class AC_Settings_Column_Type extends AC_Settings_Column {
 			}
 		}
 
-		$grouped = array();
+		$grouped = [];
 
 		// create select options
-		foreach ( AC()->column_groups()->get_groups_sorted() as $group ) {
+		foreach ( $this->column_groups()->get_groups_sorted() as $group ) {
 			$slug = $group['slug'];
 
 			// hide empty groups

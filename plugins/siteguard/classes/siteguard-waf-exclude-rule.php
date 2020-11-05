@@ -216,7 +216,7 @@ class SiteGuard_WAF_Exclude_Rule extends SiteGuard_Base {
 				$filename = $rule['filename'];
 				$sig    = $rule['sig'];
 				if ( ! empty( $filename ) ) {
-					$htaccess_str .= "    <Files $filename >\n";
+					$htaccess_str .= "    <Files \"$filename\" >\n";
 					$htaccess_str .= $this->output_exclude_sig_1( $sig );
 					$htaccess_str .= "    </Files>\n";
 				} else {

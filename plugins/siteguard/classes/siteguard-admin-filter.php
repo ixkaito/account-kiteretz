@@ -23,7 +23,7 @@ class SiteGuard_AdminFilter extends SiteGuard_Base {
 		CHARACTER SET 'utf8';";
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta( $sql );
-		$siteguard_config->set( 'admin_filter_exclude_path', 'css,images,admin-ajax.php,load-styles.php' );
+		$siteguard_config->set( 'admin_filter_exclude_path', 'css,images,admin-ajax.php,load-styles.php,site-health.php' );
 		$siteguard_config->set( 'admin_filter_enable', '0' );
 		$siteguard_config->update( );
 	}
@@ -135,6 +135,12 @@ class SiteGuard_AdminFilter extends SiteGuard_Base {
 				$htaccess_str .= $this->get_rewrite_cond( $ip, $ip_mode );
 			}
 		}
+		$server_ip = $this->get_server_ip( );
+		if ( false !== $server_ip ) {
+			$htaccess_str .= $this->get_rewrite_cond( $server_ip, 0 );
+		}
+		$htaccess_str .= $this->get_rewrite_cond( '127.0.0.1', 0 );
+		$htaccess_str .= $this->get_rewrite_cond( '::1', 0 );
 		$htaccess_str .= "    RewriteRule ^wp-admin 404-siteguard [L]\n";
 		$htaccess_str .= "</IfModule>\n";
 

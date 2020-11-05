@@ -12,6 +12,8 @@ class SiteGuard_Menu_WAF_Tuning_Support extends SiteGuard_Base {
 	// convert from URL to PATH
 	function set_filename( $filename ) {
 		$base = basename( $filename );
+		$base = str_replace( '"', '', $base );
+		$base = trim( $base );
 		$idx = strpos( $base, '?' );
 		if ( false !== $idx ) {
 			return substr( $base, 0, $idx );

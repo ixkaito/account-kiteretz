@@ -1,11 +1,24 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Settings\Column;
 
-class AC_Settings_Column_User extends AC_Settings_Column
-	implements AC_Settings_FormatValueInterface {
+use AC\Settings;
+use AC\View;
+
+class User extends Settings\Column implements Settings\FormatValue {
+
+	const NAME = 'user';
+
+	const PROPERTY_DISPLAY_NAME = 'display_name';
+	const PROPERTY_EMAIL = 'user_email';
+	const PROPERTY_FULL_NAME = 'first_last_name';
+	const PROPERTY_FIRST_NAME = 'first_name';
+	const PROPERTY_ID = 'ID';
+	const PROPERTY_LAST_NAME = 'last_name';
+	const PROPERTY_LOGIN = 'user_login';
+	const PROPERTY_NICENAME = 'user_nicename';
+	const PROPERTY_NICKNAME = 'nickname';
+	const PROPERTY_ROLES = 'roles';
 
 	/**
 	 * @var string
@@ -13,23 +26,23 @@ class AC_Settings_Column_User extends AC_Settings_Column
 	private $display_author_as;
 
 	protected function set_name() {
-		$this->name = 'user';
+		$this->name = self::NAME;
 	}
 
 	protected function define_options() {
-		return array( 'display_author_as' );
+		return [ 'display_author_as' ];
 	}
 
 	public function get_dependent_settings() {
-		$settings = array();
+		$settings = [];
 
-		$settings[] = new AC_Settings_Column_UserLink( $this->column );
+		$settings[] = new Settings\Column\UserLink( $this->column );
 
 		return $settings;
 	}
 
 	/**
-	 * @return AC_View
+	 * @return View
 	 */
 	public function create_view() {
 		$select = $this->create_element( 'select', 'display_author_as' )
@@ -37,11 +50,11 @@ class AC_Settings_Column_User extends AC_Settings_Column
 		               ->set_attribute( 'data-refresh', 'column' )
 		               ->set_options( $this->get_display_options() );
 
-		$view = new AC_View( array(
+		$view = new View( [
 			'label'   => __( 'Display', 'codepress-admin-columns' ),
 			'setting' => $select,
 			'for'     => $select->get_id(),
-		) );
+		] );
 
 		return $view;
 	}
@@ -59,18 +72,18 @@ class AC_Settings_Column_User extends AC_Settings_Column
 	 * @return array
 	 */
 	protected function get_display_options() {
-		$options = array(
-			'display_name'    => __( 'Display Name', 'codepress-admin-columns' ),
-			'first_name'      => __( 'First Name', 'codepress-admin-columns' ),
-			'last_name'       => __( 'Last Name', 'codepress-admin-columns' ),
-			'nickname'        => __( 'Nickname', 'codepress-admin-columns' ),
-			'user_login'      => __( 'User Login', 'codepress-admin-columns' ),
-			'user_email'      => __( 'User Email', 'codepress-admin-columns' ),
-			'ID'              => __( 'User ID', 'codepress-admin-columns' ),
-			'first_last_name' => __( 'First and Last Name', 'codepress-admin-columns' ),
-			'user_nicename'   => __( 'User Nicename', 'codepress-admin-columns' ),
-			'roles'           => __( 'Roles', 'codepress-admin-columns' ),
-		);
+		$options = [
+			self::PROPERTY_DISPLAY_NAME => __( 'Display Name', 'codepress-admin-columns' ),
+			self::PROPERTY_FIRST_NAME   => __( 'First Name', 'codepress-admin-columns' ),
+			self::PROPERTY_FULL_NAME    => __( 'Full Name', 'codepress-admin-columns' ),
+			self::PROPERTY_LAST_NAME    => __( 'Last Name', 'codepress-admin-columns' ),
+			self::PROPERTY_NICKNAME     => __( 'Nickname', 'codepress-admin-columns' ),
+			self::PROPERTY_ROLES        => __( 'Roles', 'codepress-admin-columns' ),
+			self::PROPERTY_LOGIN        => __( 'User Login', 'codepress-admin-columns' ),
+			self::PROPERTY_EMAIL        => __( 'User Email', 'codepress-admin-columns' ),
+			self::PROPERTY_ID           => __( 'User ID', 'codepress-admin-columns' ),
+			self::PROPERTY_NICENAME     => __( 'User Nicename', 'codepress-admin-columns' ),
+		];
 
 		// resort for possible translations
 		natcasesort( $options );

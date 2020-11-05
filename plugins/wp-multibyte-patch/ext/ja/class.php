@@ -3,11 +3,11 @@
  * WP Multibyte Patch Japanese Locale Extension
  *
  * @package WP_Multibyte_Patch
- * @version 2.8.1
+ * @version 2.9
  * @author Seisuke Kuraishi <210pura@gmail.com>
- * @copyright Copyright (c) 2016 Seisuke Kuraishi, Tinybit Inc.
- * @license http://opensource.org/licenses/gpl-2.0.php GPLv2
- * @link http://eastcoder.com/code/wp-multibyte-patch/
+ * @copyright Copyright (c) 2020 Seisuke Kuraishi, Tinybit Inc.
+ * @license https://opensource.org/licenses/gpl-2.0.php GPLv2
+ * @link https://eastcoder.com/code/wp-multibyte-patch/
  */
 
 /**
@@ -40,6 +40,29 @@ if ( class_exists( 'multibyte_patch' ) ) :
 			return $string;
 
 		return "=?$charset?B?" . base64_encode( $string ) . '?=';
+	}
+
+	public function patch_wp_mail_with_custom_phpmailer( $atts ) {
+		global $phpmailer;
+
+		if ( ! $phpmailer instanceof PHPMailer\PHPMailer\PHPMailer ) {
+			require_once ABSPATH . WPINC . '/PHPMailer/PHPMailer.php';
+			require_once ABSPATH . WPINC . '/PHPMailer/SMTP.php';
+			require_once ABSPATH . WPINC . '/PHPMailer/Exception.php';
+			require_once dirname( dirname( dirname( __FILE__ ) ) ) . '/includes/class-wpmp-phpmailer.php';
+
+			$phpmailer = new WPMP_PHPMailer( true );
+
+			$phpmailer::$validator = static function ( $email ) {
+				return (bool) is_email( $email );
+			};
+
+			if ( $phpmailer instanceof PHPMailer\PHPMailer\PHPMailer ) {
+				add_action( 'phpmailer_init', array( $this, 'wp_mail' ) );
+			}
+		}
+
+		return $atts;
 	}
 
 	public function get_phpmailer_properties( $phpmailer ) {
@@ -95,7 +118,7 @@ if ( class_exists( 'multibyte_patch' ) ) :
 		if ( 'UTF-8' == $mode ) {
 			$phpmailer->CharSet = 'UTF-8';
 			$phpmailer->Encoding = 'base64';
-			$phpmailer->AddCustomHeader( 'Content-Disposition: inline' );
+			$phpmailer->addCustomHeader( 'Content-Disposition: inline' );
 			$phpmailer->FromName = $this->encode_mimeheader_b_uncut( $phpmailer->FromName, 'UTF-8' );
 			$phpmailer->Subject = $this->encode_mimeheader_b_uncut( $phpmailer->Subject, 'UTF-8' );
 
@@ -179,12 +202,13 @@ if ( class_exists( 'multibyte_patch' ) ) :
 			return $text;
 
 		// If the caller is wp_dashboard_recent_drafts()
-		if ( false !== $this->conf['patch_dashboard_recent_drafts'] && 10 === $num_words && is_admin() && strpos( wp_debug_backtrace_summary(), 'wp_dashboard_recent_drafts' ) )
+		if ( false !== $this->conf['patch_dashboard_recent_drafts'] && ( 40 === $num_words || 10 === $num_words ) && is_admin() && strpos( wp_debug_backtrace_summary(), 'wp_dashboard_recent_drafts' ) )
 			$num_words = $this->conf['dashboard_recent_drafts_mblength'];
 
 		$text = $original_text;
 		$text = wp_strip_all_tags( $text );
 		$text = trim( preg_replace( "/[\n\r\t ]+/", ' ', $text ), ' ' );
+		$num_words = (int) $num_words;
 
 		if ( mb_strlen( $text, $this->blog_encoding ) > $num_words )
 			$text = mb_substr( $text, 0, $num_words, $this->blog_encoding ) . $more;
@@ -196,7 +220,6 @@ if ( class_exists( 'multibyte_patch' ) ) :
 		// mbstring functions are always required for ja.
 		$this->mbfunctions_required = true;
 
-		$this->conf['patch_wp_mail'] = true;
 		$this->conf['patch_incoming_trackback'] = true;
 		$this->conf['patch_incoming_pingback'] = true;
 		$this->conf['patch_process_search_terms'] = true;

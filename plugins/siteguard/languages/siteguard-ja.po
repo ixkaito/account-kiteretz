@@ -336,7 +336,7 @@ msgstr "5分"
 msgid ""
 "It is the function to decrease the vulnerability against an illegal login attempt attack such as a brute force attack or a password list attack. "
 "Especially, it is the function to prevent an automated attack. The connection source IP address the number of login failure of which reaches "
-"the specified number within the specified period is blocked for the specified time. Each user account is not locked." 
+"the specified number within the specified period is blocked for the specified time. Each user account is not locked."
 msgstr ""
 "ブルートフォース攻撃、リスト攻撃等の、不正にログインを試みる攻撃を受けにくくするための機能です。"
 "特に、機械的な攻撃から防御するための機能です。"
@@ -388,6 +388,10 @@ msgstr "%DATE% %TIME%に%USERNAME%がログインしました。\n\n== ログイ
 msgid "New Login Path"
 msgstr "変更後のログインページ名"
 
+#: admin/siteguard-menu-rename-login.php:162
+msgid "Option"
+msgstr "オプション"
+
 msgid ""
 "It is only an alphanumeric character, a hyphen, and an underbar that can be used for New Login Path."
 msgstr ""
@@ -412,6 +416,12 @@ msgstr ""
 "ブルートフォース攻撃、リスト攻撃等の、不正にログインを試みる攻撃を受けにくくするための機能です。"
 "ログインページ（wp-login.php）の名前を変更します。"
 "初期値は、「login_&lt;5桁の乱数&gt;」ですが、お好みの名前に変更することができます。"
+
+#: admin/siteguard-menu-rename-login.php:165
+msgid ""
+"Do not redirect from admin page to login page. "
+msgstr ""
+"管理者ページからログインページへリダイレクトしない"
 
 msgid "WordPress: Login page URL was changed"
 msgstr "WordPress: ログインページURLが変更されました"

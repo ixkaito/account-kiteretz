@@ -1,25 +1,32 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC;
 
-class AC_Autoloader {
+use DirectoryIterator;
+use FilesystemIterator;
+
+class Autoloader {
 
 	/**
-	 * @var AC_Autoloader;
+	 * @var self;
 	 */
 	protected static $instance;
 
 	/**
 	 * Register prefixes and their path
-	 *
-	 * @var array
+	 * @var string[]
 	 */
-	protected $prefixes = array();
+	protected $prefixes;
 
-	private function __construct() {
-		spl_autoload_register( array( $this, 'autoload' ) );
+	/**
+	 * @var string[]
+	 */
+	protected $class_map = [];
+
+	protected function __construct() {
+		$this->prefixes = [];
+
+		spl_autoload_register( [ $this, 'autoload' ] );
 	}
 
 	public static function instance() {
@@ -30,106 +37,157 @@ class AC_Autoloader {
 		return self::$instance;
 	}
 
-	public static function string_to_classname( $string ) {
-		return implode( array_map( 'ucfirst', explode( '_', str_replace( '-', '_', $string ) ) ) );
-	}
-
 	/**
 	 * Register a prefix that should autoload
 	 *
 	 * @param $prefix string Unique prefix to this set of classes
-	 * @param $path   string Path to directory where classes are stored
+	 * @param $dir    string Path to directory where classes are stored
+	 *
+	 * @return $this
 	 */
-	public function register_prefix( $prefix, $path ) {
-		$prefix = rtrim( $prefix, '_' ) . '_';
-		$path = trailingslashit( $path );
-
-		$this->prefixes[ $prefix ] = $path;
+	public function register_prefix( $prefix, $dir ) {
+		$this->prefixes[ $prefix ] = trailingslashit( $dir );
 
 		// make sure that more specific prefixes are checked first
 		krsort( $this->prefixes );
+
+		return $this;
 	}
 
 	/**
-	 * @param $class
+	 * @param array $class_map
+	 *
+	 * @return $this
 	 */
-	public function autoload( $class ) {
-		foreach ( $this->prefixes as $prefix => $prefix_path ) {
-			if ( 0 !== strpos( $class, $prefix ) ) {
-				continue;
-			}
+	public function register_class_map( array $class_map ) {
+		$this->class_map = array_merge( $this->class_map, $class_map );
 
-			$class_path = str_replace( array( $prefix, '_' ), array( '', '/' ), $class );
-			$file = $prefix_path . $class_path . '.php';
+		// keep the classes organized for faster lookup
+		ksort( $this->class_map );
 
-			if ( is_readable( $file ) ) {
-				require_once $file;
-
-				break;
-			}
-
-			// Git does not detect case-difference in a filename and older versions used same filename but with a different case
-			$basename = basename( $file );
-			$file_lc = str_replace( $basename, strtolower( $basename ), $file );
-
-			if ( is_readable( $file_lc ) ) {
-				require_once $file_lc;
-
-				break;
-			}
-		}
+		return $this;
 	}
 
 	/**
-	 * @param string $prefix
+	 * @param $namespace
 	 *
 	 * @return false|string
 	 */
-	private function get_path_by_prefix( $prefix ) {
-		return isset( $this->prefixes[ $prefix ] ) ? $this->prefixes[ $prefix ] : false;
+	protected function get_prefix( $namespace ) {
+		foreach ( array_keys( $this->prefixes ) as $prefix ) {
+			if ( 0 === strpos( $namespace, $prefix ) ) {
+				return $prefix;
+			}
+		}
+
+		return false;
 	}
 
 	/**
-	 * Get list of all class names from a directory
+	 * @param $prefix
 	 *
-	 * @param string $dir
-	 * @param string $prefix
-	 *
-	 * @return array Class names
+	 * @return false|string
 	 */
-	public function get_class_names_from_dir( $dir, $prefix ) {
-		$path = trailingslashit( $dir );
-		$classes_dir = $this->get_path_by_prefix( $prefix );
-
-		// skip if directory is not auto loaded
-		if ( false === strpos( $path, $classes_dir ) ) {
-			return array();
+	protected function get_path( $prefix ) {
+		if ( ! isset( $this->prefixes[ $prefix ] ) ) {
+			return false;
 		}
 
-		$class_names = array();
+		return $this->prefixes[ $prefix ];
+	}
 
-		$prefix = $prefix . str_replace( array( $classes_dir, '/' ), array( '', '_' ), untrailingslashit( $path ) ) . '_';
+	/**
+	 * Get the path from a given namespace that has a registered prefix
+	 *
+	 * @param string $namespace
+	 *
+	 * @return false|string
+	 */
+	protected function get_path_from_namespace( $namespace ) {
+		$namespace = rtrim( $namespace, '\\' );
+		$prefix = $this->get_prefix( $namespace );
 
-		if ( is_dir( $dir ) ) {
-			$iterator = new DirectoryIterator( $dir );
+		if ( ! $prefix ) {
+			return false;
+		}
 
+		$path = $this->get_path( $prefix ) . substr( $namespace, strlen( $prefix ) );
+		$path = str_replace( '\\', '/', $path );
+
+		return $path;
+	}
+
+	/**
+	 * @param string $class
+	 *
+	 * @return bool
+	 */
+	public function autoload( $class ) {
+		$file = array_key_exists( $class, $this->class_map )
+			? $this->class_map[ $class ]
+			: realpath( $this->get_path_from_namespace( $class ) . '.php' );
+
+		if ( ! $file ) {
+			return false;
+		}
+
+		require_once $file;
+
+		return true;
+	}
+
+	/**
+	 * Get list of all auto-loadable class names from a directory
+	 *
+	 * @param $namespace
+	 *
+	 * @return array
+	 */
+	public function get_class_names_from_dir( $namespace ) {
+		$classes = [];
+		$namespace = rtrim( $namespace, '\\' ) . '\\';
+
+		foreach ( $this->class_map as $class => $path ) {
+			// Check if it the same, but only 1 level deep
+			if ( strpos( $class, $namespace ) !== 0 || false !== strpos( '\\', str_replace( $namespace, '', $class ) ) ) {
+				continue;
+			}
+
+			$classes[] = $class;
+		}
+
+		if ( empty( $classes ) ) {
+			$classes = $this->get_class_names_from_filesystem( $namespace );
+		}
+
+		return $classes;
+	}
+
+	/**
+	 * @param string $namespace
+	 *
+	 * @return array
+	 */
+	protected function get_class_names_from_filesystem( $namespace ) {
+		$classes = [];
+		$namespace_path = realpath( $this->get_path_from_namespace( $namespace ) );
+
+		if ( $namespace_path ) {
+			$iterator = new FilesystemIterator( $namespace_path, FilesystemIterator::SKIP_DOTS );
+
+			/* @var DirectoryIterator $leaf */
 			foreach ( $iterator as $leaf ) {
-				// skip non php files
-				if ( $leaf->isDot() || $leaf->isDir() || 'php' !== pathinfo( $leaf->getFilename(), PATHINFO_EXTENSION ) ) {
+				// Exclude system files
+				if ( 0 === strpos( $leaf->getBasename(), '.' ) ) {
 					continue;
 				}
 
-				$class_name = $prefix . str_replace( '.php', '', $leaf->getFilename() );
-
-				$r = new ReflectionClass( $class_name );
-
-				if ( $r->isInstantiable() ) {
-					$class_names[] = $class_name;
+				if ( 'php' === $leaf->getExtension() ) {
+					$classes[] = $namespace . pathinfo( $leaf->getBasename(), PATHINFO_FILENAME );
 				}
 			}
 		}
 
-		return $class_names;
+		return $classes;
 	}
-
 }

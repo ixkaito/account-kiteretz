@@ -1,48 +1,41 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC;
 
-class AC_PluginInformation {
+class PluginInformation {
 
 	/**
 	 * @var string
 	 */
-	private $plugin_dirname;
+	private $basename;
 
-	/**
-	 * AC_Helper_Plugin constructor.
-	 *
-	 * @param string $plugin_dirname
-	 */
-	public function __construct( $plugin_dirname ) {
-		$this->plugin_dirname = sanitize_key( $plugin_dirname );
+	public function __construct( $basename ) {
+		$this->basename = $basename;
 	}
 
 	/**
 	 * @return string
 	 */
 	public function get_dirname() {
-		return $this->plugin_dirname;
+		return dirname( $this->basename );
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function is_installed() {
-		return $this->get_plugin_info() ? true : false;
+		return null !== $this->get_plugin_info();
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function is_active() {
-		return is_plugin_active( $this->get_plugin_var( 'Basename' ) );
+		return is_plugin_active( $this->basename );
 	}
 
 	/**
-	 * @return string|false Returns the plugin version if the plugin is installed, false otherwise
+	 * @return string|null
 	 */
 	public function get_version() {
 		return $this->get_plugin_var( 'Version' );
@@ -52,43 +45,39 @@ class AC_PluginInformation {
 	 * @return string Basename
 	 */
 	public function get_basename() {
-		return $this->get_plugin_var( 'Basename' );
+		return $this->basename;
 	}
 
 	/**
-	 * @return string Name
+	 * @return string
 	 */
 	public function get_name() {
 		return $this->get_plugin_var( 'Name' );
 	}
 
 	/**
-	 * @return array|false
+	 * @return array|null
 	 */
-	public function get_plugin_info() {
+	private function get_plugin_info() {
 		$plugins = (array) get_plugins();
 
-		foreach ( $plugins as $basename => $info ) {
-			if ( $this->plugin_dirname === dirname( $basename ) ) {
-				$info['Basename'] = $basename;
-
-				return $info;
-			}
+		if ( ! array_key_exists( $this->basename, $plugins ) ) {
+			return null;
 		}
 
-		return false;
+		return $plugins[ $this->basename ];
 	}
 
 	/**
 	 * @param string $var
 	 *
-	 * @return string|false
+	 * @return string|null
 	 */
-	public function get_plugin_var( $var ) {
+	private function get_plugin_var( $var ) {
 		$info = $this->get_plugin_info();
 
-		if ( ! isset( $info[ $var ] ) ) {
-			return false;
+		if ( ! $info || ! isset( $info[ $var ] ) ) {
+			return null;
 		}
 
 		return $info[ $var ];

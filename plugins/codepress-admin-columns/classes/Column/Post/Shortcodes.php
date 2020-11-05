@@ -1,15 +1,14 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Column\Post;
+
+use AC\Column;
 
 /**
  * Display used shortcodes
- *
  * @since 2.3.5
  */
-class AC_Column_Post_Shortcodes extends AC_Column {
+class Shortcodes extends Column {
 
 	public function __construct() {
 		$this->set_type( 'column-shortcode' );
@@ -17,11 +16,13 @@ class AC_Column_Post_Shortcodes extends AC_Column {
 	}
 
 	public function get_value( $post_id ) {
-		if ( ! ( $shortcodes = $this->get_raw_value( $post_id ) ) ) {
-			return false;
+		$shortcodes = $this->get_raw_value( $post_id );
+
+		if ( ! $shortcodes ) {
+			return $this->get_empty_char();
 		}
 
-		$display = array();
+		$display = [];
 		foreach ( $shortcodes as $sc => $count ) {
 			$string = '[' . $sc . ']';
 
@@ -42,24 +43,7 @@ class AC_Column_Post_Shortcodes extends AC_Column {
 			return false;
 		}
 
-		$content = get_post_field( 'post_content', $post_id );
-
-		$shortcodes = array();
-
-		$_shortcodes = array_keys( $shortcode_tags );
-		asort( $_shortcodes );
-
-		foreach ( $_shortcodes as $shortcode ) {
-
-			$count = substr_count( $content, '[' . $shortcode . ']' );
-			$count += substr_count( $content, '[' . $shortcode . ' ' );
-
-			if ( $count ) {
-				$shortcodes[ $shortcode ] = $count;
-			}
-		}
-
-		return $shortcodes;
+		return ac_helper()->string->get_shortcodes( get_post_field( 'post_content', $post_id ) );
 	}
 
 }

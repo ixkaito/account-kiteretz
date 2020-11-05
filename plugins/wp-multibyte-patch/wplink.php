@@ -45,6 +45,16 @@ if( ! $out )
 if( isset( $_GET['sd'] ) )
 	echo str_replace( 'search.length > 2', 'search.length > 1', $out );
 else
-	echo str_replace( '.length>2){if', '.length>1){if', $out );
+	echo str_replace(
+		array(
+			'(2<t.length){if',
+			'.length>2){if',
+		),
+		array(
+			'(1<t.length){if',
+			'.length>1){if',
+		),
+		$out
+	);
 
 exit;

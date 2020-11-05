@@ -1,15 +1,13 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Column;
 
-interface AC_Column_AjaxValue {
+interface AjaxValue {
 
 	/**
 	 * @param int $id
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public function get_ajax_value( $id );
 

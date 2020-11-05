@@ -1,17 +1,18 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Helper;
 
-class AC_Helper_Html {
+use DOMDocument;
+use DOMElement;
+
+class Html {
 
 	/**
 	 * @param string $key
 	 * @param string $value
 	 *
-	 * @since 3.0
 	 * @return string
+	 * @since 3.0
 	 */
 	public function get_attribute_as_string( $key, $value ) {
 		return sprintf( '%s="%s"', $key, esc_attr( trim( $value ) ) );
@@ -20,11 +21,11 @@ class AC_Helper_Html {
 	/**
 	 * @param array $attributes
 	 *
-	 * @since 3.0
 	 * @return string
+	 * @since 3.0
 	 */
 	public function get_attributes_as_string( array $attributes ) {
-		$output = array();
+		$output = [];
 
 		foreach ( $attributes as $key => $value ) {
 			$output[] = $this->get_attribute_as_string( $key, $value );
@@ -36,10 +37,11 @@ class AC_Helper_Html {
 	/**
 	 * @param string $url
 	 * @param string $label
+	 * @param array  $attributes
 	 *
 	 * @return string|false HTML Anchor element
 	 */
-	public function link( $url, $label = null, $attributes = array() ) {
+	public function link( $url, $label = null, $attributes = [] ) {
 		if ( false === $label ) {
 			return $label;
 		}
@@ -93,12 +95,13 @@ class AC_Helper_Html {
 	}
 
 	/**
-	 * @param $label
-	 * @param $tooltip
+	 * @param       $label
+	 * @param       $tooltip
+	 * @param array $attributes
 	 *
 	 * @return string
 	 */
-	public function tooltip( $label, $tooltip, $attributes = array() ) {
+	public function tooltip( $label, $tooltip, $attributes = [] ) {
 		if ( ac_helper()->string->is_not_empty( $label ) && $tooltip ) {
 			$label = '<span ' . $this->get_tooltip_attr( $tooltip ) . $this->get_attributes( $attributes ) . '>' . $label . '</span>';
 		}
@@ -120,14 +123,14 @@ class AC_Helper_Html {
 		if ( $contents ) : ?>
 			<a class="ac-toggle-box-link" href="#"><?php echo $label; ?></a>
 			<div class="ac-toggle-box-contents"><?php echo $contents; ?></div>
-			<?php
+		<?php
 		else :
 			echo $label;
 		endif;
 	}
 
 	/**
-	 * Display a toggle box which trigger an ajax event on click. The ajax callback calls AC_Column::get_ajax_value.
+	 * Display a toggle box which trigger an ajax event on click. The ajax callback calls AC\Column::get_ajax_value.
 	 *
 	 * @param int    $id
 	 * @param string $label
@@ -135,13 +138,34 @@ class AC_Helper_Html {
 	 *
 	 * @return string
 	 */
-	public function get_ajax_toggle_box_link( $id, $label, $column_name ) {
-		return ac_helper()->html->link( '#', $label . '<div class="spinner"></div>', array(
+	public function get_ajax_toggle_box_link( $id, $label, $column_name, $label_close = null ) {
+		return ac_helper()->html->link( '#', $label . '<div class="spinner"></div>', [
 			'class'              => 'ac-toggle-box-link',
 			'data-column'        => $column_name,
 			'data-item-id'       => $id,
 			'data-ajax-populate' => 1,
-		) );
+			'data-label'         => $label,
+			'data-label-close'   => $label_close,
+		] );
+	}
+
+	/**
+	 * Display a modal which trigger an ajax event on click. The ajax callback calls AC\Column::get_ajax_value.
+	 *
+	 * @param int    $item_id
+	 * @param string $label
+	 * @param string $column_name
+	 *
+	 * @return string
+	 */
+	public function get_ajax_modal_link( $item_id, $label, $column_name ) {
+		return ac_helper()->html->link( '#', $label, [
+			'class'              => 'ac-modal-box-link',
+			'data-column'        => $column_name,
+			'data-item-id'       => $item_id,
+			'data-ajax-populate' => 1,
+			'data-label'         => $label,
+		] );
 	}
 
 	/**
@@ -164,10 +188,10 @@ class AC_Helper_Html {
 	 * @return string
 	 */
 	private function get_attributes( $attributes ) {
-		$_attributes = array();
+		$_attributes = [];
 
 		foreach ( $attributes as $attribute => $value ) {
-			if ( in_array( $attribute, array( 'title', 'id', 'class', 'style', 'target', 'rel', 'download' ) ) || 'data-' === substr( $attribute, 0, 5 ) ) {
+			if ( in_array( $attribute, [ 'title', 'id', 'class', 'style', 'target', 'rel', 'download' ] ) || 'data-' === substr( $attribute, 0, 5 ) ) {
 				$_attributes[] = $this->get_attribute_as_string( $attribute, $value );
 			}
 		}
@@ -183,7 +207,7 @@ class AC_Helper_Html {
 	 *
 	 * @return false|array [ internal | external ]
 	 */
-	public function get_internal_external_links( $string, $internal_domains = array() ) {
+	public function get_internal_external_links( $string, $internal_domains = [] ) {
 		if ( ! class_exists( 'DOMDocument' ) ) {
 			return false;
 		}
@@ -194,11 +218,11 @@ class AC_Helper_Html {
 		}
 
 		if ( ! $internal_domains ) {
-			$internal_domains = array( home_url() );
+			$internal_domains = [ home_url() ];
 		}
 
-		$internal_links = array();
-		$external_links = array();
+		$internal_links = [];
+		$external_links = [];
 
 		$dom = new DOMDocument();
 		$dom->loadHTML( $string );
@@ -232,9 +256,9 @@ class AC_Helper_Html {
 			return false;
 		}
 
-		return array(
+		return [
 			$internal_links, $external_links,
-		);
+		];
 	}
 
 	/**
@@ -249,7 +273,9 @@ class AC_Helper_Html {
 	/**
 	 * Display indicator icon in the column settings header
 	 *
-	 * @param string $name
+	 * @param      $class
+	 * @param      $id
+	 * @param bool $title
 	 */
 	public function indicator( $class, $id, $title = false ) { ?>
 		<span class="indicator-<?php echo esc_attr( $class ); ?>" data-indicator-id="<?php echo esc_attr( $id ); ?>" title="<?php echo esc_attr( $title ); ?>"></span>
@@ -259,7 +285,8 @@ class AC_Helper_Html {
 	/**
 	 * Adds a divider to the implode
 	 *
-	 * @param $array
+	 * @param      $array
+	 * @param bool $divider
 	 *
 	 * @return string
 	 */
@@ -279,14 +306,14 @@ class AC_Helper_Html {
 	}
 
 	public function remove_empty( $array ) {
-		return array_filter( $array, array( ac_helper()->string, 'is_not_empty' ) );
+		return array_filter( $array, [ ac_helper()->string, 'is_not_empty' ] );
 	}
 
 	/**
 	 * Remove attribute from an html tag
 	 *
-	 * @param string       $html      HTML tag
-	 * @param string|array $attribute Attribute: style, class, alt, data etc.
+	 * @param string $html HTML tag
+	 * @param        $attributes
 	 *
 	 * @return mixed
 	 */
@@ -308,7 +335,7 @@ class AC_Helper_Html {
 	 * @return string
 	 */
 	public function small_block( $items ) {
-		$blocks = array();
+		$blocks = [];
 
 		foreach ( (array) $items as $item ) {
 			if ( $item && is_string( $item ) ) {
@@ -324,14 +351,14 @@ class AC_Helper_Html {
 	 *
 	 * @return string
 	 */
-	public function progress_bar( $args = array() ) {
-		$defaults = array(
+	public function progress_bar( $args = [] ) {
+		$defaults = [
 			'current'     => 0,
 			'total'       => 100, // -1 is infinitive
 			'label_left'  => '',
 			'label_right' => '',
 			'label_main'  => '',
-		);
+		];
 
 		$args = wp_parse_args( $args, $defaults );
 
@@ -385,24 +412,22 @@ class AC_Helper_Html {
 	}
 
 	public function more( $array, $number = 10, $glue = ', ' ) {
+		if ( ! $number ) {
+			return implode( $glue, $array );
+		}
+
 		$first_set = array_slice( $array, 0, $number );
 		$last_set = array_slice( $array, $number );
 
 		ob_start();
 
 		if ( $first_set ) {
+			$first = sprintf( '<span class="ac-show-more__part -first">%s</span>', implode( $glue, $first_set ) );
+			$more = $last_set ? sprintf( '<span class="ac-show-more__part -more">%s%s</span>', $glue, implode( $glue, $last_set ) ) : '';
+			$content = sprintf( '<span class="ac-show-more__content">%s%s</span>', $first, $more );
+			$toggler = $last_set ? sprintf( '<span class="ac-show-more__divider">|</span><a class="ac-show-more__toggle" data-show-more-toggle data-more="%1$s" data-less="%2$s">%1$s</a>', sprintf( __( '%s more', 'codepress-admin-columns' ), count( $last_set ) ), strtolower( __( 'Hide', 'codepress-admin-columns' ) ) ) : '';
 
-			echo implode( $glue, $first_set );
-
-			if ( $last_set ) { ?>
-				<span class="ac-more-link-show">( <a><?php printf( __( 'Show %s more', 'codepress-admin-columns' ), count( $last_set ) ); ?></a> )</span>
-				<span class="ac-show-more-block">
-					<?php echo $glue . implode( $glue, $first_set ); ?>
-					<br/>
-                    <span class="ac-more-link-hide">( <a><?php _e( 'Hide', 'codepress-admin-columns' ); ?></a> )</span>
-                </span>
-				<?php
-			}
+			echo sprintf( '<span class="ac-show-more">%s</span>', $content . $toggler );
 		}
 
 		return ob_get_clean();
@@ -428,11 +453,11 @@ class AC_Helper_Html {
 	 * @return string
 	 */
 	public function stars( $count, $max = 0 ) {
-		$stars = array(
+		$stars = [
 			'filled' => floor( $count ),
 			'half'   => floor( round( ( $count * 2 ) ) - ( floor( $count ) * 2 ) ) ? 1 : 0,
 			'empty'  => 0,
-		);
+		];
 
 		$max = absint( $max );
 
@@ -447,11 +472,11 @@ class AC_Helper_Html {
 			}
 		}
 
-		$icons = array();
+		$icons = [];
 
-		foreach ( $stars as $type => $count ) {
-			for ( $i = 1; $i <= $count; $i++ ) {
-				$icons[] = ac_helper()->icon->dashicon( array( 'icon' => 'star-' . $type, 'class' => 'ac-value-star' ) );
+		foreach ( $stars as $type => $_count ) {
+			for ( $i = 1; $i <= $_count; $i++ ) {
+				$icons[] = ac_helper()->icon->dashicon( [ 'icon' => 'star-' . $type, 'class' => 'ac-value-star' ] );
 			}
 		}
 
@@ -466,7 +491,7 @@ class AC_Helper_Html {
 
 	/**
 	 * @param string $value HTML
-	 * @param int    $removed
+	 * @param bool   $removed
 	 *
 	 * @return string
 	 */

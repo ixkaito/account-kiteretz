@@ -1,16 +1,17 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Column;
+
+use AC\Collection;
+use AC\Column;
+use AC\Settings;
 
 /**
  * Taxonomy column, displaying terms from a taxonomy for any object type (i.e. posts)
  * supporting WordPress' native way of handling terms.
- *
  * @since 2.0
  */
-class AC_Column_Taxonomy extends AC_Column {
+class Taxonomy extends Column {
 
 	public function __construct() {
 		$this->set_type( 'column-taxonomy' );
@@ -22,13 +23,25 @@ class AC_Column_Taxonomy extends AC_Column {
 	}
 
 	public function get_value( $post_id ) {
-		$terms = ac_helper()->taxonomy->get_term_links( $this->get_raw_value( $post_id ), get_post_type( $post_id ) );
+		$_terms = $this->get_raw_value( $post_id );
+		if ( empty( $_terms ) ) {
+			return $this->get_empty_char();
+		}
+
+		$collection = new Collection( $_terms );
+		$terms = [];
+
+		foreach ( $collection as $term ) {
+			$terms[] = $this->get_formatted_value( $term->name, $term );
+		}
 
 		if ( empty( $terms ) ) {
 			return $this->get_empty_char();
 		}
 
-		return ac_helper()->string->enumeration_list( $terms, 'and' );
+		$setting_limit = $this->get_setting( 'number_of_items' );
+
+		return ac_helper()->html->more( $terms, $setting_limit ? $setting_limit->get_value() : false );
 	}
 
 	/**
@@ -47,7 +60,9 @@ class AC_Column_Taxonomy extends AC_Column {
 	}
 
 	public function register_settings() {
-		$this->add_setting( new AC_Settings_Column_Taxonomy( $this ) );
+		$this->add_setting( new Settings\Column\Taxonomy( $this ) );
+		$this->add_setting( new Settings\Column\TermLink( $this ) );
+		$this->add_setting( new Settings\Column\NumberOfItems( $this ) );
 	}
 
 }

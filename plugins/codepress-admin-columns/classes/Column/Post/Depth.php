@@ -1,19 +1,17 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Column\Post;
+
+use AC\Column;
 
 /**
  * Depth of the current page (number of ancestors + 1)
- *
  * @since 2.3.4
  */
-class AC_Column_Post_Depth extends AC_Column  {
+class Depth extends Column {
 
 	public function __construct() {
-		$this->set_type( 'column-depth' );
-		$this->set_label( __( 'Depth', 'codepress-admin-columns' ) );
+		$this->set_type( 'column-depth' )->set_label( __( 'Depth', 'codepress-admin-columns' ) );
 	}
 
 	public function get_value( $post_id ) {

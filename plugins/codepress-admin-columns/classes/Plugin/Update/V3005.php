@@ -1,10 +1,10 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Plugin\Update;
 
-class AC_Plugin_Update_V3005 extends AC_Plugin_Update {
+use AC\Plugin\Update;
+
+class V3005 extends Update {
 
 	public function apply_update() {
 		$this->migrate_user_specific_settings();
@@ -46,7 +46,7 @@ class AC_Plugin_Update_V3005 extends AC_Plugin_Update {
 		global $wpdb;
 
 		if ( ! $this->validate_key( $key ) ) {
-			return array();
+			return [];
 		}
 
 		$sql = $wpdb->prepare( "
@@ -59,7 +59,7 @@ class AC_Plugin_Update_V3005 extends AC_Plugin_Update {
 		$results = $wpdb->get_results( $sql );
 
 		if ( ! $results ) {
-			return array();
+			return [];
 		}
 
 		return $results;
@@ -71,10 +71,10 @@ class AC_Plugin_Update_V3005 extends AC_Plugin_Update {
 	private function migrate_user_specific_settings() {
 		global $wpdb;
 
-		$mapping = array(
+		$mapping = [
 			'cpac-hide-install-addons-notice' => 'ac_hide_notice_addons',
 			'cpac-hide-review-notice'         => 'ac_hide_notice_review',
-		);
+		];
 
 		foreach ( $mapping as $current => $new ) {
 			$sql_meta_key = $wpdb->esc_like( $current ) . '%';

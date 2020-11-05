@@ -1,69 +1,60 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+use AC\Admin;
+use AC\EncodedListScreenDataFactory;
+use AC\Helper;
+use AC\ListScreen;
+use AC\ListScreenCollection;
+use AC\Type\ListScreenId;
+use AC\Type\Url;
+
+/**
+ * @return AC\AdminColumns
+ * @since 3.0
+ */
+function AC() {
+	return AC\AdminColumns::instance();
 }
 
 /**
- * @return bool True when Admin Columns Pro plugin is activated.
+ * We check the defined const because it is available before AC::__construct() runs.
+ * @return bool
  */
 function ac_is_pro_active() {
-	return function_exists( 'ACP' );
+	return defined( 'ACP_FILE' );
 }
 
 /**
- * Get the url where the Admin Columns website is hosted
+ * @param string $path
  *
  * @return string
  */
-function ac_get_site_url( $path = '' ) {
-	$url = 'https://www.admincolumns.com';
-
-	if ( ! empty( $path ) ) {
-		$url .= '/' . trim( $path, '/' ) . '/';
-	}
-
-	return $url;
+function ac_get_site_url( $path = null ) {
+	return ( new Url\Site( $path ) )->get_url();
 }
 
 /**
- * Url with utm tags
+ * @param string|null $path
  *
+ * @return string
+ */
+function ac_get_site_documentation_url( $path = null ) {
+	return ( new Url\Documentation( $path ) )->get_url();
+}
+
+/**
  * @param string $path
  * @param string $utm_medium
  * @param string $utm_content
+ * @param bool   $utm_campaign
  *
  * @return string
  */
-function ac_get_site_utm_url( $path, $utm_medium, $utm_content = null, $utm_campaign = false ) {
-	$url = ac_get_site_url( $path );
-
-	if ( ! $utm_campaign ) {
-		$utm_campaign = 'plugin-installation';
-	}
-
-	$args = array(
-		// Referrer: plugin
-		'utm_source'   => 'plugin-installation',
-
-		// Specific promotions or sales
-		'utm_campaign' => $utm_campaign,
-
-		// Marketing medium: banner, documentation or email
-		'utm_medium'   => $utm_medium,
-
-		// Used for differentiation of medium
-		'utm_content'  => $utm_content,
-	);
-
-	$args = array_map( 'sanitize_key', array_filter( $args ) );
-
-	return add_query_arg( $args, $url );
+function ac_get_site_utm_url( $path, $utm_medium, $utm_content = null, $utm_campaign = null ) {
+	return ( new Url\UtmTags( new Url\Site( $path ), $utm_medium, $utm_content, $utm_campaign ) )->get_url();
 }
 
 /**
- * Admin Columns Twitter username
- *
  * @return string
  */
 function ac_get_twitter_handle() {
@@ -71,101 +62,176 @@ function ac_get_twitter_handle() {
 }
 
 /**
- * Simple helper methods for AC_Column objects
- *
+ * Simple helper methods for AC/Column objects
  * @since 3.0
  */
 function ac_helper() {
-	return AC()->helper();
+	return new AC\Helper();
 }
 
 /**
- * @since 3.0
- * @return bool True when a minimum version of Admin Columns Pro plugin is activated.
+ * @param array|string $list_screen_keys
+ * @param array        $column_data
+ *
+ * @deprecated 4.0.0
+ * @since      2.2
  */
-function ac_is_version_gte( $version ) {
-	return version_compare( AC()->get_version(), $version, '>=' );
+function ac_register_columns( $list_screen_keys, $column_data ) {
+	foreach ( (array) $list_screen_keys as $key ) {
+		ac_load_columns( [ $key => $column_data ] );
+	}
 }
 
 /**
  * Manually set the columns for a list screen
  * This overrides the database settings and thus renders the settings screen for this list screen useless
- *
  * If you like to register a column of your own please have a look at our documentation.
  * We also have a free start-kit available, which contains all the necessary files.
- *
- * Documentation: https://www.admincolumns.com/documentation/developer-docs/creating-new-column-type/
+ * Documentation: https://www.admincolumns.com/documentation/guides/creating-new-column-type/
  * Starter-kit: https://github.com/codepress/ac-column-template/
  *
- * @since 2.2
+ * @param array $data
  *
- * @param string|array $list_screen_key List screen key or keys
- * @param array        $column_data
+ * @deprecated 4.1
+ * @since      4.0.0
  */
-function ac_register_columns( $list_screen_keys, $column_data ) {
-	AC()->api()->load_columndata( $list_screen_keys, $column_data );
+function ac_load_columns( array $data ) {
+	$factory = new EncodedListScreenDataFactory();
+	$factory->create()->add( $data );
 }
 
 /**
- * Deprecated functions
- */
-
-/**
- * Is doing ajax
+ * @param string|null $slug
  *
- * @since 2.3.4
+ * @return string
  */
-function cac_is_doing_ajax() {
-	_deprecated_function( __FUNCTION__, '3.0' );
-
-	return AC()->table_screen()->get_list_screen_when_doing_quick_edit() || ( AC()->is_doing_ajax() && isset( $_REQUEST['list_screen'] ) );
+function ac_get_admin_url( $slug ) {
+	return add_query_arg(
+		[
+			Admin::QUERY_ARG_PAGE => Admin::NAME,
+			Admin::QUERY_ARG_TAB  => $slug,
+		],
+		admin_url( 'options-general.php' )
+	);
 }
 
 /**
- * Is WordPress doing ajax
+ * @param string|null $slug
  *
- * @since 2.5
+ * @return string
  */
-function cac_wp_is_doing_ajax() {
-	_deprecated_function( __FUNCTION__, '3.0' );
-
-	return AC()->table_screen()->get_list_screen_when_doing_quick_edit();
+function ac_get_admin_network_url( $slug = null ) {
+	return add_query_arg(
+		[
+			Admin::QUERY_ARG_PAGE => Admin::NAME,
+			Admin::QUERY_ARG_TAB  => $slug,
+		],
+		network_admin_url( 'settings.php' )
+	);
 }
 
 /**
- * Whether the current screen is the Admin Columns settings screen
+ * Convert site_url() to [cpac_site_url] and back for easy migration
  *
- * @since 2.4.8
+ * @param string $label
+ * @param string $action
  *
- * @param string $slug Specifies a page screen (optional)
- *
- * @return bool True if the current screen is the settings screen, false otherwise
+ * @return string
  */
-function cac_is_setting_screen( $slug = '' ) {
-	_deprecated_function( __FUNCTION__, '3.0', 'AC()->admin()->is_current_page( $slug )' );
+function ac_convert_site_url( $label, $action = 'encode' ) {
+	$input = [ site_url(), '[cpac_site_url]' ];
 
-	return AC()->admin()->is_current_page( $slug );
+	if ( 'decode' === $action ) {
+		$input = array_reverse( $input );
+	}
+
+	return stripslashes( str_replace( $input[0], $input[1], trim( $label ) ) );
 }
 
 /**
- * Returns true if the installed version of WooCommerce is version X or greater
+ * @param string $id Layout ID e.g. ac5de58e04a75b0
  *
- * @since      2.3.4
- * @deprecated 3.0
- * @return boolean true if the installed version of WooCommerce is version X or greater
+ * @return ListScreen|null
+ * @since 4.0.0
  */
-function cpac_is_wc_version_gte( $version = '1.0' ) {
-	_deprecated_function( __FUNCTION__, '3.0' );
-
-	return false;
+function ac_get_list_screen( $id ) {
+	return AC()->get_storage()->find( new ListScreenId( $id ) );
 }
 
 /**
- * @deprecated 3.0
- * @return bool True when Admin Columns Pro plugin is activated.
+ * Usage: Load after or within the 'wp_loaded' action hook.
+ *
+ * @param string $key e.g. post, page, wp-users, wp-media, wp-comments
+ *
+ * @return ListScreenCollection
+ * @since 4.0.0
  */
-function cpac_is_pro_active() {
-	_deprecated_function( __FUNCTION__, '3.0', 'ac_is_pro_active' );
+function ac_get_list_screens( $key ) {
+	return AC()->get_storage()->find_all( [ 'key' => $key ] );
+}
 
-	return ac_is_pro_active();
+/**
+ * Usage: Load after or within the 'wp_loaded' action hook.
+ *
+ * @param string $column_name
+ * @param string $list_screen_id
+ *
+ * @return AC\Column|null
+ * @since 4.2
+ */
+function ac_get_column( $column_name, $list_screen_id ) {
+	try {
+		$list_id = new ListScreenId( $list_screen_id );
+	} catch ( Exception $e ) {
+		return null;
+	}
+
+	$list_screen = AC()->get_storage()->find( $list_id );
+
+	if ( ! $list_screen ) {
+		return null;
+	}
+
+	$column = $list_screen->get_column_by_name( $column_name );
+
+	if ( ! $column ) {
+		return null;
+	}
+
+	return $column;
+}
+
+/**
+ * Usage: Load after or within the 'wp_loaded' action hook.
+ *
+ * @param string $list_screen_id
+ *
+ * @return AC\Column[]
+ * @since 4.2
+ */
+function ac_get_columns( $list_screen_id ) {
+	try {
+		$list_id = new ListScreenId( $list_screen_id );
+	} catch ( Exception $e ) {
+		return [];
+	}
+
+	$list_screen = AC()->get_storage()->find( $list_id );
+
+	if ( ! $list_screen ) {
+		return [];
+	}
+
+	return $list_screen->get_columns();
+}
+
+/**
+ * @param                   $format
+ * @param null              $timestamp
+ * @param DateTimeZone|null $timezone
+ *
+ * @return false|string
+ */
+function ac_format_date( $format, $timestamp = null, DateTimeZone $timezone = null ) {
+	return ( new Helper\Date() )->format_date( $format, $timestamp, $timezone );
 }

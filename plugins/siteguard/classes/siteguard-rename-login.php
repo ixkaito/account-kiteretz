@@ -27,6 +27,7 @@ class SiteGuard_RenameLogin extends SiteGuard_Base {
 	function init( ) {
 		global $siteguard_config;
 		$siteguard_config->set( 'renamelogin_path', 'login_' . sprintf( '%05d', mt_rand( 1, 99999 ) ) );
+		$siteguard_config->set( 'redirect_enable', '0' );
 		$siteguard_config->update();
 		if ( $this->check_module( 'rewrite' ) &&
 			null === $this->get_active_incompatible_plugins( ) &&
@@ -63,6 +64,7 @@ class SiteGuard_RenameLogin extends SiteGuard_Base {
 		add_filter( 'network_site_url', array( $this, 'handler_site_url' ),    10, 2 );
 		add_filter( 'wp_redirect',      array( $this, 'handler_wp_redirect' ), 10, 2 );
 		add_filter( 'register',         array( $this, 'handler_register' ) );
+		add_filter('auth_redirect_scheme', array( $this, 'handler_stop_redirect' ), 9999 );
 		remove_action( 'template_redirect', 'wp_redirect_admin_locations', 1000 );
 	}
 	function handler_login_init( ) {
@@ -179,5 +181,20 @@ class SiteGuard_RenameLogin extends SiteGuard_Base {
 				}
 			}
 		}
+	}
+	function handler_stop_redirect($scheme)
+	{
+	    global $siteguard_config;
+	    $redirect_enable = $siteguard_config->get( 'redirect_enable' );
+	    if( $redirect_enable == 1 ){
+	        if ( $user_id = wp_validate_auth_cookie( '',  $scheme) ) {
+	            return $scheme;
+	        }
+
+	        global $wp_query;
+	        $wp_query->set_404();
+	        get_template_part( 404 );
+	        exit();
+	    }
 	}
 }

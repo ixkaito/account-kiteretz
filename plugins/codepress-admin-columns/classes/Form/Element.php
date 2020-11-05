@@ -1,40 +1,34 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Form;
 
-abstract class AC_Form_Element {
+abstract class Element {
 
 	/**
 	 * @var array
 	 */
-	protected $attributes = array();
+	protected $attributes = [];
 
 	/**
 	 * Options for element like select
-	 *
 	 * @var array
 	 */
-	protected $options = array();
+	protected $options = [];
 
 	/**
 	 * The elements value
-	 *
 	 * @var mixed
 	 */
 	protected $value;
 
 	/**
 	 * Label
-	 *
 	 * @var string
 	 */
 	protected $label;
 
 	/**
 	 * Extra description
-	 *
 	 * @var string
 	 */
 	protected $description;
@@ -43,9 +37,9 @@ abstract class AC_Form_Element {
 	 * Setup element with base name and id
 	 *
 	 * @param string $name
-	 * @param array $options
+	 * @param array  $options
 	 */
-	public function __construct( $name, array $options = array() ) {
+	public function __construct( $name, array $options = [] ) {
 		$this->set_name( $name );
 		$this->set_id( $name );
 		$this->set_options( $options );
@@ -66,7 +60,6 @@ abstract class AC_Form_Element {
 
 	/**
 	 * Render this element
-	 *
 	 * @return string
 	 */
 	abstract public function render();
@@ -130,7 +123,7 @@ abstract class AC_Form_Element {
 	 * @return string
 	 */
 	protected function get_attributes_as_string( array $attributes ) {
-		$output = array();
+		$output = [];
 
 		foreach ( $attributes as $key => $value ) {
 			$output[] = $this->get_attribute_as_string( $key, $value );
@@ -271,6 +264,8 @@ abstract class AC_Form_Element {
 	}
 
 	/**
+	 * @param $description
+	 *
 	 * @return $this
 	 */
 	public function set_description( $description ) {

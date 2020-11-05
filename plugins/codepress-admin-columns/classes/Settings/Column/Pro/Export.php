@@ -1,21 +1,22 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Settings\Column\Pro;
 
-class AC_Settings_Column_Pro_Export extends AC_Settings_Column_Pro {
+use AC\Settings;
+use AC\View;
+
+class Export extends Settings\Column\Pro {
 
 	protected function get_label() {
 		return __( 'Export', 'codepress-admin-columns' );
 	}
 
-	protected function get_tooltip() {
-		return __( 'Export your column data to CSV.', 'codepress-admin-columns' );
+	protected function get_instructions() {
+		return ( new View() )->set_template( 'tooltip/export' );
 	}
 
 	protected function define_options() {
-		return array( 'export' );
+		return [ 'export' ];
 	}
 
 }

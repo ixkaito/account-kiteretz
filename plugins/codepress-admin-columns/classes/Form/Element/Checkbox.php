@@ -1,10 +1,10 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Form\Element;
 
-class AC_Form_Element_Checkbox extends AC_Form_Element {
+use AC\Form\Element;
+
+class Checkbox extends Element {
 
 	/**
 	 * @var bool
@@ -18,9 +18,9 @@ class AC_Form_Element_Checkbox extends AC_Form_Element {
 	}
 
 	protected function get_classes() {
-		$classes = array(
+		$classes = [
 			$this->get_type() . '-labels',
-		);
+		];
 
 		if ( $this->is_vertical() ) {
 			$classes[] = 'vertical';
@@ -52,12 +52,12 @@ class AC_Form_Element_Checkbox extends AC_Form_Element {
 			return null;
 		}
 
-		$elements = array();
+		$elements = [];
 
 		$value = (array) $this->get_value();
 
 		foreach ( $options as $key => $label ) {
-			$input = new AC_Form_Element_Input( $this->get_name() );
+			$input = new Input( $this->get_name() );
 
 			$input->set_value( $key )
 			      ->set_type( $this->get_type() )

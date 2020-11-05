@@ -16,9 +16,14 @@ class SiteGuard_Disable_XMLRPC extends SiteGuard_Base {
 	function update_settings( ) {
 		global $siteguard_config;
 
-		$htaccess_str = "<Files xmlrpc.php>\n";
-		$htaccess_str .= "    Order allow,deny\n";
-		$htaccess_str .= "    Deny from all \n";
+		$htaccess_str  = "<Files xmlrpc.php>\n";
+		$htaccess_str .= "    <IfModule authz_core_module>\n";
+		$htaccess_str .= "        Require all denied\n";
+		$htaccess_str .= "    </IfModule>\n";
+		$htaccess_str .= "    <IfModule !authz_core_module>\n";
+		$htaccess_str .= "        Order allow,deny\n";
+		$htaccess_str .= "        Deny from all\n";
+		$htaccess_str .= "    </IfModule>\n";
 		$htaccess_str .= "</Files>\n";
 
 		return $htaccess_str;

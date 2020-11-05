@@ -1,167 +1,202 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC;
 
-/**
- * @since 2.0
- */
-class AC_Admin {
+use AC\Admin\Helpable;
+use AC\Admin\Menu;
+use AC\Admin\Page;
+use AC\Admin\PageCollection;
+use AC\Admin\ScreenOptions;
+use AC\Asset\Enqueueables;
+use AC\Asset\Location;
+use AC\Asset\Script;
+use AC\Asset\Style;
 
-	const MENU_SLUG = 'codepress-admin-columns';
+class Admin implements Registrable {
+
+	const NAME = 'codepress-admin-columns';
+
+	const QUERY_ARG_PAGE = 'page';
+	const QUERY_ARG_TAB = 'tab';
 
 	/**
-	 * Settings Page hook suffix
-	 *
-	 * @since 2.0
+	 * @var string
 	 */
-	private $hook_suffix;
+
+	private $parent_slug;
 
 	/**
-	 * @var AC_Admin_Pages
+	 * @var string
+	 */
+	private $menu_hook;
+
+	/**
+	 * @var PageCollection
 	 */
 	private $pages;
 
 	/**
-	 * @since 2.0
+	 * @var Location\Absolute
 	 */
-	public function __construct() {
-		$this->pages = new AC_Admin_Pages();
+	private $location;
 
-		$this->pages
-			->register_page( new AC_Admin_Page_Columns() )
-			->register_page( new AC_Admin_Page_Settings() )
-			->register_page( new AC_Admin_Page_Addons() )
-			->register_page( new AC_Admin_Page_Help() );
+	public function __construct( $parent_slug, $menu_hook, PageCollection $pages, Location\Absolute $location ) {
+		$this->parent_slug = $parent_slug;
+		$this->menu_hook = $menu_hook;
+		$this->pages = $pages;
+		$this->location = $location;
 	}
 
 	/**
-	 * Register Hooks
+	 * @return Location\Absolute
 	 */
-	public function register() {
-		$this->pages->register();
 
-		add_action( 'admin_menu', array( $this, 'settings_menu' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
-	}
-
-	/**
-	 * @return AC_Admin_Pages|false
-	 */
-	public function get_pages() {
-		return $this->pages;
-	}
-
-	/**
-	 * Admin scripts for this tab
-	 */
-	public function admin_scripts() {
-		if ( ! $this->is_admin_screen() ) {
-			return;
-		}
-
-		wp_enqueue_script( 'ac-admin-general', AC()->get_plugin_url() . "assets/js/admin-general.js", array( 'jquery', 'wp-pointer' ), AC()->get_version() );
-		wp_enqueue_style( 'wp-pointer' );
-		wp_enqueue_style( 'ac-admin', AC()->get_plugin_url() . "assets/css/admin-general.css", array(), AC()->get_version() );
-
-		do_action( 'ac/admin_scripts', $this );
-	}
-
-	/**
-	 * @param $option
-	 *
-	 * @return bool
-	 */
-	public function get_general_option( $option ) {
-		/* @var AC_Admin_Page_Settings $settings */
-		$settings = $this->get_pages()->get_page( 'settings' );
-
-		return $settings->get_option( $option );
-	}
-
-	/**
-	 * @param $slug
-	 *
-	 * @return AC_Admin_Page_Columns|AC_Admin_Page_Settings|AC_Admin_Page_Addons|false
-	 */
-	public function get_page( $slug ) {
-		return $this->get_pages()->get_page( $slug );
-	}
-
-	/**
-	 * @param string $tab_slug
-	 *
-	 * @return false|string URL
-	 */
-	public function get_link( $slug ) {
-		return $this->get_pages()->get_page( $slug )->get_link();
-	}
-
-	/**
-	 * @since 3.1.1
-	 */
-	public function get_hook_suffix() {
-		return $this->hook_suffix;
-	}
-
-	/**
-	 * @return string
-	 */
-	private function get_parent_slug() {
-		return 'options-general.php';
-	}
-
-	/**
-	 * @return string
-	 */
-	public function get_settings_url() {
-		return add_query_arg( array( 'page' => self::MENU_SLUG ), admin_url( $this->get_parent_slug() ) );
-	}
-
-	/**
-	 * @since 1.0
-	 */
-	public function settings_menu() {
-		$this->hook_suffix = add_submenu_page( $this->get_parent_slug(), __( 'Admin Columns Settings', 'codepress-admin-columns' ), __( 'Admin Columns', 'codepress-admin-columns' ), 'manage_admin_columns', self::MENU_SLUG, array( $this, 'display' ) );
-
-		add_action( 'load-' . $this->hook_suffix, array( $this, 'load_help_tabs' ) );
-	}
-
-	/**
-	 * Load help tabs
-	 */
-	public function load_help_tabs() {
-		new AC_Admin_Help_Introduction();
-		new AC_Admin_Help_Basics();
-		new AC_Admin_Help_CustomField();
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function is_admin_screen() {
-		global $pagenow;
-
-		return self::MENU_SLUG === filter_input( INPUT_GET, 'page' ) && $this->get_parent_slug() === $pagenow;
+	public function get_location() {
+		return $this->location;
 	}
 
 	/**
 	 * @param string $slug
 	 *
-	 * @return bool
+	 * @return Page|null
 	 */
-	public function is_current_page( $slug ) {
-		$current_tab = $this->get_pages()->get_current_page();
+	public function get_page( $slug ) {
+		return $this->pages->get( $slug );
+	}
 
-		return $current_tab && $current_tab->get_slug() === $slug && $this->is_admin_screen();
+	public function add_page( Page $page ) {
+		$this->pages->add( $page );
 	}
 
 	/**
-	 * @since 1.0
+	 * @param string $slug
+	 *
+	 * @return string
 	 */
-	public function display() {
-		$this->pages->display();
+	protected function create_menu_link( $slug ) {
+		return add_query_arg(
+			[
+				self::QUERY_ARG_PAGE => self::NAME,
+				self::QUERY_ARG_TAB  => $slug,
+			],
+			$this->parent_slug
+		);
+	}
+
+	/**
+	 * @return Page
+	 */
+	private function get_current_page() {
+		$slug = filter_input( INPUT_GET, 'tab' );
+
+		if ( $this->pages->has( $slug ) ) {
+			return $this->pages->get( $slug );
+		}
+
+		return $this->pages->first();
+	}
+
+	/**
+	 * @return Menu
+	 */
+	private function get_menu() {
+		$menu = new Menu();
+
+		$current_slug = $this->get_current_page()->get_slug();
+
+		foreach ( $this->pages->all() as $page ) {
+			$class = $current_slug === $page->get_slug()
+				? 'nav-tab-active'
+				: null;
+
+			$menu->add( new Menu\Item( $this->create_menu_link( $page->get_slug() ), $page->get_title(), $class ) );
+		}
+
+		return $menu;
+	}
+
+	public function register() {
+		add_action( $this->menu_hook, [ $this, 'register_menu' ] );
+	}
+
+	public function register_menu() {
+		$hook = add_submenu_page(
+			$this->parent_slug,
+			__( 'Admin Columns Settings', 'codepress-admin-columns' ),
+			__( 'Admin Columns', 'codepress-admin-columns' ),
+			Capabilities::MANAGE,
+			self::NAME,
+			[ $this, 'render' ]
+		);
+
+		add_action( "load-" . $hook, [ $this, 'scripts' ] );
+	}
+
+	public function render() {
+		?>
+		<div id="cpac" class="wrap">
+
+			<?= $this->get_menu()->render(); ?>
+			<?= $this->get_current_page()->render(); ?>
+
+		</div>
+		<?php
+	}
+
+	public function add_screen_options( $settings ) {
+		$page = $this->get_current_page();
+
+		if ( $page instanceof ScreenOptions ) {
+			$settings .= sprintf( '<legend>%s</legend>', __( 'Display', 'codepress-admin-columns' ) );
+
+			foreach ( $page->get_screen_options() as $screen_option ) {
+				$settings .= $screen_option->render();
+			}
+		}
+
+		return $settings;
+	}
+
+	public function scripts() {
+		$page = $this->get_current_page();
+
+		if ( $page instanceof Enqueueables ) {
+			foreach ( $page->get_assets() as $asset ) {
+				$asset->enqueue();
+			}
+		}
+
+		if ( $page instanceof Helpable ) {
+			foreach ( $page->get_help_tabs() as $help ) {
+				get_current_screen()->add_help_tab( [
+					'id'      => $help->get_id(),
+					'title'   => $help->get_title(),
+					'content' => $help->get_content(),
+				] );
+			}
+		}
+
+		add_filter( 'screen_settings', [ $this, 'add_screen_options' ] );
+
+		$assets = [
+			new Style( 'wp-pointer' ),
+			new Style( 'jquery-qtip2', $this->location->with_suffix( 'assets/external/qtip2/jquery.qtip.min.css' ) ),
+			new Script( 'jquery-qtip2', $this->location->with_suffix( 'assets/external/qtip2/jquery.qtip.min.js' ), [ 'jquery' ] ),
+			new Script( 'ac-admin-general', $this->location->with_suffix( 'assets/js/admin-general.js' ), [ 'jquery', 'wp-pointer', 'jquery-qtip2' ] ),
+			new Style( 'ac-admin', $this->location->with_suffix( 'assets/css/admin-general.css' ) ),
+		];
+
+		foreach ( $assets as $asset ) {
+			$asset->enqueue();
+		}
+
+		do_action( 'ac/admin_scripts' );
+		do_action( 'ac/admin_scripts/' . $page->get_slug() );
+
+		/**
+		 * @deprecated 4.1
+		 */
+		do_action_deprecated( 'ac/settings/scripts', null, '4.1', 'ac/admin_scripts' );
 	}
 
 }

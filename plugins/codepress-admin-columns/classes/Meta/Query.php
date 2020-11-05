@@ -1,10 +1,10 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Meta;
 
-class AC_Meta_Query {
+use WP_Meta_Query;
+
+class Query {
 
 	/**
 	 * @var WP_Meta_Query
@@ -19,7 +19,7 @@ class AC_Meta_Query {
 	/**
 	 * @var array
 	 */
-	private $select = array();
+	private $select = [];
 
 	/**
 	 * @var string|false
@@ -39,22 +39,22 @@ class AC_Meta_Query {
 	/**
 	 * @var array
 	 */
-	private $join_where = array();
+	private $join_where = [];
 
 	/**
 	 * @var array
 	 */
-	private $where = array();
+	private $where = [];
 
 	/**
 	 * @var array
 	 */
-	private $group_by = array();
+	private $group_by = [];
 
 	/**
 	 * @var array
 	 */
-	private $order_by = array();
+	private $order_by = [];
 
 	/**
 	 * @var int|false
@@ -78,8 +78,8 @@ class AC_Meta_Query {
 	public function select( $field ) {
 		$fields = explode( ',', $field );
 
-		foreach ( $fields as $field ) {
-			$this->select[] = trim( $field );
+		foreach ( $fields as $_field ) {
+			$this->select[] = trim( $_field );
 		}
 
 		return $this;
@@ -100,7 +100,6 @@ class AC_Meta_Query {
 
 	/**
 	 * Group by an aggregated column.
-	 *
 	 * Supports: count
 	 *
 	 * @param string $field
@@ -124,9 +123,13 @@ class AC_Meta_Query {
 	}
 
 	/**
-	 * @see get_where_clause()
+	 * @param        $field
+	 * @param null   $operator
+	 * @param null   $value
+	 * @param string $boolean
 	 *
 	 * @return $this
+	 * @see get_where_clause()
 	 */
 	public function join_where( $field, $operator = null, $value = null, $boolean = 'AND' ) {
 		// set default join
@@ -142,11 +145,11 @@ class AC_Meta_Query {
 	public function order_by( $order_by, $order = 'asc' ) {
 		$parts = explode( ',', $order_by );
 
-		foreach ( $parts as $order_by ) {
-			$this->order_by[] = array(
-				'order_by' => trim( $order_by ),
+		foreach ( $parts as $_order_by ) {
+			$this->order_by[] = [
+				'order_by' => trim( $_order_by ),
 				'order'    => strtoupper( $order ),
-			);
+			];
 		}
 
 		return $this;
@@ -168,7 +171,7 @@ class AC_Meta_Query {
 	 * @param string|array     $field
 	 * @param string           $operator
 	 * @param string|int|array $value
-	 * @param string           $type
+	 * @param string           $boolean
 	 *
 	 * @return array
 	 */
@@ -179,23 +182,24 @@ class AC_Meta_Query {
 			$operator = '=';
 		}
 
-		$where = array(
+		$where = [
 			'nested'   => false,
 			'boolean'  => strtoupper( $boolean ),
 			'field'    => $field,
 			'operator' => strtoupper( $operator ),
 			'value'    => $value,
-		);
+		];
 
 		// set default join
 		if ( $field === 'post_type' && ! $this->join ) {
 			$this->join();
 		}
 
-		$nested = array();
+		$nested = [];
 
 		if ( is_array( $field ) ) {
-			for ( $i = 0; $i < count( $field ); $i++ ) {
+			$count = count( $field );
+			for ( $i = 0; $i < $count; $i++ ) {
 				$nested[] = array_pop( $this->where );
 			}
 		}
@@ -209,9 +213,13 @@ class AC_Meta_Query {
 	}
 
 	/**
-	 * @see get_where_clause()
+	 * @param        $field
+	 * @param null   $operator
+	 * @param null   $value
+	 * @param string $boolean
 	 *
 	 * @return $this
+	 * @see get_where_clause()
 	 */
 	public function remove_where( $field, $operator = null, $value = null, $boolean = 'AND' ) {
 		$where = $this->get_where_clause( $field, $operator, $value, $boolean );
@@ -226,9 +234,13 @@ class AC_Meta_Query {
 	}
 
 	/**
-	 * @see get_where_clause()
+	 * @param        $field
+	 * @param null   $operator
+	 * @param null   $value
+	 * @param string $boolean
 	 *
 	 * @return $this
+	 * @see get_where_clause()
 	 */
 	public function where( $field, $operator = null, $value = null, $boolean = 'AND' ) {
 		$this->where[] = $this->get_where_clause( $field, $operator, $value, $boolean );
@@ -237,9 +249,12 @@ class AC_Meta_Query {
 	}
 
 	/**
-	 * @see get_where_clause()
+	 * @param      $field
+	 * @param null $operator
+	 * @param null $value
 	 *
 	 * @return $this
+	 * @see get_where_clause()
 	 */
 	public function or_where( $field, $operator = null, $value = null ) {
 		return $this->where( $field, $operator, $value, 'OR' );
@@ -299,7 +314,7 @@ class AC_Meta_Query {
 
 						break;
 					default:
-						$valid_raw = array( 'IS NULL', 'IS NOT NULL' );
+						$valid_raw = [ 'IS NULL', 'IS NOT NULL' ];
 
 						if ( ! in_array( $clause['value'], $valid_raw ) ) {
 							$clause['value'] = $wpdb->prepare( '%s', $clause['value'] );
@@ -323,7 +338,7 @@ class AC_Meta_Query {
 		global $wpdb;
 
 		if ( ! $this->query ) {
-			return array();
+			return [];
 		}
 
 		// parse SELECT
@@ -334,7 +349,7 @@ class AC_Meta_Query {
 			$this->select( 'id' );
 		}
 
-		$fields = array();
+		$fields = [];
 
 		foreach ( $this->select as $field ) {
 			$parsed = $this->parse_field( $field );
@@ -384,7 +399,7 @@ class AC_Meta_Query {
 		$order_by = '';
 
 		if ( ! empty( $this->order_by ) ) {
-			$order_by_clauses = array();
+			$order_by_clauses = [];
 
 			foreach ( $this->order_by as $order_by_clause ) {
 				$order_by_clauses[] = $this->parse_field( $order_by_clause['order_by'] ) . ' ' . $order_by_clause['order'];
@@ -407,13 +422,13 @@ class AC_Meta_Query {
 		$results = $wpdb->get_results( $sql );
 
 		if ( ! is_array( $results ) ) {
-			return array();
+			return [];
 		}
 
 		$return = $results;
 
 		if ( count( $fields ) === 1 ) {
-			$return = array();
+			$return = [];
 			$field = $this->select[0];
 
 			foreach ( $results as $result ) {
@@ -426,7 +441,6 @@ class AC_Meta_Query {
 
 	/**
 	 * Return last sql that was queried
-	 *
 	 * @return string
 	 */
 	public function get_sql() {
@@ -447,6 +461,11 @@ class AC_Meta_Query {
 		return $this->query;
 	}
 
+	/**
+	 * @param string $type
+	 *
+	 * @return bool
+	 */
 	private function set_query( $type ) {
 		global $wpdb;
 

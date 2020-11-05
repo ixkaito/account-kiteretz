@@ -67,24 +67,20 @@ a{
 	padding: 1px;
 }
 
+.filter {
+	margin-bottom: 2em;
+
+	button {
+		font-size: 12px;
+	}
+}
+
 .index {
+	border-top: 1px solid $gray_20;
 
 	li {
 		border-bottom: 1px solid $gray_20;
-
-		p {
-			color: $gray_40;
-		}
-
-		h1 {
-			font-weight: bold;
-			@include font-size(16);
-			color: $gray_80;
-
-			.total {
-				float: right;
-			}
-		}
+		position: relative;
 
 		&.quotation {
 
@@ -107,13 +103,65 @@ a{
 			}
 		}
 
+		&.checked {
+
+			a {
+
+				&::after {
+					content: "";
+				}
+			}
+		}
+
 		a {
 			display: block;
 			padding: 1em 0;
+			padding-left: 60px;
 			overflow: hidden;
+
+			&::before,
+			&::after {
+				display: block;
+				box-sizing: border-box;
+				left: 20px;
+				position: absolute;
+				top: 50%;
+				transform: translate(-50%, -50%);
+			}
+
+			&::before {
+				border: 1px solid $gray_20;
+				content: "";
+				height: 40px;
+				width: 40px;
+			}
+
+			&::after {
+				border: 1.5px solid $gray_20;
+				border-left: 0;
+				border-top: 0;
+				height: 20px;
+				margin-top: -4px;
+				transform: translate(-50%, -50%) rotate(45deg);
+				width: 12px;
+			}
 
 			&:hover {
 				background: $gray_5;
+			}
+		}
+
+		p {
+			color: $gray_40;
+		}
+
+		h1 {
+			font-weight: bold;
+			@include font-size(16);
+			color: $gray_80;
+
+			.total {
+				float: right;
 			}
 		}
 	}
@@ -302,28 +350,17 @@ a{
 			}
 		}
 
-		&.subtotal{
+		&.subtotal,
+		&.installment,
+		&.tax,
+		&.withholding {
 			background: none;
 			td{
 				border: 0;
 
 				&.label{
 					border-bottom: 1px solid $gray_30;
-				}
-
-				&.price{
-					border-bottom: 1px solid $gray_30;
-				}
-			}
-		}
-
-		&.tax{
-			background: none;
-			td{
-				border: 0;
-
-				&.label{
-					border-bottom: 1px solid $gray_30;
+					white-space: nowrap;
 				}
 
 				&.price{

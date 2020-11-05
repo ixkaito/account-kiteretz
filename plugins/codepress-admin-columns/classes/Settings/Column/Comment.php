@@ -1,14 +1,23 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Settings\Column;
+
+use AC\Settings;
+use AC\View;
 
 /**
  * @since 3.0.8
  */
-class AC_Settings_Column_Comment extends AC_Settings_Column
-	implements AC_Settings_FormatValueInterface {
+class Comment extends Settings\Column
+	implements Settings\FormatValue {
+
+	const NAME = 'comment';
+
+	const PROPERTY_COMMENT = 'comment';
+	const PROPERTY_DATE = 'date';
+	const PROPERTY_ID = 'id';
+	const PROPERTY_AUTHOR = 'author';
+	const PROPERTY_AUTHOR_EMAIL = 'author_email';
 
 	/**
 	 * @var string
@@ -16,30 +25,35 @@ class AC_Settings_Column_Comment extends AC_Settings_Column
 	private $comment_property;
 
 	protected function set_name() {
-		$this->name = 'comment';
+		$this->name = self::NAME;
 	}
 
 	protected function define_options() {
-		return array(
+		return [
 			'comment_property_display' => 'comment',
-		);
+		];
 	}
 
 	public function get_dependent_settings() {
 
 		switch ( $this->get_comment_property_display() ) {
 
-			case 'date' :
-				return array( new AC_Settings_Column_Date( $this->column ) );
+			case self::PROPERTY_DATE :
+				return [
+					new Settings\Column\Date( $this->column ),
+					new Settings\Column\CommentLink( $this->column ),
+				];
 
 				break;
-			case 'comment' :
-				return array( new AC_Settings_Column_StringLimit( $this->column ) );
+			case self::PROPERTY_COMMENT :
+				return [
+					new Settings\Column\StringLimit( $this->column ),
+					new Settings\Column\CommentLink( $this->column ),
+				];
 
 				break;
-
 			default :
-				return array();
+				return [ new Settings\Column\CommentLink( $this->column ) ];
 		}
 	}
 
@@ -53,19 +67,19 @@ class AC_Settings_Column_Comment extends AC_Settings_Column
 
 		switch ( $this->get_comment_property_display() ) {
 
-			case 'date' :
+			case self::PROPERTY_DATE :
 				$value = $this->get_comment_property( 'comment_date', $id );
 
 				break;
-			case 'author' :
+			case self::PROPERTY_AUTHOR :
 				$value = $this->get_comment_property( 'comment_author', $id );
 
 				break;
-			case 'author_email' :
+			case self::PROPERTY_AUTHOR_EMAIL :
 				$value = $this->get_comment_property( 'comment_author_email', $id );
 
 				break;
-			case 'comment' :
+			case self::PROPERTY_COMMENT :
 				$value = $this->get_comment_property( 'comment_content', $id );
 
 				break;
@@ -97,22 +111,22 @@ class AC_Settings_Column_Comment extends AC_Settings_Column
 		               ->set_attribute( 'data-refresh', 'column' )
 		               ->set_options( $this->get_display_options() );
 
-		$view = new AC_View( array(
+		$view = new View( [
 			'label'   => __( 'Display', 'codepress-admin-columns' ),
 			'setting' => $select,
-		) );
+		] );
 
 		return $view;
 	}
 
 	protected function get_display_options() {
-		$options = array(
-			'comment'      => __( 'Comment' ),
-			'id'           => __( 'ID' ),
-			'author'       => __( 'Author' ),
-			'author_email' => __( 'Author Email', 'codepress-admin-column' ),
-			'date'         => __( 'Date' ),
-		);
+		$options = [
+			self::PROPERTY_COMMENT      => __( 'Comment' ),
+			self::PROPERTY_ID           => __( 'ID' ),
+			self::PROPERTY_AUTHOR       => __( 'Author' ),
+			self::PROPERTY_AUTHOR_EMAIL => __( 'Author Email', 'codepress-admin-column' ),
+			self::PROPERTY_DATE         => __( 'Date' ),
+		];
 
 		natcasesort( $options );
 

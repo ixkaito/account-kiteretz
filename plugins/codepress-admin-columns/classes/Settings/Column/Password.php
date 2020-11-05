@@ -1,11 +1,12 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Settings\Column;
 
-class AC_Settings_Column_Password extends AC_Settings_Column
-	implements AC_Settings_FormatValueInterface {
+use AC\Settings;
+use AC\View;
+
+class Password extends Settings\Column
+	implements Settings\FormatValue {
 
 	/**
 	 * @var string
@@ -13,20 +14,20 @@ class AC_Settings_Column_Password extends AC_Settings_Column
 	private $password;
 
 	protected function define_options() {
-		return array( 'password' );
+		return [ 'password' ];
 	}
 
 	public function create_view() {
 		$select = $this->create_element( 'select' )
-		               ->set_options( array(
+		               ->set_options( [
 			               ''     => __( 'Password', 'codepress-admin-column' ), // default
 			               'text' => __( 'Plain text', 'codepress-admin-column' ),
-		               ) );
+		               ] );
 
-		$view = new AC_View( array(
+		$view = new View( [
 			'label'   => __( 'Display format', 'codepress-admin-columns' ),
 			'setting' => $select,
-		) );
+		] );
 
 		return $view;
 	}

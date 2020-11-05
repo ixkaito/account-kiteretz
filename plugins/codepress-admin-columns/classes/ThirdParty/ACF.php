@@ -1,21 +1,22 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\ThirdParty;
 
-class AC_ThirdParty_ACF {
+use AC\Registrable;
 
-	public function __construct() {
-		add_filter( 'ac/post_types', array( $this, 'remove_acf_field_group' ) );
+class ACF implements Registrable {
+
+	public function register() {
+		add_filter( 'ac/post_types', [ $this, 'remove_acf_field_group' ] );
 	}
 
 	/**
 	 * Fix which remove the Advanced Custom Fields Type (acf) from the admin columns settings page
 	 *
-	 * @since 2.0
+	 * @param $post_types
 	 *
 	 * @return array Post Types
+	 * @since 2.0
 	 */
 	function remove_acf_field_group( $post_types ) {
 		if ( class_exists( 'Acf', false ) ) {

@@ -1,11 +1,15 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Settings\Column;
 
-class AC_Settings_Column_BeforeAfter extends AC_Settings_Column
-	implements AC_Settings_FormatValueInterface {
+use AC\Settings;
+use AC\Settings\Column;
+use AC\View;
+
+class BeforeAfter extends Column
+	implements Settings\FormatValue {
+
+	const NAME = 'before_after';
 
 	/**
 	 * @var string
@@ -18,11 +22,11 @@ class AC_Settings_Column_BeforeAfter extends AC_Settings_Column
 	private $after;
 
 	protected function set_name() {
-		$this->name = 'before_after';
+		$this->name = self::NAME;
 	}
 
 	protected function define_options() {
-		return array( 'before', 'after' );
+		return [ 'before', 'after' ];
 	}
 
 	public function format( $value, $original_value ) {
@@ -54,28 +58,29 @@ class AC_Settings_Column_BeforeAfter extends AC_Settings_Column
 	public function create_view() {
 		$setting = $this->get_before_element();
 
-		$before = new AC_View( array(
+		$for = $setting->get_id();
+
+		$before = new View( [
 			'label'       => __( 'Before', 'codepress-admin-columns' ),
 			'description' => __( 'This text will appear before the column value.', 'codepress-admin-columns' ),
 			'setting'     => $setting,
-			'for'         => $setting->get_id(),
-		) );
+			'for'         => $for,
+		] );
 
 		$setting = $this->get_after_element();
 
-		$after = new AC_View( array(
+		$after = new View( [
 			'label'       => __( 'After', 'codepress-admin-columns' ),
 			'description' => __( 'This text will appear after the column value.', 'codepress-admin-columns' ),
 			'setting'     => $setting,
 			'for'         => $setting->get_id(),
-		) );
+		] );
 
-		$view = new AC_View( array(
+		return new View( [
 			'label'    => __( 'Display Options', 'codepress-admin-columns' ),
-			'sections' => array( $before, $after ),
-		) );
-
-		return $view;
+			'sections' => [ $before, $after ],
+			'for'      => $for,
+		] );
 	}
 
 	/**

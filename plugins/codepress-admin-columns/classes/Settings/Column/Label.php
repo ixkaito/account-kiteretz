@@ -1,10 +1,11 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Settings\Column;
 
-class AC_Settings_Column_Label extends AC_Settings_Column {
+use AC\Settings;
+use AC\View;
+
+class Label extends Settings\Column {
 
 	/**
 	 * @var string
@@ -12,9 +13,10 @@ class AC_Settings_Column_Label extends AC_Settings_Column {
 	private $label;
 
 	protected function define_options() {
-		return array(
-			'label' => $this->column->get_label(),
-		);
+		return [
+			'label'      => $this->column->get_label(),
+			'label_type' => 'text',
+		];
 	}
 
 	public function create_view() {
@@ -23,11 +25,13 @@ class AC_Settings_Column_Label extends AC_Settings_Column {
 			->create_element( 'text' )
 			->set_attribute( 'placeholder', $this->column->get_label() );
 
-		$view = new AC_View( array(
+		$view = new View( [
 			'label'   => __( 'Label', 'codepress-admin-columns' ),
 			'tooltip' => __( 'This is the name which will appear as the column header.', 'codepress-admin-columns' ),
 			'setting' => $setting,
-		) );
+		] );
+
+		$view->set_template( 'settings/setting-label' );
 
 		return $view;
 	}
@@ -41,13 +45,7 @@ class AC_Settings_Column_Label extends AC_Settings_Column {
 	 * @return string
 	 */
 	private function convert_site_url( $label, $action = 'encode' ) {
-		$input = array( site_url(), '[cpac_site_url]' );
-
-		if ( 'decode' == $action ) {
-			$input = array_reverse( $input );
-		}
-
-		return stripslashes( str_replace( $input[0], $input[1], trim( $label ) ) );
+		return ac_convert_site_url( $label, $action );
 	}
 
 	/**
@@ -67,7 +65,6 @@ class AC_Settings_Column_Label extends AC_Settings_Column {
 	/**
 	 * Encode label with site_url.
 	 * Used when loading the setting from PHP or when a site is migrated to another domain.
-	 *
 	 * @return string
 	 */
 	public function get_encoded_label() {

@@ -1,17 +1,22 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Column\Post;
+
+use AC\Column;
+use AC\Settings;
 
 /**
  * @since 2.2.4
  */
-class AC_Column_Post_TitleRaw extends AC_Column {
+class TitleRaw extends Column {
 
 	public function __construct() {
 		$this->set_type( 'column-title_raw' );
 		$this->set_label( __( 'Title Only', 'codepress-admin-columns' ) );
+	}
+
+	public function get_value( $id ) {
+		return wp_kses_post( parent::get_value( $id ) );
 	}
 
 	function get_raw_value( $post_id ) {
@@ -19,7 +24,7 @@ class AC_Column_Post_TitleRaw extends AC_Column {
 	}
 
 	public function register_settings() {
-		$this->add_setting( new AC_Settings_Column_PostLink( $this ) );
+		$this->add_setting( new Settings\Column\PostLink( $this ) );
 	}
 
 }

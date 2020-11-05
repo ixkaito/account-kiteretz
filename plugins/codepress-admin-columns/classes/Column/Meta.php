@@ -1,21 +1,19 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Column;
 
-abstract class AC_Column_Meta extends AC_Column {
+use AC\Column;
+
+abstract class Meta extends Column {
 
 	/**
 	 * Return the meta_key of this column
-	 *
 	 * @return string
 	 */
 	abstract public function get_meta_key();
 
 	/**
 	 * Is data stored serialized?
-	 *
 	 * @var bool
 	 */
 	private $serialized = false;
@@ -35,24 +33,20 @@ abstract class AC_Column_Meta extends AC_Column {
 	}
 
 	/**
-	 * @see   AC_Column::get_raw_value()
+	 * @param $id
+	 *
+	 * @return bool|mixed
+	 * @see   Column::get_raw_value()
 	 * @since 2.0.3
 	 */
 	public function get_raw_value( $id ) {
-		$value = $this->get_meta_value( $id, $this->get_meta_key(), true );
-
-		if ( ! $value ) {
-			return false;
-		}
-
-		return $value;
+		return $this->get_meta_value( $id, $this->get_meta_key(), true );
 	}
 
 	/**
 	 * Retrieve metadata object type (e.g., comment, post, or user)
-	 *
+	 * @return string
 	 * @since 3.0
-	 * @return bool
 	 */
 	public function get_meta_type() {
 		return $this->get_list_screen()->get_meta_type();

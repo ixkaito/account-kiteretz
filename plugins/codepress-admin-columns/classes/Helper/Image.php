@@ -1,10 +1,12 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Helper;
 
-class AC_Helper_Image {
+use DOMDocument;
+use DOMElement;
+use WP_Error;
+
+class Image {
 
 	/**
 	 * Resize image
@@ -51,9 +53,9 @@ class AC_Helper_Image {
 	 * @return string HTML Images
 	 */
 	public function get_images_by_ids( $ids, $size ) {
-		$images = array();
+		$images = [];
 
-		$ids = is_array( $ids ) ? $ids : array( $ids );
+		$ids = is_array( $ids ) ? $ids : [ $ids ];
 		foreach ( $ids as $id ) {
 			$images[] = $this->get_image_by_id( $id, $size );
 		}
@@ -101,6 +103,12 @@ class AC_Helper_Image {
 		return round( absint( $size ) * $scale );
 	}
 
+	private function is_resized_image( $path ) {
+		$fileinfo = pathinfo( $path );
+
+		return preg_match( '/-[0-9]+x[0-9]+$/', $fileinfo['filename'] );
+	}
+
 	/**
 	 * @param string       $url
 	 * @param array|string $size
@@ -108,10 +116,10 @@ class AC_Helper_Image {
 	 * @return string
 	 */
 	public function get_image_by_url( $url, $size ) {
-		$dimensions = array( 60, 60 );
+		$dimensions = [ 60, 60 ];
 
 		if ( is_string( $size ) && ( $sizes = $this->get_image_sizes_by_name( $size ) ) ) {
-			$dimensions = array( $sizes['width'], $sizes['height'] );
+			$dimensions = [ $sizes['width'], $sizes['height'] ];
 		} else if ( is_array( $size ) ) {
 			$dimensions = $size;
 		}
@@ -119,8 +127,8 @@ class AC_Helper_Image {
 		$image_path = str_replace( WP_CONTENT_URL, WP_CONTENT_DIR, $url );
 
 		if ( is_file( $image_path ) ) {
-			// try to resize image
-			if ( $resized = $this->resize( $image_path, $dimensions[0], $dimensions[1], true ) ) {
+			// try to resize image if it is not already resized
+			if ( ! $this->is_resized_image( $image_path ) && $resized = $this->resize( $image_path, $dimensions[0], $dimensions[1], true ) ) {
 				$src = str_replace( WP_CONTENT_DIR, WP_CONTENT_URL, $resized );
 
 				$image = $this->markup( $src, $dimensions[0], $dimensions[1] );
@@ -144,7 +152,7 @@ class AC_Helper_Image {
 	 * @return array
 	 */
 	public function get_images( $images, $size = 'thumbnail', $skip_image_check = false ) {
-		$thumbnails = array();
+		$thumbnails = [];
 
 		foreach ( (array) $images as $value ) {
 			if ( $skip_image_check && $value && is_string( $value ) ) {
@@ -163,6 +171,7 @@ class AC_Helper_Image {
 	/**
 	 * @param int|string $image ID of Url
 	 * @param string     $size
+	 * @param bool       $skip_image_check
 	 *
 	 * @return string
 	 */
@@ -176,12 +185,20 @@ class AC_Helper_Image {
 	 * @return array Image sizes
 	 */
 	public function get_image_sizes_by_name( $name ) {
-		global $_wp_additional_image_sizes;
+		$available_sizes = wp_get_additional_image_sizes();
+
+		$defaults = [ 'thumbnail', 'medium', 'large' ];
+		foreach ( $defaults as $key ) {
+			$available_sizes[ $key ] = [
+				'width'  => get_option( $key . '_size_w' ),
+				'height' => get_option( $key . '_size_h' ),
+			];
+		}
 
 		$sizes = false;
 
-		if ( is_scalar( $name ) && isset( $_wp_additional_image_sizes[ $name ] ) ) {
-			$sizes = $_wp_additional_image_sizes[ $name ];
+		if ( is_scalar( $name ) && isset( $available_sizes[ $name ] ) ) {
+			$sizes = $available_sizes[ $name ];
 		}
 
 		return $sizes;
@@ -211,15 +228,13 @@ class AC_Helper_Image {
 		return pathinfo( $this->get_file_name( $attachment_id ), PATHINFO_EXTENSION );
 	}
 
-	// Helpers
-
 	private function get_file_tooltip_attr( $media_id ) {
 		return ac_helper()->html->get_tooltip_attr( $this->get_file_name( $media_id ) );
 	}
 
 	private function markup_cover( $src, $width, $height, $media_id = null ) {
 		ob_start(); ?>
-		<span class="ac-image cpac-cover" data-media-id="<?php echo esc_attr( $media_id ); ?>" style="width:<?php echo esc_attr( $width ); ?>px;height:<?php echo esc_attr( $height ); ?>px;background-size:cover;background-image:url(<?php echo esc_attr( $src ); ?>);background-position:center;"<?php echo $this->get_file_tooltip_attr( $media_id ); ?>></span>
+		<span class="ac-image cpac-cover" data-media-id="<?php echo esc_attr( $media_id ); ?>" style="width:<?php echo esc_attr( $width ); ?>px;height:<?php echo esc_attr( $height ); ?>px;background-size:cover;background-image:url('<?php echo esc_attr( $src ); ?>');background-position:center;"<?php echo $this->get_file_tooltip_attr( $media_id ); ?>></span>
 
 		<?php
 		return ob_get_clean();
@@ -234,7 +249,7 @@ class AC_Helper_Image {
 
 		ob_start(); ?>
 		<span class="ac-image<?php echo $class; ?>" data-media-id="<?php echo esc_attr( $media_id ); ?>"<?php echo $this->get_file_tooltip_attr( $media_id ); ?>>
-			<img style="max-width:<?php echo esc_attr( $width ); ?>px;max-height:<?php echo esc_attr( $height ); ?>px;" src="<?php echo esc_attr( $src ); ?>">
+			<img style="max-width:<?php echo esc_attr( $width ); ?>px;max-height:<?php echo esc_attr( $height ); ?>px;" src="<?php echo esc_attr( $src ); ?>" alt="">
 
 			<?php if ( $add_extension ) : ?>
 				<span class="ac-extension"><?php echo esc_attr( $this->get_file_extension( $media_id ) ); ?></span>
@@ -249,11 +264,10 @@ class AC_Helper_Image {
 	/**
 	 * Return dimensions and file type
 	 *
-	 * @see filesize
-	 *
 	 * @param string $url
 	 *
 	 * @return false|array
+	 * @see filesize
 	 */
 	public function get_local_image_info( $url ) {
 		$path = $this->get_local_image_path( $url );
@@ -302,18 +316,22 @@ class AC_Helper_Image {
 	 */
 	public function get_image_urls_from_string( $string ) {
 		if ( ! $string ) {
-			return array();
+			return [];
+		}
+
+		if ( false === strpos( $string, '<img' ) ) {
+			return [];
 		}
 
 		if ( ! class_exists( 'DOMDocument' ) ) {
-			return array();
+			return [];
 		}
 
 		$dom = new DOMDocument;
 		@$dom->loadHTML( $string );
 		$dom->preserveWhiteSpace = false;
 
-		$urls = array();
+		$urls = [];
 
 		$images = $dom->getElementsByTagName( 'img' );
 

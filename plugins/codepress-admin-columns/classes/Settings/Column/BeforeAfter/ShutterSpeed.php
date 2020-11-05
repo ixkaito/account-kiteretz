@@ -1,13 +1,13 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Settings\Column\BeforeAfter;
 
-class AC_Settings_Column_BeforeAfter_ShutterSpeed extends AC_Settings_Column_BeforeAfter {
+use AC\Settings\Column\BeforeAfter;
+
+class ShutterSpeed extends BeforeAfter {
 
 	protected function define_options() {
-		return array( 'before' => '', 'after' => 's' );
+		return [ 'before' => '', 'after' => 's' ];
 	}
 
 }

@@ -1,15 +1,13 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC;
+
+use Iterator;
 
 /**
- * Class AC_Collection
- *
  * Used to hold values from the same type
  */
-class AC_Collection
+class Collection
 	implements Iterator {
 
 	/**
@@ -17,7 +15,7 @@ class AC_Collection
 	 */
 	protected $items;
 
-	public function __construct( array $items = array() ) {
+	public function __construct( array $items = [] ) {
 		$this->items = $items;
 	}
 
@@ -55,6 +53,10 @@ class AC_Collection
 		reset( $this->items );
 	}
 
+	public function first() {
+		return reset( $this->items );
+	}
+
 	public function current() {
 		return current( $this->items );
 	}
@@ -65,6 +67,10 @@ class AC_Collection
 
 	public function next() {
 		return next( $this->items );
+	}
+
+	public function get_copy() {
+		return $this->items;
 	}
 
 	public function valid() {
@@ -79,11 +85,10 @@ class AC_Collection
 
 	/**
 	 * Filter collection items
-	 *
-	 * @return AC_Collection
+	 * @return Collection
 	 */
 	public function filter() {
-		return new AC_Collection( ac_helper()->array->filter( $this->items ) );
+		return new Collection( ac_helper()->array->filter( $this->items ) );
 	}
 
 	/**

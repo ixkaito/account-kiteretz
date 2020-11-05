@@ -1,11 +1,12 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Settings\Column;
 
-class AC_Settings_Column_StatusIcon extends AC_Settings_Column
-	implements AC_Settings_FormatValueInterface {
+use AC\Settings;
+use AC\View;
+
+class StatusIcon extends Settings\Column
+	implements Settings\FormatValue {
 
 	/**
 	 * @var bool
@@ -13,22 +14,22 @@ class AC_Settings_Column_StatusIcon extends AC_Settings_Column
 	private $use_icon;
 
 	protected function define_options() {
-		return array( 'use_icon' => '' );
+		return [ 'use_icon' => '' ];
 	}
 
 	public function create_view() {
 
 		$setting = $this->create_element( 'radio' )
-		                ->set_options( array(
+		                ->set_options( [
 			                '1' => __( 'Yes' ),
 			                ''  => __( 'No' ),
-		                ) );
+		                ] );
 
-		$view = new AC_View( array(
+		$view = new View( [
 			'label'   => __( 'Use an icon?', 'codepress-admin-columns' ),
 			'tooltip' => __( 'Use an icon instead of text for displaying the status.', 'codepress-admin-columns' ),
 			'setting' => $setting,
-		) );
+		] );
 
 		return $view;
 	}
@@ -41,7 +42,7 @@ class AC_Settings_Column_StatusIcon extends AC_Settings_Column
 	}
 
 	/**
-	 * @param int $use_icons
+	 * @param $use_icon
 	 *
 	 * @return bool
 	 */
@@ -68,7 +69,7 @@ class AC_Settings_Column_StatusIcon extends AC_Settings_Column
 			$value = ac_helper()->post->get_status_icon( $post );
 
 			if ( $post->post_password ) {
-				$value .= ac_helper()->html->tooltip( ac_helper()->icon->dashicon( array( 'icon' => 'lock', 'class' => 'gray' ) ), __( 'Password protected' ) );
+				$value .= ac_helper()->html->tooltip( ac_helper()->icon->dashicon( [ 'icon' => 'lock', 'class' => 'gray' ] ), __( 'Password protected' ) );
 			}
 		} else if ( isset( $wp_post_statuses[ $status ] ) ) {
 			$value = $wp_post_statuses[ $status ]->label;

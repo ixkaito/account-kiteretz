@@ -1,13 +1,14 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Column\Post;
+
+use AC\Column;
+use AC\Settings;
 
 /**
  * @since 2.0
  */
-class AC_Column_Post_Excerpt extends AC_Column {
+class Excerpt extends Column {
 
 	public function __construct() {
 		$this->set_type( 'column-excerpt' );
@@ -18,7 +19,7 @@ class AC_Column_Post_Excerpt extends AC_Column {
 		$value = parent::get_value( $post_id );
 
 		if ( $value && ! has_excerpt( $post_id ) && $value !== $this->get_empty_char() ) {
-			$value = ac_helper()->html->tooltip( ac_helper()->icon->dashicon( array( 'icon' => 'media-text', 'class' => 'gray' ) ), __( 'Excerpt is missing.' ) . ' ' . __( 'Current excerpt is generated from the content.' ) ) . ' ' . $value;
+			$value = ac_helper()->html->tooltip( ac_helper()->icon->dashicon( [ 'icon' => 'media-text', 'class' => 'gray' ] ), __( 'Excerpt is missing.' ) . ' ' . __( 'Current excerpt is generated from the content.' ) ) . ' ' . $value;
 		}
 
 		return $value;
@@ -29,8 +30,8 @@ class AC_Column_Post_Excerpt extends AC_Column {
 	}
 
 	public function register_settings() {
-		$this->add_setting( new AC_Settings_Column_WordLimit( $this ) );
-		$this->add_setting( new AC_Settings_Column_BeforeAfter( $this ) );
+		$this->add_setting( new Settings\Column\WordLimit( $this ) );
+		$this->add_setting( new Settings\Column\BeforeAfter( $this ) );
 	}
 
 }

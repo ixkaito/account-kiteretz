@@ -7,7 +7,7 @@ Author: JP-Secure
 Author URI: http://www.jp-secure.com/eng/
 Text Domain: siteguard
 Domain Path: /languages/
-Version: 1.4.3
+Version: 1.5.2
 */
 
 /*  Copyright 2014 JP-Secure Inc
@@ -209,6 +209,9 @@ class SiteGuard extends SiteGuard_Base {
 		if ( '' === $old_version ) {
 			$old_version = '0.0.0';
 		}
+		if ( $old_version === SITEGUARD_VERSION ) {
+			return;
+		}
 		if ( version_compare( $old_version, '1.0.6' ) < 0 ) {
 			if ( '1' === $siteguard_config->get( 'admin_filter_enable' ) ) {
 				if ( true !== $siteguard_admin_filter->feature_on( $this->get_ip( ) ) ) {
@@ -234,13 +237,35 @@ class SiteGuard extends SiteGuard_Base {
 				}
 			}
 		}
-		if ( $upgrade_ok && SITEGUARD_VERSION !== $old_version ) {
-			$siteguard_config->set( 'version', SITEGUARD_VERSION );
-			$siteguard_config->update( );
-		}
 		if ( version_compare( $old_version, '1.3.0' ) < 0 ) {
 			$siteguard_login_history->init( );
 			$siteguard_xmlrpc->init( );
+		}
+		if ( version_compare( $old_version, '1.5.0' ) < 0 ) {
+		    $admin_filter_exclude_path = $siteguard_config->get( 'admin_filter_exclude_path' );
+		    if( false === strpos( $admin_filter_exclude_path, 'site-health.php' ) ){
+		        $admin_filter_exclude_path .= ', site-health.php';
+		        $siteguard_config->set( 'admin_filter_exclude_path',  $admin_filter_exclude_path );
+		        $siteguard_config->update( );
+		    }
+		}
+		if ( version_compare( $old_version, '1.5.1' ) < 0 ) {
+			if ( '1' === $siteguard_config->get( 'admin_filter_enable' ) ) {
+				if ( true !== $siteguard_admin_filter->feature_on( $this->get_ip( ) ) ) {
+					siteguard_error_log( 'Failed to update at admin_filter from ' . $old_version . ' to ' . SITEGUARD_VERSION . '.' );
+					$upgrade_ok = false;
+				}
+			}
+			if ( '1' === $siteguard_config->get( 'disable_xmlrpc_enable' ) ) {
+				if ( true !== $siteguard_xmlrpc->feature_on( ) ) {
+					siteguard_error_log( 'Failed to update at disable_xmlrpc from ' . $old_version . ' to ' . SITEGUARD_VERSION . '.' );
+					$upgrade_ok = false;
+				}
+			}
+		}
+		if ( $upgrade_ok && SITEGUARD_VERSION !== $old_version ) {
+			$siteguard_config->set( 'version', SITEGUARD_VERSION );
+			$siteguard_config->update( );
 		}
 	}
 }

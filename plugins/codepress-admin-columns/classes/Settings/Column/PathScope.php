@@ -1,11 +1,12 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Settings\Column;
 
-class AC_Settings_Column_PathScope extends AC_Settings_Column
-	implements AC_Settings_FormatValueInterface {
+use AC\Settings;
+use AC\View;
+
+class PathScope extends Settings\Column
+	implements Settings\FormatValue {
 
 	/**
 	 * @var string
@@ -13,24 +14,25 @@ class AC_Settings_Column_PathScope extends AC_Settings_Column
 	private $path_scope;
 
 	protected function define_options() {
-		return array(
+		return [
 			'path_scope' => 'full',
-		);
+		];
 	}
 
 	public function create_view() {
 		$select = $this->create_element( 'select', 'path_scope' )
-		               ->set_options( array(
+		               ->set_options( [
 			               'full'             => __( 'Full Path', 'codepress-admin-columns' ),
 			               'relative-domain'  => __( 'Relative to domain', 'codepress-admin-columns' ),
-			               'relative-uploads' => __( 'Relative to main uploads folder ', 'codepress-admin-columns' ),
-		               ) );
+			               'relative-uploads' => __( 'Relative to main uploads folder', 'codepress-admin-columns' ),
+			               'local'            => __( 'Local Path', 'codepress-admin-columns' ),
+		               ] );
 
-		$view = new AC_View( array(
+		$view = new View( [
 			'label'   => __( 'Path scope', 'codepress-admin-columns' ),
 			'tooltip' => __( 'Part of the file path to display', 'codepress-admin-columns' ),
 			'setting' => $select,
-		) );
+		] );
 
 		return $view;
 	}
@@ -77,6 +79,10 @@ class AC_Settings_Column_PathScope extends AC_Settings_Column
 					if ( strpos( $file, $url ) === 0 ) {
 						$file = substr( $file, strlen( $url ) );
 					}
+
+					break;
+				case 'local' :
+					$file = get_attached_file( $original_value );
 
 					break;
 			}

@@ -1,11 +1,10 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Settings\Column;
 
-class AC_Settings_Column_Time extends AC_Settings_Column_DateTimeFormat
-	implements AC_Settings_FormatValueInterface {
+use AC\Settings;
+
+class Time extends Settings\Column\DateTimeFormat {
 
 	public function create_view() {
 		$view = parent::create_view();
@@ -19,10 +18,10 @@ class AC_Settings_Column_Time extends AC_Settings_Column_DateTimeFormat
 	protected function get_custom_format_options() {
 		$options['wp_default'] = $this->get_default_html_label( __( 'WordPress Time Format', 'codepress-admin-columns' ) );
 
-		$formats = array(
+		$formats = [
 			'H:i:s',
 			'g:i A',
-		);
+		];
 
 		foreach ( $formats as $format ) {
 			$options[ $format ] = $this->get_html_label_from_date_format( $format );

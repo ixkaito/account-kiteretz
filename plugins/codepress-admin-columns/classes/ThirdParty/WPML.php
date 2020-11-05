@@ -1,27 +1,27 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\ThirdParty;
+
+use AC\Registrable;
 
 /**
  * WPML compatibility
  */
-class AC_ThirdParty_WPML {
+class WPML implements Registrable {
 
-	function __construct() {
+	function register() {
 
 		// display correct flags on the overview screens
-		add_action( 'ac/table/list_screen', array( $this, 'replace_flags' ) );
+		add_action( 'ac/table/list_screen', [ $this, 'replace_flags' ] );
 
 		// enable the translation of the column labels
-		add_action( 'wp_loaded', array( $this, 'register_column_labels' ), 99 );
+		add_action( 'ac/list_screens', [ $this, 'register_column_labels' ], 300 );
 
 		// enable the WPML translation of column headings
-		add_filter( 'ac/headings/label', array( $this, 'register_translated_label' ), 100 );
+		add_filter( 'ac/headings/label', [ $this, 'register_translated_label' ], 100 );
 	}
 
-	public function replace_flags( $list_screen ) {
+	public function replace_flags() {
 		if ( ! class_exists( 'SitePress', false ) ) {
 			return;
 		}
@@ -36,7 +36,7 @@ class AC_ThirdParty_WPML {
 		$post_types['page'] = 1;
 		foreach ( $post_types as $post_type => $value ) {
 			if ( $value ) {
-				new AC_ThirdParty_WPMLColumn( $post_type );
+				new WPMLColumn( $post_type );
 			}
 		}
 	}
@@ -48,16 +48,18 @@ class AC_ThirdParty_WPML {
 			return;
 		}
 
-		foreach ( AC()->get_list_screens() as $list_screen ) {
-			foreach ( $list_screen->get_settings() as $column_name => $options ) {
-				do_action( 'wpml_register_single_string', 'Admin Columns', $options['label'], $options['label'] );
+		$list_screens = AC()->get_storage()->find_all();
+
+		foreach ( $list_screens as $list_screen ) {
+			foreach ( $list_screen->get_columns() as $column ) {
+				do_action( 'wpml_register_single_string', 'Admin Columns', $column->get_custom_label(), $column->get_custom_label() );
 			}
 		}
+
 	}
 
 	/**
 	 * @param string $label
-	 * @param AC_Column $column
 	 *
 	 * @return string
 	 */

@@ -1,18 +1,16 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Helper;
 
-class AC_Helper_Icon {
+class Icon {
 
-	public function dashicon( $args = array() ) {
-		$defaults = array(
+	public function dashicon( $args = [] ) {
+		$defaults = [
 			'icon'    => '',
 			'title'   => '',
 			'class'   => '',
 			'tooltip' => '',
-		);
+		];
 
 		$data = (object) wp_parse_args( $args, $defaults );
 
@@ -22,7 +20,7 @@ class AC_Helper_Icon {
 			$class .= ' ' . trim( $data->class );
 		}
 
-		$attributes = array();
+		$attributes = [];
 
 		if ( $data->title ) {
 			$attributes[] = 'title="' . esc_attr( $data->title ) . '"';
@@ -36,40 +34,43 @@ class AC_Helper_Icon {
 	}
 
 	/**
-	 * @since 3.0
-	 *
-	 * @param string $tooltip
-	 * @param string $title
+	 * @param bool   $tooltip
+	 * @param bool   $title
 	 * @param string $class
 	 *
 	 * @return string
+	 * @since 3.0
 	 */
 	public function yes( $tooltip = false, $title = true, $class = 'green' ) {
 		if ( true === $title ) {
 			$title = __( 'Yes' );
 		}
 
-		return $this->dashicon( array( 'icon' => 'yes', 'class' => $class, 'title' => $title, 'tooltip' => $tooltip ) );
+		return $this->dashicon( [ 'icon' => 'yes', 'class' => $class, 'title' => $title, 'tooltip' => $tooltip ] );
 	}
 
 	/**
-	 * @since 3.0
+	 * @param bool   $tooltip
+	 * @param bool   $title
+	 * @param string $class
+	 *
 	 * @return string
+	 * @since 3.0
 	 */
 	public function no( $tooltip = false, $title = true, $class = 'red' ) {
 		if ( true === $title ) {
 			$title = __( 'No' );
 		}
 
-		return $this->dashicon( array( 'icon' => 'no-alt', 'class' => $class, 'title' => $title, 'tooltip' => $tooltip ) );
+		return $this->dashicon( [ 'icon' => 'no-alt', 'class' => $class, 'title' => $title, 'tooltip' => $tooltip ] );
 	}
 
 	/**
-	 * @since 3.0
-	 *
-	 * @param bool $display
+	 * @param        $is_true
+	 * @param string $tooltip
 	 *
 	 * @return string HTML Dashicon
+	 * @since 3.0
 	 */
 	public function yes_or_no( $is_true, $tooltip = '' ) {
 		return $is_true ? $this->yes( $tooltip ) : $this->no( $tooltip );

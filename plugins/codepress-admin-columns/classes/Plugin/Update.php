@@ -1,15 +1,8 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Plugin;
 
-/**
- * Class AC_Plugin_Update
- *
- * Assumes this regex for versions: ^[1-9]\.[0-9]\.[1-9][0-9]?$
- */
-abstract class AC_Plugin_Update {
+abstract class Update {
 
 	/**
 	 * @var string
@@ -17,7 +10,7 @@ abstract class AC_Plugin_Update {
 	protected $stored_version;
 
 	/**
-	 * @var string
+	 * @var string Assumes this regex for versions: ^[1-9]\.[0-9]\.[1-9][0-9]?$
 	 */
 	protected $version;
 
@@ -28,7 +21,6 @@ abstract class AC_Plugin_Update {
 
 	/**
 	 * Check if this update needs to be applied
-	 *
 	 * @return bool
 	 */
 	public function needs_update() {
@@ -44,10 +36,9 @@ abstract class AC_Plugin_Update {
 
 	/**
 	 * Apply this update
-	 *
 	 * @return void
 	 */
-	public abstract function apply_update();
+	abstract public function apply_update();
 
 	/**
 	 * @return string
@@ -58,9 +49,8 @@ abstract class AC_Plugin_Update {
 
 	/**
 	 * Set the version this update applies to
-	 *
 	 * @return void
 	 */
-	protected abstract function set_version();
+	abstract protected function set_version();
 
 }

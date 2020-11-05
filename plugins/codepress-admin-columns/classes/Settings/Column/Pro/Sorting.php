@@ -1,21 +1,22 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Settings\Column\Pro;
 
-class AC_Settings_Column_Pro_Sorting extends AC_Settings_Column_Pro {
+use AC\Settings;
+use AC\View;
+
+class Sorting extends Settings\Column\Pro {
 
 	protected function get_label() {
 		return __( 'Sorting', 'codepress-admin-columns' );
 	}
 
-	protected function get_tooltip() {
-		return __( "This will make the column sortable.", 'codepress-admin-columns' );
+	protected function get_instructions() {
+		return ( new View() )->set_template( 'tooltip/sorting' );
 	}
 
 	protected function define_options() {
-		return array( 'sort' );
+		return [ 'sort' ];
 	}
 
 }

@@ -1,11 +1,13 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Settings\Column;
 
-class AC_Settings_Column_PostLink extends AC_Settings_Column
-	implements AC_Settings_FormatValueInterface {
+use AC;
+use AC\Settings;
+use AC\View;
+
+class PostLink extends Settings\Column
+	implements Settings\FormatValue {
 
 	/**
 	 * @var string
@@ -13,9 +15,9 @@ class AC_Settings_Column_PostLink extends AC_Settings_Column
 	protected $post_link_to;
 
 	protected function define_options() {
-		return array(
+		return [
 			'post_link_to' => 'edit_post',
-		);
+		];
 	}
 
 	public function format( $value, $original_value ) {
@@ -52,31 +54,31 @@ class AC_Settings_Column_PostLink extends AC_Settings_Column
 	public function create_view() {
 		$select = $this->create_element( 'select' )->set_options( $this->get_display_options() );
 
-		$view = new AC_View( array(
+		$view = new View( [
 			'label'   => __( 'Link To', 'codepress-admin-columns' ),
 			'setting' => $select,
-		) );
+		] );
 
 		return $view;
 	}
 
 	protected function get_display_options() {
 		// Default options
-		$options = array(
+		$options = [
 			''            => __( 'None' ),
 			'edit_post'   => __( 'Edit Post' ),
 			'view_post'   => __( 'View Post' ),
 			'edit_author' => __( 'Edit Post Author', 'codepress-admin-columns' ),
 			'view_author' => __( 'View Public Post Author Page', 'codepress-admin-columns' ),
-		);
+		];
 
-		if ( $this->column instanceof AC_Column_RelationInterface ) {
-			$relation_options = array(
+		if ( $this->column instanceof AC\Column\Relation ) {
+			$relation_options = [
 				'edit_post'   => _x( 'Edit %s', 'post' ),
 				'view_post'   => _x( 'View %s', 'post' ),
 				'edit_author' => _x( 'Edit %s Author', 'post', 'codepress-admin-columns' ),
 				'view_author' => _x( 'View Public %s Author Page', 'post', 'codepress-admin-columns' ),
-			);
+			];
 
 			$label = $this->column->get_relation_object()->get_labels()->singular_name;
 

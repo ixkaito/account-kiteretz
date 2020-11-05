@@ -1,14 +1,58 @@
 <?php
 /**
+ * Set up theme defaults and registers support for various WordPress feaures.
+ */
+function account_setup() {
+	// add_theme_support( 'title-tag' );
+	add_theme_support( 'html5', array(
+		'search-form',
+		'comment-form',
+		'comment-list',
+		'gallery',
+		'caption',
+	) );
+	// add_theme_support( 'post-formats', array(
+	// 	'aside',
+	// 	'image',
+	// 	'video',
+	// 	'quote',
+	// 	'link',
+	// ) );
+	// add_theme_support( 'custom-background', apply_filters( 'bathe_custom_background_args', array(
+	// 	'default-color' => 'ffffff',
+	// 	'default-image' => '',
+	// ) ) );
+	// register_nav_menus( array(
+	// 	'primary' => esc_html__( 'Primary Menu', 'bathe' ),
+	// ) );
+}
+add_action( 'after_setup_theme', 'account_setup' );
+
+/**
+ * Enqueue scripts and styles.
+ */
+function account_register_scripts() {
+	wp_enqueue_style( 'account-style', get_theme_file_uri( 'assets/css/style.css' ) );
+	wp_enqueue_script( 'account-script', get_theme_file_uri( 'assets/js/script.js' ), array( 'jquery' ), '', true );
+	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
+		wp_enqueue_script( 'comment-reply' );
+	}
+}
+add_action( 'wp_enqueue_scripts', 'account_register_scripts' );
+
+/**
  * Head Title
  */
 function get_head_title() {
 	$title = '';
-	if ( is_singular() ):
-		$title .= get_the_time('ymd');
-	else:
+	$status = get_status() === 'bill' ? 'invoice' : get_status();
+	if ( is_singular() ) {
+		$date = DateTime::createFromFormat( 'Ymd', get_field( get_status() . '_date' ) );
+		$title .= $date ? $date->format( 'ymd' ) : get_the_time( 'ymd' );
+		$title .= '_' . $status;
+	} else {
 		$title .= get_bloginfo( 'name' );
-	endif;
+	}
 	return $title;
 }
 
@@ -31,7 +75,7 @@ function the_account_ID() {
  * Status
  */
 function get_status() {
-	return get_field('status');
+	return get_field( 'status' );
 }
 
 function the_status() {
@@ -39,37 +83,78 @@ function the_status() {
 }
 
 /**
- * Subtotal
+ * Date
  */
-function get_subtotal() {
+function account_date( $format = 'Y.m.d' ) {
+	$date = DateTime::createFromFormat( 'Ymd', get_field( get_status() . '_date' ) );
+	echo $date ? $date->format( $format ) : get_the_time( $format );
+}
+
+/**
+ * Withholding
+ */
+function get_withholding() {
+	$withholding_rate = 0.1021;
 
 	$subtotal = 0;
 	$rows     = get_field( 'table' );
 	$tax_rate = get_field( 'tax-rate' ) * 0.01;
-	$exc_tax  = get_field( 'tax' ) === 'excluding' ? 1 : 1 + $tax_rate;
+	$exc_tax  = ( get_field( 'tax' ) === 'excluding' || get_field( 'tax' ) === 'none' ) ? 1 : 1 + $tax_rate;
 
 	if ( $rows ) {
 		foreach ( $rows as $key => $row ) {
-			$price = round( $row['price'] / $exc_tax );
-			$sum = round( $row['number'] * $price );
+			if ( ! $row['withholding'] ) continue;
 			if ( $row['yen-per'] === 'per' ) {
 				$sum = $sum * 0.01 * $subtotal;
+			} else {
+				$price = round( $row['price'] / $exc_tax );
+				$sum = round( $row['number'] * $price );
 			}
 			$subtotal += $sum;
 		}
-		return $subtotal;
-	} else {
-		return false;
 	}
+	return round( $subtotal * $withholding_rate );
+}
 
+/**
+ * Subtotal
+ */
+function get_subtotal() {
+	$subtotal = 0;
+	$rows     = get_field( 'table' );
+	$tax_rate = get_field( 'tax-rate' ) * 0.01;
+	$exc_tax  = ( get_field( 'tax' ) === 'excluding' || get_field( 'tax' ) === 'none' ) ? 1 : 1 + $tax_rate;
+
+	if ( $rows ) {
+		foreach ( $rows as $key => $row ) {
+			$price = 0;
+			$sum = 0;
+			if ( $row['yen-per'] === 'per' ) {
+				$sum = $subtotal * $row['price'] * 0.01 * $row['number'];
+			} else {
+				$price = round( $row['price'] / $exc_tax );
+				$sum = round( $row['number'] * $price );
+			}
+			$subtotal += $sum;
+		}
+	}
+	return $subtotal;
+}
+
+/**
+ * Installment
+ */
+function get_installment() {
+	return get_subtotal() * get_field( 'installment-percentage' ) * 0.01;
 }
 
 /**
  * Tax
  */
 function get_tax() {
-	$tax_rate = get_field( 'tax-rate' ) * 0.01;
-	$tax      = round( get_subtotal() * $tax_rate );
+	$before_tax = get_field( 'installment' ) ? get_installment() : get_subtotal();
+	$tax_rate   = get_field( 'tax-rate' ) * 0.01;
+	$tax        = get_field( 'tax' ) === 'none' ? 0 : floor( $before_tax * $tax_rate );
 	return $tax;
 }
 
@@ -77,7 +162,8 @@ function get_tax() {
  * Total
  */
 function get_total() {
-	return get_subtotal() + get_tax();
+	$before_tax = get_field( 'installment' ) ? get_installment() : get_subtotal();
+	return $before_tax + get_tax() - get_withholding();
 }
 
 /**
@@ -168,3 +254,13 @@ function acf_style() {
 <?php
 }
 add_action( 'acf/input/admin_head', 'acf_style' );
+
+/**
+ * Display future posts
+ */
+function display_future_posts( $query ) {
+	if ( ! is_admin() && $query->is_main_query() ) {
+		$query->set( 'post_status', array( 'publish', 'future' ) );
+	}
+}
+add_action( 'pre_get_posts', 'display_future_posts' );

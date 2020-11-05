@@ -1,26 +1,27 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Settings\Column;
 
-class AC_Settings_Column_AttachmentDisplay extends AC_Settings_Column
-	implements AC_Settings_FormatValueInterface {
+use AC\Settings;
+use AC\View;
+
+class AttachmentDisplay extends Settings\Column
+	implements Settings\FormatValue {
 
 	private $attachment_display;
 
 	protected function define_options() {
-		return array(
+		return [
 			'attachment_display' => 'thumbnail',
-		);
+		];
 	}
 
 	public function get_dependent_settings() {
-		$settings = array();
+		$settings = [];
 
 		switch ( $this->get_attachment_display() ) {
 			case 'thumbnail' :
-				$settings[] = new AC_Settings_Column_Images( $this->column );
+				$settings[] = new Settings\Column\Images( $this->column );
 
 				break;
 		}
@@ -32,17 +33,15 @@ class AC_Settings_Column_AttachmentDisplay extends AC_Settings_Column
 
 		$setting = $this->create_element( 'select' )
 		                ->set_attribute( 'data-refresh', 'column' )
-		                ->set_options( array(
+		                ->set_options( [
 			                'thumbnail' => __( 'Thumbnails', 'codepress-admin-columns' ),
 			                'count'     => __( 'Count', 'codepress-admin-columns' ),
-		                ) );
+		                ] );
 
-		$view = new AC_View( array(
+		return new View( [
 			'label'   => __( 'Display', 'codepress-admin-columns' ),
 			'setting' => $setting,
-		) );
-
-		return $view;
+		] );
 	}
 
 	/**

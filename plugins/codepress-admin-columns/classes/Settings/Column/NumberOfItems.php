@@ -1,10 +1,13 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Settings\Column;
 
-class AC_Settings_Column_NumberOfItems extends AC_Settings_Column {
+use AC\Settings;
+use AC\View;
+
+class NumberOfItems extends Settings\Column {
+
+	const NAME = 'number_of_items';
 
 	/**
 	 * @var string
@@ -12,24 +15,24 @@ class AC_Settings_Column_NumberOfItems extends AC_Settings_Column {
 	private $number_of_items;
 
 	protected function set_name() {
-		return $this->name = 'number_of_items';
+		return $this->name = self::NAME;
 	}
 
 	protected function define_options() {
-		return array(
-			'number_of_items' => 10
-		);
+		return [
+			'number_of_items' => 10,
+		];
 	}
 
 	public function create_view() {
 		$item_limit = $this->create_element( 'number' )
 		                   ->set_attribute( 'step', 1 );
 
-		$view = new AC_View( array(
+		$view = new View( [
 			'label'   => __( 'Number of Items', 'codepress-admin-columns' ),
 			'tooltip' => __( 'Maximum number of items', 'codepress-admin-columns' ) . '<em>' . __( 'Leave empty for no limit', 'codepress-admin-columns' ) . '</em>',
 			'setting' => $item_limit,
-		) );
+		] );
 
 		return $view;
 	}

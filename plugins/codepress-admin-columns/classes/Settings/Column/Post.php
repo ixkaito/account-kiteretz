@@ -1,11 +1,19 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+namespace AC\Settings\Column;
 
-class AC_Settings_Column_Post extends AC_Settings_Column
-	implements AC_Settings_FormatValueInterface {
+use AC\Settings;
+use AC\View;
+
+class Post extends Settings\Column
+	implements Settings\FormatValue {
+
+	const NAME = 'post';
+
+	const PROPERTY_AUTHOR = 'author';
+	const PROPERTY_FEATURED_IMAGE = 'thumbnail';
+	const PROPERTY_ID = 'id';
+	const PROPERTY_TITLE = 'title';
 
 	/**
 	 * @var string
@@ -13,31 +21,31 @@ class AC_Settings_Column_Post extends AC_Settings_Column
 	private $post_property;
 
 	protected function set_name() {
-		$this->name = 'post';
+		$this->name = self::NAME;
 	}
 
 	protected function define_options() {
-		return array(
-			'post_property_display' => 'title',
-		);
+		return [
+			'post_property_display' => self::PROPERTY_TITLE,
+		];
 	}
 
 	public function get_dependent_settings() {
-		$setting = array();
+		$setting = [];
 
 		switch ( $this->get_post_property_display() ) {
-			case 'thumbnail' :
-				$setting[] = new AC_Settings_Column_Image( $this->column );
+			case self::PROPERTY_FEATURED_IMAGE :
+				$setting[] = new Settings\Column\Image( $this->column );
 				break;
 		}
 
-		$setting[] = new AC_Settings_Column_PostLink( $this->column );
+		$setting[] = new Settings\Column\PostLink( $this->column );
 
 		return $setting;
 	}
 
 	/**
-	 * @param int $id
+	 * @param int   $id
 	 * @param mixed $original_value
 	 *
 	 * @return string|int
@@ -46,15 +54,15 @@ class AC_Settings_Column_Post extends AC_Settings_Column
 
 		switch ( $this->get_post_property_display() ) {
 
-			case 'author' :
+			case self::PROPERTY_AUTHOR :
 				$value = ac_helper()->user->get_display_name( ac_helper()->post->get_raw_field( 'post_author', $id ) );
 
 				break;
-			case 'thumbnail' :
+			case self::PROPERTY_FEATURED_IMAGE :
 				$value = get_post_thumbnail_id( $id );
 
 				break;
-			case 'title' :
+			case self::PROPERTY_TITLE :
 				$value = ac_helper()->post->get_title( $id );
 
 				break;
@@ -70,21 +78,21 @@ class AC_Settings_Column_Post extends AC_Settings_Column
 		               ->set_attribute( 'data-refresh', 'column' )
 		               ->set_options( $this->get_display_options() );
 
-		$view = new AC_View( array(
+		$view = new View( [
 			'label'   => __( 'Display', 'codepress-admin-columns' ),
 			'setting' => $select,
-		) );
+		] );
 
 		return $view;
 	}
 
 	protected function get_display_options() {
-		$options = array(
-			'title'     => __( 'Title' ),
-			'id'        => __( 'ID' ),
-			'author'    => __( 'Author' ),
-			'thumbnail' => _x( 'Featured Image', 'post' ),
-		);
+		$options = [
+			self::PROPERTY_TITLE          => __( 'Title' ),
+			self::PROPERTY_ID             => __( 'ID' ),
+			self::PROPERTY_AUTHOR         => __( 'Author' ),
+			self::PROPERTY_FEATURED_IMAGE => _x( 'Featured Image', 'post' ),
+		];
 
 		asort( $options );
 

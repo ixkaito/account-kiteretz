@@ -6,6 +6,11 @@ if (!defined('ABSPATH')) die('No direct access allowed');
 
 class UpdraftPlus_Options {
 
+	/**
+	 * Whether or not the current user has permission to manage UpdraftPlus
+	 *
+	 * @return Boolean
+	 */
 	public static function user_can_manage() {
 		$user_can_manage = current_user_can(apply_filters('option_page_capability_updraft-options-group', 'manage_options'));
 		// false: allows the filter to know that the request is not coming from the multisite add-on
@@ -16,10 +21,20 @@ class UpdraftPlus_Options {
 		return 'options';
 	}
 
+	/**
+	 * Get the URL to the dashboard admin page
+	 *
+	 * @return String
+	 */
 	public static function admin_page_url() {
 		return admin_url('options-general.php');
 	}
 
+	/**
+	 * Get the base-name for the dashboard admin page
+	 *
+	 * @return String
+	 */
 	public static function admin_page() {
 		return 'options-general.php';
 	}
@@ -41,22 +56,32 @@ class UpdraftPlus_Options {
 	/**
 	 * The apparently unused parameter is used in the alternative class in the Multisite add-on
 	 *
-	 * @param  String  $option    specify option name
-	 * @param  String  $value     specify option value
-	 * @param  Boolean $use_cache whether or not to use the WP options cache
+	 * @param String  $option	 specify option name
+	 * @param String  $value	 specify option value
+	 * @param Boolean $use_cache whether or not to use the WP options cache
+	 * @param String  $autoload	 whether to autoload (only takes effect on a change of value)
+	 *
 	 * @return Boolean - as from update_option()
 	 */
-	public static function update_updraft_option($option, $value, $use_cache = true) {
-		return update_option($option, apply_filters('updraftplus_update_option', $value, $option, $use_cache));
+	public static function update_updraft_option($option, $value, $use_cache = true, $autoload = 'yes') {
+		return update_option($option, apply_filters('updraftplus_update_option', $value, $option, $use_cache), $autoload);
 	}
 
+	/**
+	 * Delete an option
+	 *
+	 * @param String $option - the option name
+	 */
 	public static function delete_updraft_option($option) {
 		delete_option($option);
 	}
 
+	/**
+	 * Register the UpdraftPlus admin menu entry
+	 */
 	public static function add_admin_pages() {
 		global $updraftplus_admin;
-		add_submenu_page('options-general.php', 'UpdraftPlus', __('UpdraftPlus Backups', 'updraftplus'), apply_filters('option_page_capability_updraft-options-group', 'manage_options'), "updraftplus", array($updraftplus_admin, "settings_output"));
+		add_submenu_page('options-general.php', 'UpdraftPlus', __('UpdraftPlus Backups', 'updraftplus'), apply_filters('option_page_capability_updraft-options-group', 'manage_options'), 'updraftplus', array($updraftplus_admin, 'settings_output'));
 	}
 
 	public static function options_form_begin($settings_fields = 'updraft-options-group', $allow_autocomplete = true, $get_params = array(), $classes = '') {
@@ -134,6 +159,7 @@ class UpdraftPlus_Options {
 			add_filter('sanitize_option_updraft_'.$service, array($updraftplus, 'storage_options_filter'), 10, 2);
 		}
 		
+		register_setting('updraft-options-group', 'updraft_auto_updates', 'absint');
 		register_setting('updraft-options-group', 'updraft_ssl_nossl', 'absint');
 		register_setting('updraft-options-group', 'updraft_log_syslog', 'absint');
 		register_setting('updraft-options-group', 'updraft_ssl_useservercerts', 'absint');
@@ -187,9 +213,12 @@ class UpdraftPlus_Options {
 		return ($pot>28) ? 1 : $pot;
 	}
 
+	/**
+	 * Output information about the multisite add-on when relevant
+	 */
 	public static function show_admin_warning_multisite() {
 		global $updraftplus_admin;
-		$updraftplus_admin->show_admin_warning('<strong>'.__('UpdraftPlus warning:', 'updraftplus').'</strong> '.__('This is a WordPress multi-site (a.k.a. network) installation.', 'updraftplus').' <a href="https://updraftplus.com/shop/">'.__('WordPress Multisite is supported, with extra features, by UpdraftPlus Premium, or the Multisite add-on.', 'updraftplus').'</a> '.__('Without upgrading, UpdraftPlus allows <strong>every</strong> blog admin who can modify plugin settings to back up (and hence access the data, including passwords, from) and restore (including with customised modifications, e.g. changed passwords) <strong>the entire network</strong>.', 'updraftplus').' '.__('(This applies to all WordPress backup plugins unless they have been explicitly coded for multisite compatibility).', 'updraftplus'), 'error');
+		$updraftplus_admin->show_admin_warning('<strong>'.__('UpdraftPlus warning:', 'updraftplus').'</strong> '.__('This is a WordPress multi-site (a.k.a. network) installation.', 'updraftplus').' <a href="https://updraftplus.com/shop/" target="_blank">'.__('WordPress Multisite is supported, with extra features, by UpdraftPlus Premium, or the Multisite add-on.', 'updraftplus').'</a> '.__('Without upgrading, UpdraftPlus allows <strong>every</strong> blog admin who can modify plugin settings to backup (and hence access the data, including passwords, from) and restore (including with customized modifications, e.g. changed passwords) <strong>the entire network</strong>.', 'updraftplus').' '.__('(This applies to all WordPress backup plugins unless they have been explicitly coded for multisite compatibility).', 'updraftplus'), 'error');
 	}
 }
 

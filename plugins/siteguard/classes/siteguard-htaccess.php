@@ -33,12 +33,21 @@ class SiteGuard_Htaccess extends SiteGuard_Base {
 		$htaccess_file = $dir . '.htaccess';
 
 		if ( file_exists( $htaccess_file ) ) {
-			return true;
+			$lines = file( $htaccess_file );
+			$res =  preg_grep( '/IfModule authz_core_module/', $lines );
+			if ( ! empty( $res ) ) {
+				return true;
+			}
 		}
 
 		if ( $handle = @fopen( $htaccess_file, 'w' ) ) {
-			fwrite( $handle, 'Order deny,allow' . "\n" );
-			fwrite( $handle, 'Deny from all' . "\n" );
+			fwrite( $handle, '<IfModule authz_core_module>' . "\n" );
+			fwrite( $handle, '    Require all denied' . "\n" );
+			fwrite( $handle, '</IfModule>' . "\n" );
+			fwrite( $handle, '<IfModule !authz_core_module>' . "\n" );
+			fwrite( $handle, '    Order deny,allow' . "\n" );
+			fwrite( $handle, '    Deny from all' . "\n" );
+			fwrite( $handle, '</IfModule>' . "\n" );
 			fclose( $handle );
 		}
 
