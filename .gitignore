@@ -1,4 +1,5 @@
-updraft
+wp-content/updraft/
+wp-content/plugins/siteguard/really-simple-captcha/tmp/
 
 # Apache
 .htaccess
